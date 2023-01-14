@@ -1,0 +1,60 @@
+.area{
+	position: relative;
+	width: calc(50% - 40px);
+	padding-top: 100px;
+	float: right;
+	outline: 1px solid;
+}
+
+.element_block{
+	display: flex;
+	margin-bottom: 16px;
+	justify-content: flex-start;
+	flex-direction: row;
+	align-items: center;
+}
+
+.ingredient_block{
+	width: 100%;
+}
+.constructor-element{
+	max-width: none!important;
+}
+
+.order{
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: flex-end;
+	max-width: 568px;
+}
+
+.icon > svg{
+	width: 33px;
+	height: 33px;
+}
+.scroll_area{
+	height: calc(100vh - 510px);
+	overflow-y: scroll;
+}
+
+.ingredient_block >div{
+	min-width: calc(100% - 16px);
+}
+
+.fix_element > div{
+	min-width: calc(100% - 24px);
+}
+
+::-webkit-scrollbar{
+	width: 8px;
+}
+
+::-webkit-scrollbar-track{
+	background: #2f2f37;
+}
+
+::-webkit-scrollbar-thumb{
+	background: #8585ad;
+	border: 3px solid #8585ad;
+}

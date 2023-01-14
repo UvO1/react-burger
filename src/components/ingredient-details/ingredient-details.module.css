@@ -1,0 +1,14 @@
+.wrap{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.ingredient_image{
+    width: 480px;
+}
+
+.title{
+    width: 520px;
+}

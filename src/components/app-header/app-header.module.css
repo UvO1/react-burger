@@ -1,0 +1,23 @@
+.header{
+	display: flex;
+	justify-content: space-between;
+	flex-direction: row;
+	height: 88px;
+	width: 100%;
+	background-color: #1c1c21;
+	align-content: center;
+}
+
+.menuarea{
+	display: flex;
+	width: 33%;
+	align-items: center;
+	border: 1px solid #ffffff;
+}
+
+.menuarea:nth-last-child(1){
+	justify-content: flex-end;
+}
+.menuarea:nth-last-child(2){
+	justify-content: center;
+}
