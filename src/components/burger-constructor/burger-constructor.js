@@ -5,8 +5,36 @@ import { DragIcon} from '@ya.praktikum/react-developer-burger-ui-components';
 import {CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components';
 import {Button} from '@ya.praktikum/react-developer-burger-ui-components';
 import Modal from '../modal/modal.js';
+import OrderDetails from '../order-details/order-details';
+import PropTypes from 'prop-types';
 
+const messagePropTypes = PropTypes.shape({
+	_id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired,
+	proteins: PropTypes.number.isRequired,
+	fat: PropTypes.number.isRequired,
+	carbohydrates: PropTypes.number.isRequired,
+	calories: PropTypes.number.isRequired,
+	price: PropTypes.number.isRequired,
+	image: PropTypes.string.isRequired,
+  });
+  
 function BurgerConstructor(props){
+	const [isOpen, setOpen] = React.useState(false);
+
+	function handleOpenModal(){
+		setOpen(true);
+		console.log(isOpen);
+	}
+
+	function handleCloseModal(){
+		setOpen(false);
+		console.log(isOpen);
+	}
+
+	const modal = (<Modal title="" onClosed={handleCloseModal}><OrderDetails/></Modal>);
+
 	return(
 		<div className = {`${BurgerConstructorStyle.area} pt-25 pl-4`}>
 			<div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
@@ -17,17 +45,19 @@ function BurgerConstructor(props){
 			        text="Краторная булка N-200i (верх)"
 			        price={200}
 			        thumbnail="https://code.s3.yandex.net/react/code/bun-02.png"
-			        
 			      />
 
 			    </div>
 			    <div className = {BurgerConstructorStyle.scroll_area}>
-		      {props.datas.map((tempElement) => {return( <div className = {BurgerConstructorStyle.element_block}><DragIcon type="primary" className="pr-2"/>
-		      <div className={`ml-2 ${BurgerConstructorStyle.ingredient_block}`}> <ConstructorElement
-		        text={tempElement.name}
-		        price={tempElement.price}
-		        thumbnail={tempElement.image} /></div></div>) })
-		  		}
+					{props.datas.map((tempElement) => {return( <div className = {BurgerConstructorStyle.element_block} key= {tempElement._id}><DragIcon type="primary" className="pr-2"/>
+					<div className={`ml-2 ${BurgerConstructorStyle.ingredient_block}`}> 
+						<ConstructorElement
+							text={tempElement.name}
+							price={tempElement.price}
+							thumbnail={tempElement.image} />
+						</div></div>) })
+						}
+
 		  		</div>
 
 		  	<div className={`${BurgerConstructorStyle.fix_element} ml-8`}>
@@ -47,11 +77,17 @@ function BurgerConstructor(props){
 		    	<div className = {BurgerConstructorStyle.icon}>
 		    		<CurrencyIcon type="primary" className="ml-10"/>
 		    	</div>
-		    	<Button htmlType="button" type="primary" size="large" extraClass="ml-10">Оформить заказ</Button>
+		    	<Button htmlType="button" type="primary" size="large" extraClass="ml-10" onClick={handleOpenModal}>Оформить заказ</Button>
+				{isOpen && modal}
+				
 		    </div>
 
 		</div>
 	);
 }
+
+BurgerConstructor.propTypes = {
+	datas: PropTypes.arrayOf(messagePropTypes).isRequired
+  };
 
 export default BurgerConstructor; 

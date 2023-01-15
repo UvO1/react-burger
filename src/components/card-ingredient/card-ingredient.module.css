@@ -1,0 +1,27 @@
+.cardwrap{
+	position: relative;
+	width: calc(50% - 12px);
+	margin-bottom: 24px;
+	float: left;
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+	text-align: center;
+	cursor: pointer;
+}
+.cardwrap:nth-child(2n){
+	margin-left: 24px;
+}
+
+.ingredient_image{
+	position: relative;
+	text-align: center;
+}
+.price{
+	display: flex;
+	justify-content: center;
+}
+
+.name{
+	height: 60px;
+}

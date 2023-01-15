@@ -1,5 +1,6 @@
 import React from 'react'
 import MenuItemStyles from './menu-item.module.css'
+import PropTypes from 'prop-types'
 
 function MenuItem(props){
 	let textcolor = "text_color_inactive";
@@ -12,5 +13,11 @@ function MenuItem(props){
 		</div>
 	);
 }
+
+MenuItem.propTypes = {
+	active: PropTypes.bool.isRequired,
+	menutext: PropTypes.string.isRequired,
+	icon: PropTypes.object.isRequired
+};
 
 export default MenuItem;

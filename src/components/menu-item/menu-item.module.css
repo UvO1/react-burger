@@ -1,10 +1,8 @@
 
 .menuitem{
 	display: flex;
-	outline: 1px solid;
 	border-radius: 30px;
 	cursor: pointer;
-
 }
 
 .menuitem:nth-last-child(2){

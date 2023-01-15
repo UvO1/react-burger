@@ -1,8 +1,9 @@
 import React from 'react';
 import OrderDetailsStyles from './order-details.module.css';
 import doneImg from "../../images/done.svg";
+import PropTypes from 'prop-types';
 
-function OrderDetails(){
+function OrderDetails(props){
     return(
         <div className={OrderDetailsStyles.wrap}>
             <p className="text text_type_digits-large mt-10">12345</p>
@@ -13,5 +14,10 @@ function OrderDetails(){
         </div>
     );
 }
+
+OrderDetails.propTypes = {
+	order: PropTypes.number,
+    status: PropTypes.string
+};
 
 export default OrderDetails;

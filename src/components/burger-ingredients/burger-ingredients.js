@@ -1,9 +1,21 @@
 import React from 'react';
 import BurgerIngredientsStyle from './burger-ingredients.module.css';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
-import { CurrencyIcon  } from '@ya.praktikum/react-developer-burger-ui-components';
-import { Counter  } from '@ya.praktikum/react-developer-burger-ui-components';
+import CardIngredient from '../card-ingredient/card-ingredient';
+import PropTypes from 'prop-types';
 
+const messagePropTypes = PropTypes.shape({
+	_id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired,
+	proteins: PropTypes.number.isRequired,
+	fat: PropTypes.number.isRequired,
+	carbohydrates: PropTypes.number.isRequired,
+	calories: PropTypes.number.isRequired,
+	price: PropTypes.number.isRequired,
+	image: PropTypes.string.isRequired,
+  });
+  
 function TabIngredients(){
   const [current, setCurrent] = React.useState('one')
   return (
@@ -22,43 +34,57 @@ function TabIngredients(){
 }
 
 
-function CardIngredient(props){
-	return(
-		<div className={`${BurgerIngredientsStyle.cardwrap} mb-8`}>
-		<Counter count={1} size="default" extraClass="m-1" />
-			<img src={props.ingredient.image} className={BurgerIngredientsStyle.ingredient_image}/>
-			<div className={`${BurgerIngredientsStyle.price} mt-1 mb-1`}>
-				<span className="text text_type_digits-default mr-2">{props.ingredient.price}</span>
-				<CurrencyIcon type="primary" />
-			</div>
-			<p className={`${BurgerIngredientsStyle.name} text text_type_main-default`}>{props.ingredient.name}</p>
-
-		</div>
-	);
-}
-
-function WrapIngredient(props){
-	return(
-		<div className={`${BurgerIngredientsStyle.ingredient_wrap} pr-4`}>
-			<p className="text text_type_main-medium mt-2 mb-6">{props.title}</p>
-			<div className = "pl-4 " > {props.datas.map((tempIngr) => { return( <CardIngredient ingredient = {tempIngr} key= {tempIngr._id} />)} )}</div>
-		</div>
-	);
-}
-
 function BurgerIngredients(props){
-	const [current, setCurrent] = React.useState('one')
+	const [isOpen, setOpen] = React.useState(false);
+	const datas_bun = props.datas.filter(ingredient => (ingredient.type === "bun"));
+	const datas_sauce = props.datas.filter(ingredient => (ingredient.type === "sauce"));
+	const datas_main = props.datas.filter(ingredient => (ingredient.type === "main"));
+
+	function handleOpenModal(){
+		setOpen(true);
+		console.log(isOpen);
+	}
+
+	function handleCloseModal(){
+		setOpen(false);
+		console.log(isOpen);
+	}
 	return(
 		<div className = {`${BurgerIngredientsStyle.area} pl-5`}>
 			<p className="text text_type_main-large mt-10">Cоберите бургер</p>
 			<TabIngredients />
 			<div className = {BurgerIngredientsStyle.scroll_area}>
-			<WrapIngredient title="Булки" datas = {props.datas.filter(ingredient => (ingredient.type === "bun"))}/>
-			<WrapIngredient title="Соусы" datas = {props.datas.filter(ingredient => (ingredient.type === "sauce"))}/>
-			<WrapIngredient title="Начинка" datas = {props.datas.filter(ingredient => (ingredient.type === "main"))}/>
+				<div className={`${BurgerIngredientsStyle.ingredient_wrap} pr-4`}>
+					<p className="text text_type_main-medium mt-2 mb-6">Булки</p>
+					<div className = "pl-4 " > {
+						datas_bun.map((tempIngr) => { return( <CardIngredient ingredient = {tempIngr} key= {tempIngr._id} />)} )
+					}
+					</div>
+				</div>
+
+				<div className={`${BurgerIngredientsStyle.ingredient_wrap} pr-4`}>
+					<p className="text text_type_main-medium mt-2 mb-6">Соусы</p>
+					<div className = "pl-4 " > {
+						datas_sauce.map((tempIngr) => { return( <CardIngredient ingredient = {tempIngr} key= {tempIngr._id} />)} )
+					}
+					</div>
+				</div>
+
+				<div className={`${BurgerIngredientsStyle.ingredient_wrap} pr-4`}>
+					<p className="text text_type_main-medium mt-2 mb-6">Начинки</p>
+					<div className = "pl-4 " > {
+						datas_main.map((tempIngr) => { return( <CardIngredient ingredient = {tempIngr} key= {tempIngr._id} />)} )
+					}
+					</div>
+				</div>
+
 			</div>
 		</div>
 	);
 }
+
+BurgerIngredients.propTypes = {
+	datas: PropTypes.arrayOf(messagePropTypes).isRequired
+  };
 
 export default BurgerIngredients; 
