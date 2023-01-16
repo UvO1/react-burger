@@ -37,7 +37,7 @@ function CardIngredient(props){
 }
 
 CardIngredient.propTypes = {
-    ingredient: messagePropTypes
+    ingredient: messagePropTypes.isRequired
   };
 
 export default CardIngredient; 

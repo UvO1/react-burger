@@ -10,7 +10,7 @@ import PropTypes from 'prop-types';
 import messagePropTypes from '../../utils/prop-types'
   
 function BurgerConstructor(props){
-	const [isOpen, setOpen] = React.useState(false);
+	const [isOpen, setOpen] = React.useState(false); 
 
 	function handleOpenModal(){
 		setOpen(true);
@@ -44,7 +44,6 @@ function BurgerConstructor(props){
 							thumbnail={tempElement.image} />
 						</div></div>) })
 						}
-
 		  		</div>
 
 		  	<div className={`${BurgerConstructorStyle.fix_element} ml-8`}>
@@ -55,20 +54,18 @@ function BurgerConstructor(props){
 		        price={200}
 		        thumbnail="https://code.s3.yandex.net/react/code/bun-02.png"
 		        className="ml-8"
-		      />
-			  
+		      />			  
 		      </div>
 		    </div>
-		    <div className={`${BurgerConstructorStyle.order} mt-10`}>
+
+		    <div className={`${BurgerConstructorStyle.order} mt-10 pr-6`}>
 		    	<p className = "text text_type_digits-medium mr-2">{610}</p>
 		    	<div className = {BurgerConstructorStyle.icon}>
 		    		<CurrencyIcon type="primary" className="ml-10"/>
 		    	</div>
 		    	<Button htmlType="button" type="primary" size="large" extraClass="ml-10" onClick={handleOpenModal}>Оформить заказ</Button>
 				{isOpen && modal}
-				
 		    </div>
-
 		</div>
 	);
 }

@@ -13,6 +13,7 @@ function AppHeader(){
 	let iconProfile = <ProfileIcon type="secondary" />;
 
 	return(
+		<div className={`${AppHeaderStyles.wrap}`} >
 			<div className={`${AppHeaderStyles.header}`} >
 				<div className={AppHeaderStyles.menuarea} >
 					<MenuItem  icon = {iconBurger} menutext="Конструктор" active = {true}/>
@@ -25,6 +26,7 @@ function AppHeader(){
 					<MenuItem  icon = {iconProfile} menutext="Личный кабинет" active = {false}/>
 				</div>
 			</div>
+		</div>
 	);
 }
 

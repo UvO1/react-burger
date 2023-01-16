@@ -43,9 +43,11 @@ import getIngredients from '../../utils/burger-api';
   	<>
       <AppHeader/>
 		{!state.hasError && 
-		<div className={AppStyles.container}>
-				<BurgerIngredients datas={state.data}/>
-				<BurgerConstructor datas={state.data}/>
+		<div className={AppStyles.wrap}>
+			<div className={AppStyles.container}>
+					<BurgerIngredients datas={state.data}/>
+					<BurgerConstructor datas={state.data}/>
+			</div>
 		</div>
 		}
 		{state.hasError && 
