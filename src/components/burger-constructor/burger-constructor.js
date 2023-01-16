@@ -7,33 +7,20 @@ import {Button} from '@ya.praktikum/react-developer-burger-ui-components';
 import Modal from '../modal/modal.js';
 import OrderDetails from '../order-details/order-details';
 import PropTypes from 'prop-types';
-
-const messagePropTypes = PropTypes.shape({
-	_id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
-	proteins: PropTypes.number.isRequired,
-	fat: PropTypes.number.isRequired,
-	carbohydrates: PropTypes.number.isRequired,
-	calories: PropTypes.number.isRequired,
-	price: PropTypes.number.isRequired,
-	image: PropTypes.string.isRequired,
-  });
+import messagePropTypes from '../../utils/prop-types'
   
 function BurgerConstructor(props){
 	const [isOpen, setOpen] = React.useState(false);
 
 	function handleOpenModal(){
 		setOpen(true);
-		console.log(isOpen);
 	}
 
 	function handleCloseModal(){
 		setOpen(false);
-		console.log(isOpen);
 	}
 
-	const modal = (<Modal title="" onClosed={handleCloseModal}><OrderDetails/></Modal>);
+	const modal = (<Modal title="" onClosed={handleCloseModal}><OrderDetails order={12345} status="ok" /></Modal>);
 
 	return(
 		<div className = {`${BurgerConstructorStyle.area} pt-25 pl-4`}>

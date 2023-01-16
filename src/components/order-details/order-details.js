@@ -16,8 +16,8 @@ function OrderDetails(props){
 }
 
 OrderDetails.propTypes = {
-	order: PropTypes.number,
-    status: PropTypes.string
+	order: PropTypes.number.isRequired,
+    status: PropTypes.string.isRequired,
 };
 
 export default OrderDetails;

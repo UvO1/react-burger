@@ -4,38 +4,19 @@ import { CurrencyIcon  } from '@ya.praktikum/react-developer-burger-ui-component
 import { Counter  } from '@ya.praktikum/react-developer-burger-ui-components';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import Modal from '../modal/modal.js';
-import PropTypes from 'prop-types';
-
-const messagePropTypes = PropTypes.shape({
-	_id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
-	proteins: PropTypes.number.isRequired,
-	fat: PropTypes.number.isRequired,
-	carbohydrates: PropTypes.number.isRequired,
-	calories: PropTypes.number.isRequired,
-	price: PropTypes.number.isRequired,
-	image: PropTypes.string.isRequired,
-  });
+import messagePropTypes from '../../utils/prop-types'
 
 function CardIngredient(props){
 	const [isOpen, setOpen] = React.useState(false);
 	const modal = (<Modal title="Детали ингредиента"  onClosed={handleCloseModal}>
-		<IngredientDetails img ={props.ingredient.image} title={props.ingredient.name} 
-		calories={props.ingredient.calories} 
-		proteins={props.ingredient.proteins} 
-		fat={props.ingredient.fat}
-		carbohydrates={props.ingredient.carbohydrates}/>
+		<IngredientDetails ingredient={props.ingredient}/>
 		</Modal>);
-
 	function handleOpenModal(){
 		setOpen(true);
-		console.log(isOpen);
 	}
 
 	function handleCloseModal(){
 		setOpen(false);
-		console.log(isOpen);
 	}
 
 	return(
@@ -56,7 +37,7 @@ function CardIngredient(props){
 }
 
 CardIngredient.propTypes = {
-    ingredient: messagePropTypes.isRequired
+    ingredient: messagePropTypes
   };
 
 export default CardIngredient; 

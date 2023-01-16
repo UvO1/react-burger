@@ -3,18 +3,7 @@ import BurgerIngredientsStyle from './burger-ingredients.module.css';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import CardIngredient from '../card-ingredient/card-ingredient';
 import PropTypes from 'prop-types';
-
-const messagePropTypes = PropTypes.shape({
-	_id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
-	proteins: PropTypes.number.isRequired,
-	fat: PropTypes.number.isRequired,
-	carbohydrates: PropTypes.number.isRequired,
-	calories: PropTypes.number.isRequired,
-	price: PropTypes.number.isRequired,
-	image: PropTypes.string.isRequired,
-  });
+import messagePropTypes from '../../utils/prop-types'
   
 function TabIngredients(){
   const [current, setCurrent] = React.useState('one')
@@ -42,12 +31,10 @@ function BurgerIngredients(props){
 
 	function handleOpenModal(){
 		setOpen(true);
-		console.log(isOpen);
 	}
 
 	function handleCloseModal(){
 		setOpen(false);
-		console.log(isOpen);
 	}
 	return(
 		<div className = {`${BurgerIngredientsStyle.area} pl-5`}>
