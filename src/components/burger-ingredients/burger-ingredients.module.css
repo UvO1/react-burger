@@ -1,32 +1,31 @@
-.area{
+.area {
 	position: relative;
 	width: calc(50% - 40px);
 	float: left;
-
 }
-.scroll_area{
+.scroll_area {
 	height: calc(100vh - 300px);
 	overflow-y: scroll;
 }
 
-.ingredient_wrap{
+.ingredient_wrap {
 	width: calc(100% - 32px);
 	display: inline-block;
 }
 
-.tabs > div{
+.tabs > div {
 	min-width: calc(33% - 10px);
 }
 
-::-webkit-scrollbar{
+::-webkit-scrollbar {
 	width: 8px;
 }
 
-::-webkit-scrollbar-track{
+::-webkit-scrollbar-track {
 	background: #2f2f37;
 }
 
-::-webkit-scrollbar-thumb{
+::-webkit-scrollbar-thumb {
 	background: #8585ad;
 	border: 3px solid #8585ad;
 }

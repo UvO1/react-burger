@@ -4,7 +4,7 @@
 	justify-content: center;
 	background-color: #1c1c21;
 }
-.header{
+.header {
 	display: flex;
 	justify-content: space-between;
 	flex-direction: row;
@@ -14,15 +14,15 @@
 	max-width: 1480px;
 }
 
-.menuarea{
+.menuarea {
 	display: flex;
 	width: 33%;
 	align-items: center;
 }
 
-.menuarea:nth-last-child(1){
+.menuarea:nth-last-child(1) {
 	justify-content: flex-end;
 }
-.menuarea:nth-last-child(2){
+.menuarea:nth-last-child(2) {
 	justify-content: center;
 }

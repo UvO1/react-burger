@@ -1,11 +1,11 @@
-.area{
+.area {
 	position: relative;
 	width: calc(50% - 40px);
 	padding-top: 100px;
 	float: right;
 }
 
-.element_block{
+.element_block {
 	display: flex;
 	margin-bottom: 16px;
 	justify-content: flex-start;
@@ -13,14 +13,14 @@
 	align-items: center;
 }
 
-.ingredient_block{
+.ingredient_block {
 	width: 100%;
 }
-.constructor-element{
-	max-width: none!important;
+.constructor-element {
+	max-width: none !important;
 }
 
-.order{
+.order {
 	display: flex;
 	flex-direction: row;
 	align-items: center;
@@ -28,32 +28,32 @@
 	max-width: 676px;
 }
 
-.icon > svg{
+.icon > svg {
 	width: 33px;
 	height: 33px;
 }
-.scroll_area{
+.scroll_area {
 	height: calc(100vh - 510px);
 	overflow-y: scroll;
 }
 
-.ingredient_block >div{
+.ingredient_block > div {
 	min-width: calc(100% - 16px);
 }
 
-.fix_element > div{
+.fix_element > div {
 	min-width: calc(100% - 24px);
 }
 
-::-webkit-scrollbar{
+::-webkit-scrollbar {
 	width: 8px;
 }
 
-::-webkit-scrollbar-track{
+::-webkit-scrollbar-track {
 	background: #2f2f37;
 }
 
-::-webkit-scrollbar-thumb{
+::-webkit-scrollbar-thumb {
 	background: #8585ad;
 	border: 3px solid #8585ad;
 }
