@@ -1,0 +1,28 @@
+.wrap {
+	display: flex;
+	width: 100%;
+	justify-content: center;
+	background-color: #1c1c21;
+}
+.header{
+	display: flex;
+	justify-content: space-between;
+	flex-direction: row;
+	height: 88px;
+	width: 100%;
+	align-content: center;
+	max-width: 1480px;
+}
+
+.menuarea{
+	display: flex;
+	width: 33%;
+	align-items: center;
+}
+
+.menuarea:nth-last-child(1){
+	justify-content: flex-end;
+}
+.menuarea:nth-last-child(2){
+	justify-content: center;
+}

@@ -1,0 +1,15 @@
+
+.menuitem{
+	display: flex;
+	border-radius: 30px;
+	cursor: pointer;
+}
+
+.menuitem:nth-last-child(2){
+	margin-right: 8px;
+}
+
+.menutext{
+	padding-left: 8px;
+	line-height: 1.5;
+}

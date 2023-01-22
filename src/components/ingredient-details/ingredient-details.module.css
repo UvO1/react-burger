@@ -1,0 +1,26 @@
+.wrap{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.ingredient_image{
+    width: 480px;
+}
+
+.title{
+    width: 520px;
+}
+.info{
+    width: 520px;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+}
+
+.item{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
