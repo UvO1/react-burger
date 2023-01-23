@@ -5,6 +5,7 @@ import BurgerIngredients from "../burger-ingredients/burger-ingredients.js";
 import BurgerConstructor from "../burger-constructor/burger-constructor.js";
 import { getIngredients } from "../../utils/burger-api";
 import { IngredientsContext } from "../../utils/ingredients-context";
+import { checkReponse } from "../../utils/burger-api";
 
 function App() {
 	const [state, setState] = React.useState({
@@ -13,15 +14,6 @@ function App() {
 		data: [],
 	});
 	const [ingredients, setIngredients] = React.useState([]);
-
-	const checkReponse = (res) => {
-		return res.ok
-			? res.json()
-			: res.json().then((err) => {
-					Promise.reject(err);
-					setState({ ...state, isLoading: false, hasError: false });
-			  });
-	};
 
 	React.useEffect(() => {
 		const getData = async () => {

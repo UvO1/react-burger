@@ -11,22 +11,15 @@ import { IngredientsContext } from "../../utils/ingredients-context";
 import { OrderContext } from "../../utils/ingredients-context";
 import { BurgerContext } from "../../utils/ingredients-context";
 import { getOrder } from "../../utils/burger-api";
+import { checkReponse } from "../../utils/burger-api";
 
 function BurgerConstructor() {
-	const [isOpen, setOpen] = React.useState(false);
 	const { ingredients } = React.useContext(IngredientsContext);
 
 	const [order, setOrder] = React.useState({
 		name: "",
 		number: null,
 		success: false,
-	});
-
-	const [price, setPrice] = React.useState(0);
-
-	const [burger, setBurger ] = React.useState({
-		listIngredients: [],
-		buns: null,
 	});
 
 	const [state, setState] = React.useState({
@@ -37,33 +30,37 @@ function BurgerConstructor() {
 
 	const burgerPrice = React.useMemo(
 		() => {
-		let tempPrice = 0;
-		let bunsBurger = null;
-		ingredients.map((element) => {
+		let hasBun = false;
+		const totalPrice = ingredients.reduce((price, element) => {
 			if (element.type === "bun") {
-				if (bunsBurger === null) {
-					tempPrice = tempPrice + element.price + element.price; //two buns in one burger
-					bunsBurger = element;
-				}
-			} else {
-				tempPrice = tempPrice + element.price;
+					if (!hasBun) {
+						price += element.price + element.price; //two buns in one burger
+						hasBun = true;
+					}
 			}
-		});
-		setPrice(tempPrice);
-		setBurger({
-			listIngredients: ingredients,
-			buns: bunsBurger,
-		});
+			else {
+					price += element.price;
+			}
+			return price;
+		}, 0);
+		return totalPrice;
 	}, [ingredients]);
 
-	const checkReponse = (res) => {
-		return res.ok
-			? res.json()
-			: res.json().then((err) => {
-					Promise.reject(err);
-					setState({ ...state, isLoading: false, hasError: false });
-			  });
-	};
+	const burger = React.useMemo(( ) => {
+		const burgerObject = ingredients.reduce((bObj, element) => {
+			if (element.type === "bun") {
+				if (bObj.buns === null) {
+					bObj.buns = element;
+				}
+			} 
+			else{
+				bObj.listIngredients.push(element);
+			}
+			return bObj;
+		}, {buns: null, listIngredients: []});
+		return burgerObject;
+	}, [ingredients]
+	)
 
 	const infoOrder = async () => {
 		let fetchList = [];
@@ -88,6 +85,7 @@ function BurgerConstructor() {
 					number: data.order.number,
 					success: data.success,
 				});
+				setState({ ...state, isLoading: false, hasError: false });
 			})
 			.catch((e) => setState({ ...state, isLoading: false, isError: true }));
 	};			
@@ -151,7 +149,7 @@ function BurgerConstructor() {
 			</div>
 
 			<div className={`${BurgerConstructorStyle.order} mt-10 pr-6`}>
-				<p className="text text_type_digits-medium mr-2">{price}</p>
+				<p className="text text_type_digits-medium mr-2">{burgerPrice}</p>
 				<div className={BurgerConstructorStyle.icon}>
 					<CurrencyIcon type="primary" className="ml-10" />
 				</div>
