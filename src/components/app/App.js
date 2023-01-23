@@ -47,7 +47,7 @@ function App() {
 				<div className={AppStyles.wrap}>
 					<div className={AppStyles.container}>
 						<IngredientsContext.Provider
-							value={{ ingredients, setIngredients }}
+							value={{ ingredients}}
 						>
 							<BurgerIngredients datas={state.data} />
 							<BurgerConstructor />

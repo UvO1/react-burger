@@ -1,54 +1,25 @@
 import React from "react";
 import BurgerIngredientsStyle from "./burger-ingredients.module.css";
-import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import CardIngredient from "../card-ingredient/card-ingredient";
 import PropTypes from "prop-types";
 import messagePropTypes from "../../utils/prop-types";
-
-function TabIngredients() {
-	const [current, setCurrent] = React.useState("one");
-	return (
-		<div
-			style={{ display: "flex" }}
-			className={`${BurgerIngredientsStyle.tabs} mt-5 mb-8`}
-		>
-			<Tab
-				style="min-width: 33%"
-				value="one"
-				active={current === "one"}
-				onClick={setCurrent}
-			>
-				Булки
-			</Tab>
-			<Tab value="two" active={current === "two"} onClick={setCurrent}>
-				Соусы
-			</Tab>
-			<Tab value="three" active={current === "three"} onClick={setCurrent}>
-				Начинки
-			</Tab>
-		</div>
-	);
-}
+import TabIngredients from "../tab-ingredients/tab-ingredients";
 
 function BurgerIngredients(props) {
-	const [isOpen, setOpen] = React.useState(false);
-	const datas_bun = props.datas.filter(
-		(ingredient) => ingredient.type === "bun"
-	);
-	const datas_sauce = props.datas.filter(
+	const datas_bun = React.useMemo( 
+		() => props.datas.filter((ingredient) => ingredient.type === "bun"
+	), [props.datas]);
+
+	const datas_sauce = React.useMemo( 
+		() => props.datas.filter(
 		(ingredient) => ingredient.type === "sauce"
-	);
-	const datas_main = props.datas.filter(
+	), [props.datas]);
+
+	const datas_main = React.useMemo(
+		() => props.datas.filter(
 		(ingredient) => ingredient.type === "main"
-	);
+	), [props.datas]);
 
-	function handleOpenModal() {
-		setOpen(true);
-	}
-
-	function handleCloseModal() {
-		setOpen(false);
-	}
 	return (
 		<div className={`${BurgerIngredientsStyle.area} pl-5`}>
 			<p className="text text_type_main-large mt-10">Cоберите бургер</p>
@@ -56,14 +27,17 @@ function BurgerIngredients(props) {
 			<div className={BurgerIngredientsStyle.scroll_area}>
 				<div className={`${BurgerIngredientsStyle.ingredient_wrap} pr-4`}>
 					<p className="text text_type_main-medium mt-2 mb-6">Булки</p>
-					<div className="pl-4 ">
+					{datas_bun &&
+					(<div className="pl-4 ">
 						{" "}
+						
 						{datas_bun.map((tempIngr) => {
 							return (
 								<CardIngredient ingredient={tempIngr} key={tempIngr._id} />
 							);
 						})}
-					</div>
+					</div>)
+					}
 				</div>
 
 				<div className={`${BurgerIngredientsStyle.ingredient_wrap} pr-4`}>
@@ -95,7 +69,7 @@ function BurgerIngredients(props) {
 }
 
 BurgerIngredients.propTypes = {
-	datas: PropTypes.arrayOf(messagePropTypes).isRequired,
+	datas: PropTypes.arrayOf(messagePropTypes.isRequired).isRequired,
 };
 
 export default BurgerIngredients;

@@ -1,0 +1,3 @@
+.tabs > div {
+	min-width: calc(33% - 10px);
+}
