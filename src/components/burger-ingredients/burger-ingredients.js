@@ -27,17 +27,14 @@ function BurgerIngredients(props) {
 			<div className={BurgerIngredientsStyle.scroll_area}>
 				<div className={`${BurgerIngredientsStyle.ingredient_wrap} pr-4`}>
 					<p className="text text_type_main-medium mt-2 mb-6">Булки</p>
-					{datas_bun &&
-					(<div className="pl-4 ">
+					<div className="pl-4 ">
 						{" "}
-						
 						{datas_bun.map((tempIngr) => {
 							return (
 								<CardIngredient ingredient={tempIngr} key={tempIngr._id} />
 							);
 						})}
-					</div>)
-					}
+					</div>
 				</div>
 
 				<div className={`${BurgerIngredientsStyle.ingredient_wrap} pr-4`}>
