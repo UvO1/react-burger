@@ -1,34 +1,63 @@
-import React from "react";
 import CardIngredientStyle from "./card-ingredient.module.css";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Counter } from "@ya.praktikum/react-developer-burger-ui-components";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import Modal from "../modal/modal.js";
 import messagePropTypes from "../../utils/prop-types";
+import { useDispatch, useSelector } from "react-redux";
+import { useDrag } from "react-dnd";
 
 function CardIngredient(props) {
-	const [isOpen, setOpen] = React.useState(false);
+	const dispatch = useDispatch();
+	const isOpenModal = useSelector((store) => store.modal.isOpen);
+	const ingredientOpen = useSelector((store) => store.card.ingredient);
 	const modal = (
 		<Modal title="Детали ингредиента" onClosed={handleCloseModal}>
-			<IngredientDetails ingredient={props.ingredient} />
+			<IngredientDetails />
 		</Modal>
 	);
+	const [{ opacity }, dragRef] = useDrag({
+		type: "ingredients",
+		item: props.data,
+		collect: (monitor) => ({
+			opacity: monitor.isDragging() ? 0.5 : 1,
+		}),
+	});
+
 	function handleOpenModal() {
-		setOpen(true);
+		dispatch({
+			type: "OPEN_MODAL",
+		});
+		dispatch({
+			type: "VIEW_INGREDIENT_DETAILS",
+			ingredient: props.ingredient,
+		});
 	}
 
 	function handleCloseModal() {
-		setOpen(false);
+		dispatch({
+			type: "CLOSE_MODAL",
+		});
+		dispatch({
+			type: "HIDE_INGREDIENT_DETAILS",
+		});
 	}
 
 	return (
 		<>
-			{isOpen && modal}
+			{isOpenModal && props.ingredient._id === ingredientOpen._id && modal}
 			<div
 				className={`${CardIngredientStyle.cardwrap} mb-8`}
 				onClick={handleOpenModal}
+				draggable
+				ref={dragRef}
+				style={{ opacity }}
 			>
-				<Counter count={1} size="default" extraClass="m-1" />
+				<Counter
+					count={props.ingredient.count}
+					size="default"
+					extraClass="m-1"
+				/>
 				<img
 					src={props.ingredient.image}
 					className={CardIngredientStyle.ingredient_image}

@@ -1,16 +1,14 @@
-import React from "react";
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
-import { BurgerContext } from "../../utils/ingredients-context";
 import PropTypes from "prop-types";
+import { useSelector } from "react-redux";
 
 function BunConstructor(props) {
-    const { burger } = React.useContext(BurgerContext); 
-	let nameBun = burger.buns.name;
+	const burgerBun = useSelector((store) => store.burger.buns);
+	let nameBun = burgerBun.name;
 
 	if (props.type === "top") {
 		nameBun = nameBun + " (верх)";
-	} 
-    else if (props.type === "bottom") {
+	} else if (props.type === "bottom") {
 		nameBun = nameBun + " (низ)";
 	}
 	return (
@@ -18,8 +16,8 @@ function BunConstructor(props) {
 			type={props.type}
 			isLocked={true}
 			text={nameBun}
-			price={burger.buns.price}
-			thumbnail={burger.buns.image}
+			price={burgerBun.price}
+			thumbnail={burgerBun.image}
 		/>
 	);
 }

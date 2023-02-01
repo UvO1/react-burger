@@ -1,26 +1,21 @@
-import React from "react";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import TabIngredientsStyle from "./tab-ingredients.module.css";
+import { useSelector } from "react-redux";
 
 function TabIngredients() {
-	const [current, setCurrent] = React.useState("one");
+	const activeTab = useSelector((store) => store.tabs.activeTab);
 	return (
 		<div
 			style={{ display: "flex" }}
 			className={`${TabIngredientsStyle.tabs} mt-5 mb-8`}
 		>
-			<Tab
-				style="min-width: 33%"
-				value="one"
-				active={current === "one"}
-				onClick={setCurrent}
-			>
+			<Tab style="min-width: 33%" value="one" active={activeTab === "one"}>
 				Булки
 			</Tab>
-			<Tab value="two" active={current === "two"} onClick={setCurrent}>
+			<Tab value="two" active={activeTab === "two"}>
 				Соусы
 			</Tab>
-			<Tab value="three" active={current === "three"} onClick={setCurrent}>
+			<Tab value="three" active={activeTab === "three"}>
 				Начинки
 			</Tab>
 		</div>

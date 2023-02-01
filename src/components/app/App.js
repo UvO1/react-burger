@@ -3,51 +3,33 @@ import AppStyles from "./App.module.css";
 import AppHeader from "../app-header/app-header.js";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients.js";
 import BurgerConstructor from "../burger-constructor/burger-constructor.js";
-import { getIngredients } from "../../utils/burger-api";
-import { IngredientsContext } from "../../utils/ingredients-context";
-import { checkReponse } from "../../utils/burger-api";
+import { useDispatch, useSelector } from "react-redux";
+import { getIngredientsAction } from "../../services/actions";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 
 function App() {
-	const [state, setState] = React.useState({
-		isLoading: false,
-		hasError: false,
-		data: [],
-	});
-	const [ingredients, setIngredients] = React.useState([]);
+	const dispatch = useDispatch();
+	const hasError = useSelector(store => store.ingredients.hasError);
 
 	React.useEffect(() => {
-		const getData = async () => {
-			setState({
-				...state,
-				isLoading: true,
-				hasError: false,
-			});
-			getIngredients()
-				.then(checkReponse)
-				.then((data) => {
-					setState({ data: data.data, isLoading: false, hasError: false });
-					setIngredients(data.data);
-				})
-				.catch((e) => setState({ ...state, isLoading: false, hasError: true }));
-		};
-		getData();
-	}, []);
+		dispatch(getIngredientsAction());
+	}, [dispatch]);
+
 	return (
 		<>
 			<AppHeader />
-			{!state.hasError && (
+			{!hasError && (
 				<div className={AppStyles.wrap}>
 					<div className={AppStyles.container}>
-						<IngredientsContext.Provider
-							value={{ ingredients}}
-						>
-							<BurgerIngredients datas={state.data} />
+						<DndProvider backend={HTML5Backend}>
+							<BurgerIngredients/>
 							<BurgerConstructor />
-						</IngredientsContext.Provider>
+						</DndProvider>
 					</div>
 				</div>
 			)}
-			{state.hasError && <p>Ошибка загрузки данных</p>}
+			{hasError && <p>Ошибка загрузки данных</p>}
 		</>
 	);
 }

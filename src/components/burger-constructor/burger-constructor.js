@@ -1,151 +1,129 @@
 import React from "react";
 import BurgerConstructorStyle from "./burger-constructor.module.css";
-import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
-import { DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import Modal from "../modal/modal.js";
 import OrderDetails from "../order-details/order-details";
 import BunConstructor from "../bun-constructor/bun-constructor";
-import { IngredientsContext } from "../../utils/ingredients-context";
-import { OrderContext } from "../../utils/ingredients-context";
-import { BurgerContext } from "../../utils/ingredients-context";
-import { getOrder } from "../../utils/burger-api";
-import { checkReponse } from "../../utils/burger-api";
+import { useDispatch, useSelector } from "react-redux";
+import {
+	getOrderAction,
+	HIDE_ORDER_DETAILS,
+} from "../../services/actions/order";
+import {
+	DECREASE_BUNS,
+	INCREASE_INGREDIENT,
+} from "../../services/actions/ingredients";
+import { useDrop } from "react-dnd";
+import { ADD_INGREDIENT, ADD_BUN } from "../../services/actions/burger";
+import ElementConstructor from "../element-constructor/element-constructor";
 
 function BurgerConstructor() {
-	const { ingredients } = React.useContext(IngredientsContext);
-
-	const [order, setOrder] = React.useState({
-		name: "",
-		number: null,
-		success: false,
-	});
-
-	const [state, setState] = React.useState({
-		isLoading: false,
-		isError: false,
-		data: [],
-	});
-
-	const burgerPrice = React.useMemo(
-		() => {
-		let hasBun = false;
-		const totalPrice = ingredients.reduce((price, element) => {
-			if (element.type === "bun") {
-					if (!hasBun) {
-						price += element.price + element.price; //two buns in one burger
-						hasBun = true;
-					}
-			}
-			else {
-					price += element.price;
-			}
-			return price;
-		}, 0);
+	const dispatch = useDispatch();
+	const burger = useSelector((store) => store.burger);
+	const order = useSelector((store) => store.order);
+	const burgerPrice = React.useMemo(() => {
+		let totalPrice = 0;
+		if (burger.listIngredients.length > 0) {
+			totalPrice = burger.listIngredients.reduce((price, element) => {
+				price += element.price;
+				return price;
+			}, 0);
+		}
+		if (burger.buns) {
+			totalPrice += burger.buns.price * 2;
+		}
 		return totalPrice;
-	}, [ingredients]);
+	}, [burger]);
 
-	const burger = React.useMemo(( ) => {
-		const burgerObject = ingredients.reduce((bObj, element) => {
-			if (element.type === "bun") {
-				if (bObj.buns === null) {
-					bObj.buns = element;
-				}
-			} 
-			else{
-				bObj.listIngredients.push(element);
-			}
-			return bObj;
-		}, {buns: null, listIngredients: []});
-		return burgerObject;
-	}, [ingredients]
-	)
-
-	const infoOrder = async () => {
+	function infoOrder() {
 		let fetchList = [];
-		setState({
-			...state,
-			isLoading: true,
-			hasError: false,
-		});
 		burger.listIngredients.map((element) => {
-			if (element.type != "bun") {
+			if (element.type !== "bun") {
 				fetchList.push(element._id);
 			}
 		});
-		fetchList.push(burger.buns._id); 
+		fetchList.push(burger.buns._id);
 		fetchList.push(burger.buns._id); //the same bun in one burger
-
-		getOrder(fetchList)
-			.then(checkReponse)
-			.then((data) => {
-				setOrder({
-					name: data.name,
-					number: data.order.number,
-					success: data.success,
-				});
-				setState({ ...state, isLoading: false, hasError: false });
-			})
-			.catch((e) => setState({ ...state, isLoading: false, isError: true }));
-	};			
+		dispatch(getOrderAction(fetchList));
+	}
 
 	function handleCloseModal() {
-		setOrder({
-			name: "",
-			number: null,
-			success: false,
+		dispatch({
+			type: HIDE_ORDER_DETAILS,
 		});
 	}
 
 	const modal = (
-			<OrderContext.Provider value={{order}}>
-				<Modal title="" onClosed={handleCloseModal}>
-					<OrderDetails />
-				</Modal>
-			</OrderContext.Provider>
+		<Modal title="" onClosed={handleCloseModal}>
+			<OrderDetails />
+		</Modal>
 	);
+
+	const [, dropTarget] = useDrop({
+		accept: "ingredients",
+		collect: (monitor) => ({
+			isHover: monitor.isOver(),
+		}),
+		drop(itemId) {
+			if (itemId.type !== "bun") {
+				dispatch({
+					type: ADD_INGREDIENT,
+					ingredient: itemId,
+				});
+			} else {
+				dispatch({
+					type: DECREASE_BUNS,
+				});
+				dispatch({
+					type: ADD_BUN,
+					buns: itemId,
+				});
+			}
+			dispatch({
+				type: INCREASE_INGREDIENT,
+				id: itemId._id,
+			});
+		},
+	});
 
 	return (
 		<div className={`${BurgerConstructorStyle.area} pt-25 pl-4`}>
-			<div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-				{burger.buns && (
-					<div className={`${BurgerConstructorStyle.fix_element} ml-8`}>
-						<BurgerContext.Provider value={{ burger }}>
-							<BunConstructor type="top" />
-						</BurgerContext.Provider>
+			<div
+				style={{ display: "flex", flexDirection: "column", gap: "16px" }}
+				ref={dropTarget}
+			>
+				<div className={`${BurgerConstructorStyle.fix_element} ml-8`}>
+					{burger.buns && <BunConstructor type="top" />}
+					{!burger.buns && (
+						<div className={BurgerConstructorStyle.empty_bun_top}></div>
+					)}
+				</div>
+				{burger.listIngredients.length > 0 && (
+					<div className={BurgerConstructorStyle.scroll_area}>
+						{burger.listIngredients.map((tempElement, index) => {
+							if (tempElement.type != "bun") {
+								return (
+									<ElementConstructor
+										tempElement={tempElement}
+										index={index}
+										key={tempElement.uuid}
+									></ElementConstructor>
+								);
+							}
+						})}
 					</div>
 				)}
-				<div className={BurgerConstructorStyle.scroll_area}>
-					{burger.listIngredients.map((tempElement) => {
-						if (tempElement.type != "bun") {
-							return (
-								<div
-									className={BurgerConstructorStyle.element_block}
-									key={tempElement._id}
-								>
-									<DragIcon type="primary" className="pr-2" />
-									<div
-										className={`ml-2 ${BurgerConstructorStyle.ingredient_block}`}
-									>
-										<ConstructorElement
-											text={tempElement.name}
-											price={tempElement.price}
-											thumbnail={tempElement.image}
-										/>
-									</div>
-								</div>
-							);
-						}
-					})}
-				</div>
-				{burger.buns && (
-				<div className={`${BurgerConstructorStyle.fix_element} ml-8`}>
-					<BurgerContext.Provider value={{ burger }}>
-						<BunConstructor type="bottom" />
-					</BurgerContext.Provider>
-				</div>
+				{burger.listIngredients.length === 0 && (
+					<div className={BurgerConstructorStyle.empty_ingredient}></div>
 				)}
+
+				<div className={`${BurgerConstructorStyle.fix_element} ml-8`}>
+					{burger.buns && <BunConstructor type="bottom" />}
+					{!burger.buns && (
+						<div className={BurgerConstructorStyle.empty_bun_bottom}></div>
+					)}
+				</div>
 			</div>
 
 			<div className={`${BurgerConstructorStyle.order} mt-10 pr-6`}>
@@ -159,11 +137,11 @@ function BurgerConstructor() {
 					type="primary"
 					size="large"
 					extraClass="ml-10"
-					onClick={infoOrder}
+					onClick={() => infoOrder()}
 				>
 					Оформить заказ
 				</Button>
-				{(order.number != null) && modal}
+				{order.number != null && modal}
 			</div>
 		</div>
 	);

@@ -1,4 +1,3 @@
-import React from "react";
 import AppHeaderStyles from "./app-header.module.css";
 import MenuItem from "../menu-item/menu-item.js";
 import { Logo } from "@ya.praktikum/react-developer-burger-ui-components";
