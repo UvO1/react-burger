@@ -24,7 +24,7 @@ function BurgerIngredients() {
 		[ingredients]
 	);
 
-	function handleScroll(e) {
+	function handleScroll() {
 		const scroll = document.getElementById("scroll");
 		const burger_offset = document.getElementById("buns");
 		const sauce_offset = document.getElementById("sauce");

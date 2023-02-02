@@ -6,10 +6,9 @@ function TabIngredients() {
 	const activeTab = useSelector((store) => store.tabs.activeTab);
 	return (
 		<div
-			style={{ display: "flex" }}
 			className={`${TabIngredientsStyle.tabs} mt-5 mb-8`}
 		>
-			<Tab style="min-width: 33%" value="one" active={activeTab === "one"}>
+			<Tab className={TabIngredientsStyle.tab} value="one" active={activeTab === "one"}>
 				Булки
 			</Tab>
 			<Tab value="two" active={activeTab === "two"}>

@@ -2,11 +2,10 @@ import {
 	ADD_BUN,
 	ADD_INGREDIENT,
 	CLEAR_BURGER,
-	FILL_BURGER,
 	DELETE_INGREDIENT,
 	REPLACE_ITEMS,
 } from "../actions/burger";
-import { v4 as uuidv4 } from "uuid";
+
 
 const initialState = {
 	buns: null,
@@ -22,14 +21,9 @@ export const burgerReducer = (state = initialState, action) => {
 			};
 		}
 		case ADD_INGREDIENT: {
-			let tempIngredient = {};
-			for (let key in action.ingredient) {
-				tempIngredient[key] = action.ingredient[key];
-			}
-			tempIngredient.uuid = uuidv4();
 			return {
 				...state,
-				listIngredients: [...state.listIngredients, tempIngredient],
+				listIngredients: [...state.listIngredients, action.payload],
 			};
 		}
 		case DELETE_INGREDIENT: {
@@ -47,14 +41,6 @@ export const burgerReducer = (state = initialState, action) => {
 				listIngredients: [],
 			};
 		}
-		case FILL_BURGER: {
-			return {
-				...state,
-				buns: action.buns,
-				listIngredients: action.listIngredients,
-			};
-		}
-
 		case REPLACE_ITEMS: {
 			let item = [];
 			for (let key in action.listIngredients) {
@@ -68,9 +54,7 @@ export const burgerReducer = (state = initialState, action) => {
 			};
 		}
 		default: {
-			return {
-				...state,
-			};
+			return state;
 		}
 	}
 };

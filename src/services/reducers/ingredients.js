@@ -7,6 +7,7 @@ import {
 	INCREASE_INGREDIENT,
 	DECREASE_INGREDIENT,
 	DECREASE_BUNS,
+	CLEAR_COUNTERS,
 } from "../actions/ingredients";
 
 const initialState = {
@@ -72,9 +73,16 @@ export const getIngredientsReducer = (state = initialState, action) => {
 				}),
 			};
 		}
-		default:
-			return {
+		case CLEAR_COUNTERS: {
+			return{
 				...state,
-			};
+				ingredients: [...state.ingredients].map((item) => {
+						item.count = 0;
+					return item;
+				}),
+			}
+		}
+		default:
+			return state;
 	}
 };

@@ -1,5 +1,7 @@
 import { getOrder } from "../../utils/burger-api";
 import { checkReponse } from "../../utils/burger-api";
+import { CLEAR_BURGER } from "./burger";
+import { CLEAR_COUNTERS } from "./ingredients";
 
 export const VIEW_ORDER_DETAILS = "VIEW_ORDER_DETAILS";
 export const HIDE_ORDER_DETAILS = "HIDE_ORDER_DETAILS";
@@ -16,17 +18,23 @@ export function getOrderAction(fetchList) {
 			.then(checkReponse)
 			.then((data) => {
 				dispatch({
-					type: "VIEW_ORDER_DETAILS",
+					type: VIEW_ORDER_DETAILS,
 					order: {
 						name: data.name,
 						number: data.order.number,
 						success: data.success,
 					},
 				});
+				dispatch({
+					type: CLEAR_BURGER
+				})
+				dispatch({
+					type: CLEAR_COUNTERS
+				})
 			})
 			.catch((e) => {
 				dispatch({
-					type: "GET_ORDER_FAILED",
+					type: GET_ORDER_FAILED
 				});
 			});
 	};

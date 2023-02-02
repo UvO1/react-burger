@@ -3,7 +3,7 @@ import { OPEN_MODAL, CLOSE_MODAL } from "../actions/modal";
 const initialState = {
 	isOpen: false,
 };
-export const viewModal = (state, action) => {
+export const viewModal = (state = initialState, action) => {
 	switch (action.type) {
 		case OPEN_MODAL: {
 			return {
@@ -18,9 +18,7 @@ export const viewModal = (state, action) => {
 			};
 		}
 		default: {
-			return {
-				...state,
-			};
+			return state;
 		}
 	}
 };

@@ -1,5 +1,5 @@
 import React from "react";
-import AppStyles from "./App.module.css";
+import AppStyles from "./app.module.css";
 import AppHeader from "../app-header/app-header.js";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients.js";
 import BurgerConstructor from "../burger-constructor/burger-constructor.js";
@@ -19,6 +19,7 @@ function App() {
 	return (
 		<>
 			<AppHeader />
+			<main>
 			{!hasError && (
 				<div className={AppStyles.wrap}>
 					<div className={AppStyles.container}>
@@ -29,6 +30,7 @@ function App() {
 					</div>
 				</div>
 			)}
+			</main>
 			{hasError && <p>Ошибка загрузки данных</p>}
 		</>
 	);

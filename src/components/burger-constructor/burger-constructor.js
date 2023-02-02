@@ -15,7 +15,7 @@ import {
 	INCREASE_INGREDIENT,
 } from "../../services/actions/ingredients";
 import { useDrop } from "react-dnd";
-import { ADD_INGREDIENT, ADD_BUN } from "../../services/actions/burger";
+import { ADD_BUN, addIngredient } from "../../services/actions/burger";
 import ElementConstructor from "../element-constructor/element-constructor";
 
 function BurgerConstructor() {
@@ -67,10 +67,7 @@ function BurgerConstructor() {
 		}),
 		drop(itemId) {
 			if (itemId.type !== "bun") {
-				dispatch({
-					type: ADD_INGREDIENT,
-					ingredient: itemId,
-				});
+				dispatch(addIngredient(itemId));
 			} else {
 				dispatch({
 					type: DECREASE_BUNS,
@@ -90,7 +87,7 @@ function BurgerConstructor() {
 	return (
 		<div className={`${BurgerConstructorStyle.area} pt-25 pl-4`}>
 			<div
-				style={{ display: "flex", flexDirection: "column", gap: "16px" }}
+				className={BurgerConstructorStyle.drop_target}
 				ref={dropTarget}
 			>
 				<div className={`${BurgerConstructorStyle.fix_element} ml-8`}>
@@ -105,7 +102,7 @@ function BurgerConstructor() {
 							if (tempElement.type != "bun") {
 								return (
 									<ElementConstructor
-										tempElement={tempElement}
+										tempE={tempElement}
 										index={index}
 										key={tempElement.uuid}
 									></ElementConstructor>
@@ -131,7 +128,7 @@ function BurgerConstructor() {
 				<div className={BurgerConstructorStyle.icon}>
 					<CurrencyIcon type="primary" className="ml-10" />
 				</div>
-
+				{burger.buns && (
 				<Button
 					htmlType="button"
 					type="primary"
@@ -141,6 +138,14 @@ function BurgerConstructor() {
 				>
 					Оформить заказ
 				</Button>
+				)}
+				{!burger.buns && (
+				<Button htmlType="button" className={BurgerConstructorStyle.buttonDiactive}
+
+				>
+					Оформить заказ
+				</Button>
+				)}
 				{order.number != null && modal}
 			</div>
 		</div>

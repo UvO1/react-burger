@@ -19,9 +19,7 @@ export const changeTab = (state = initialState, action) => {
 			};
 		}
 		default: {
-			return {
-				...state,
-			};
+			return state;
 		}
 	}
 };

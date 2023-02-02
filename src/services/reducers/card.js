@@ -6,7 +6,7 @@ import {
 const initialState = {
 	ingredient: {},
 };
-export const viewIngredientDetails = (state, action) => {
+export const viewIngredientDetails = (state = initialState, action) => {
 	switch (action.type) {
 		case VIEW_INGREDIENT_DETAILS: {
 			return {
@@ -21,9 +21,7 @@ export const viewIngredientDetails = (state, action) => {
 			};
 		}
 		default: {
-			return {
-				...state,
-			};
+			return state;
 		}
 	}
 };

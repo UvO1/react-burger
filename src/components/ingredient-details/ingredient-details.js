@@ -7,6 +7,7 @@ function IngredientDetails() {
 			<img
 				src={ingredient.image}
 				className={IngredientDetailsStyles.ingredient_image}
+				alt = {ingredient.name}
 			/>
 			<p
 				className={`${IngredientDetailsStyles.title} text text_type_main-medium mt-4`}

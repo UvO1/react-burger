@@ -10,14 +10,17 @@ import { REPLACE_ITEMS } from "../../services/actions/burger";
 import messagePropTypes from "../../utils/prop-types";
 import PropTypes from "prop-types";
 
-function ElementConstructor(props) {
-	const tempElement = props.tempElement;
+const ElementConstructor = ({tempE, index}) => {
+	const tempElement = tempE;
 	const dispatch = useDispatch();
 	const ref = React.useRef(null);
 	const listIngredients = useSelector((store) => store.burger.listIngredients);
-	const [{ opacity }, drag] = useDrag({
+	
+  const [{ opacity }, drag] = useDrag({
 		type: "burger",
-		item: tempElement,
+		item: () => {
+      return {index}
+    },
 		collect: (monitor) => ({
 			opacity: monitor.isDragging() ? 0.5 : 1,
 		}),
@@ -35,7 +38,7 @@ function ElementConstructor(props) {
 				return;
 			}
 			const dragIndex = item.index;
-			const hoverIndex = props.index;
+			const hoverIndex = index;
 
 			if (dragIndex === hoverIndex) {
 				return;
@@ -63,6 +66,7 @@ function ElementConstructor(props) {
 		},
 	});
 
+  
 	function DeleteElement(key, id) {
 		dispatch({
 			type: DELETE_INGREDIENT,
@@ -73,6 +77,7 @@ function ElementConstructor(props) {
 			id: id,
 		});
 	}
+  
 	drag(drop(ref));
 
 	return (
@@ -99,7 +104,7 @@ function ElementConstructor(props) {
 
 ElementConstructor.propTypes = {
 	index: PropTypes.number.isRequired,
-	tempElement: messagePropTypes.isRequired,
+	tempE: messagePropTypes.isRequired,
 };
 
 export default ElementConstructor;

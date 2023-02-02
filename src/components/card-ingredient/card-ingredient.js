@@ -6,6 +6,8 @@ import Modal from "../modal/modal.js";
 import messagePropTypes from "../../utils/prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import { useDrag } from "react-dnd";
+import { OPEN_MODAL } from "../../services/actions/modal";
+import { VIEW_INGREDIENT_DETAILS } from "../../services/actions/card";
 
 function CardIngredient(props) {
 	const dispatch = useDispatch();
@@ -26,10 +28,10 @@ function CardIngredient(props) {
 
 	function handleOpenModal() {
 		dispatch({
-			type: "OPEN_MODAL",
+			type: OPEN_MODAL,
 		});
 		dispatch({
-			type: "VIEW_INGREDIENT_DETAILS",
+			type: VIEW_INGREDIENT_DETAILS,
 			ingredient: props.ingredient,
 		});
 	}
@@ -61,6 +63,7 @@ function CardIngredient(props) {
 				<img
 					src={props.ingredient.image}
 					className={CardIngredientStyle.ingredient_image}
+					alt = {props.ingredient.name}
 				/>
 				<div className={`${CardIngredientStyle.price} mt-1 mb-1`}>
 					<span className="text text_type_digits-default mr-2">

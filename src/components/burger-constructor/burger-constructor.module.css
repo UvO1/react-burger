@@ -41,10 +41,6 @@
 	min-width: calc(100% - 16px);
 }
 
-.fix_element > div {
-
-}
-
 ::-webkit-scrollbar {
 	width: 8px;
 }
@@ -80,4 +76,25 @@
 	background: #2f2f37;
 	border-radius: 50px;
 	margin-left: 32px;
+}
+
+.drop_target{
+	display: flex;
+	flex-direction: column;
+	gap: 16px; 
+}
+
+.buttonDiactive{
+	border: none;
+    outline: none;
+    border-radius: var(--common-border-radius);
+    transition: var(--common-transition);
+	color: var(--text-primary-color);
+    background: linear-gradient(63.18deg, #801ab3 0%, #4c4cff 100%);
+	font-family: 'Jet Brains Mono';
+    font-size: 16px;
+    line-height: 1.5;
+    font-weight: normal;
+    padding: 20px 40px;
+    opacity: 0.5;
 }

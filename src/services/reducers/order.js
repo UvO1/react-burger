@@ -48,9 +48,7 @@ export const viewOrderDetails = (state = initialState, action) => {
 			};
 		}
 		default: {
-			return {
-				...state,
-			};
+			return state;
 		}
 	}
 };
