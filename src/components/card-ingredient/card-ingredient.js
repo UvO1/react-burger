@@ -6,8 +6,8 @@ import Modal from "../modal/modal.js";
 import messagePropTypes from "../../utils/prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import { useDrag } from "react-dnd";
-import { OPEN_MODAL } from "../../services/actions/modal";
-import { VIEW_INGREDIENT_DETAILS } from "../../services/actions/card";
+import { OPEN_MODAL, CLOSE_MODAL } from "../../services/actions/modal";
+import { VIEW_INGREDIENT_DETAILS, HIDE_INGREDIENT_DETAILS } from "../../services/actions/card";
 
 function CardIngredient(props) {
 	const dispatch = useDispatch();
@@ -38,10 +38,10 @@ function CardIngredient(props) {
 
 	function handleCloseModal() {
 		dispatch({
-			type: "CLOSE_MODAL",
+			type: CLOSE_MODAL,
 		});
 		dispatch({
-			type: "HIDE_INGREDIENT_DETAILS",
+			type: HIDE_INGREDIENT_DETAILS,
 		});
 	}
 

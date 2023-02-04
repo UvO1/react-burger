@@ -19,18 +19,16 @@ function App() {
 	return (
 		<>
 			<AppHeader />
-			<main>
 			{!hasError && (
-				<div className={AppStyles.wrap}>
+				<main className={AppStyles.wrap}>
 					<div className={AppStyles.container}>
 						<DndProvider backend={HTML5Backend}>
 							<BurgerIngredients/>
 							<BurgerConstructor />
 						</DndProvider>
 					</div>
-				</div>
+				</main>
 			)}
-			</main>
 			{hasError && <p>Ошибка загрузки данных</p>}
 		</>
 	);
