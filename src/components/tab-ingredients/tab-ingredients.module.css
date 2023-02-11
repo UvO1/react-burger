@@ -1,0 +1,11 @@
+.tabs{
+	display: flex;
+}
+
+.tabs > div {
+	min-width: calc(33% - 10px);
+}
+
+.tab{
+	min-width: 33%;
+}
