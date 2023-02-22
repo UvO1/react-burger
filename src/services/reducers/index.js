@@ -5,6 +5,8 @@ import { viewModal } from "./modal";
 import { viewOrderDetails } from "./order";
 import { burgerReducer } from "./burger";
 import { changeTab } from "./tabs";
+import { profileMenuReducer } from "./profile";
+import { authorizationReducer } from "./authorization";
 
 export const rootReducer = combineReducers({
 	ingredients: getIngredientsReducer,
@@ -12,5 +14,7 @@ export const rootReducer = combineReducers({
 	modal: viewModal,
 	order: viewOrderDetails,
 	burger: burgerReducer,
-	tabs: changeTab
+	tabs: changeTab,
+	profile: profileMenuReducer,
+	authorization: authorizationReducer
 });

@@ -16,7 +16,6 @@ function Modal(props) {
 	}
 
 	const handleCloseModalKey = (event) => {
-		console.log(event);
 		if (event.key === "Escape") {
 			return props.onClosed();
 		}
