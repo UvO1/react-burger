@@ -1,7 +1,7 @@
 import{ CHANGE_MENU } from "../actions/profile";
 
 const initialState = {
-    isActiveMenu: 'profile'
+    isActiveMenu: 'profile',
 };
 
 export const profileMenuReducer = (state = initialState, action) => {

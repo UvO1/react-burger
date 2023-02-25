@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getIngredientsAction } from "../services/actions";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
+import { CHANGE_MENU } from "../services/actions/profile";
 
 export function HomePage(){
     const dispatch = useDispatch();
@@ -14,6 +15,10 @@ export function HomePage(){
 
 	React.useEffect(() => {
 		dispatch(getIngredientsAction());
+		dispatch({
+            type: CHANGE_MENU,
+            isActiveMenu: "constructor",
+        });
 	}, [dispatch]);
 
     return(

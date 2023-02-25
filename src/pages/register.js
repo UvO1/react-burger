@@ -14,6 +14,7 @@ import { createUser } from "../utils/burger-api.js";
 import { CREATE_USER_FAILED, CREATE_USER_REQUEST, CREATE_USER_SUCCESS } from "../services/actions/authorization.js";
 import { setCookie } from "../utils/burger-api.js";
 import { checkReponse } from "../utils/burger-api.js";
+import ProfileStyle from "./profile.module.css";
 
 export function RegisterPage() {
 	const navigate = useNavigate();
@@ -34,7 +35,8 @@ export function RegisterPage() {
 		navigate('/login');
 	}
 
-	function handleRegister(){
+	function handleRegister(e){
+		e.preventDefault();
 		dispatch({
             type: CREATE_USER_REQUEST,
         });
@@ -73,7 +75,7 @@ export function RegisterPage() {
 		<>
 			<AppHeader />
 			<div className={LoginStyle.wrap}>
-				<div className={LoginStyle.form_area}>
+				<form className={LoginStyle.form_area} onSubmit={handleRegister}>
 					<p className="text text_type_main-medium">Регистрация</p>
 
 					<Input
@@ -106,9 +108,11 @@ export function RegisterPage() {
 						extraClass="mt-6"
 					/>
 					<div className="mt-6">
-						<Button htmlType="button" type="primary" size="medium" onClick={handleRegister}>
+						{/*<Button htmlType="button" type="primary" size="medium" onClick={handleRegister}>
 							Зарегистрироваться
-						</Button>
+	</Button>*/}
+
+						<input className={ProfileStyle.buttonActive} type="submit" value="Зарегистрироваться" />
 					</div>
 					<div className="mt-20">
 						<span className="text text_type_main-default text_color_inactive">
@@ -118,7 +122,7 @@ export function RegisterPage() {
 							Войти
 						</a>
 					</div>
-				</div>
+				</form>
 			</div>
 		</>
 	);

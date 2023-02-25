@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 //import { loginUserAction } from "../services/actions/authorization.js";
 import { loginUser } from "../utils/burger-api.js";
 import { LOGIN_USER_SUCCESS } from "../services/actions/authorization.js";
+import ProfileStyle from "./profile.module.css";
 
 export function LoginPage(){
     const navigate = useNavigate();
@@ -27,7 +28,8 @@ export function LoginPage(){
     function handleForgot(){
         navigate('/forgot-password');
     }
-    function handleLogin() {
+    function handleLogin(e) {
+        e.preventDefault();
         loginUser(valueEmail, valuePassword)
         .then((data) => {
             if(data.success){
@@ -52,7 +54,7 @@ export function LoginPage(){
         <>
             <AppHeader />
             <div className={LoginStyle.wrap}>
-                <div className={LoginStyle.form_area}>
+                <form className={LoginStyle.form_area} onSubmit={handleLogin}>
                     <p className="text text_type_main-medium">Вход</p>
                         <EmailInput  сlass="mt-6"
                         onChange={onChangeEmail}
@@ -70,7 +72,7 @@ export function LoginPage(){
                         />
 
                     <div className="mt-6">
-                        <Button htmlType="button" type="primary" size="medium" onClick={handleLogin}>Войти</Button>
+                        <input className={ProfileStyle.buttonActive} type="submit" value="Войти" />
                     </div>
                     <div className="mt-20">
                         <span className="text text_type_main-default text_color_inactive">
@@ -85,7 +87,7 @@ export function LoginPage(){
                         <a className="ml-2" onClick={handleForgot}>Восстановить пароль</a>
                     </div>
 
-                </div>
+                </form>
             </div>
         </>
     );

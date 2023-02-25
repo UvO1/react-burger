@@ -5,6 +5,7 @@ import {PasswordInput, Button, Input} from "@ya.praktikum/react-developer-burger
 import { saveNewPassword, checkReponse, createUser
  } from "../utils/burger-api.js";
  import { useNavigate } from "react-router-dom";
+ import ProfileStyle from "./profile.module.css";
 
 export function ResetPasswordPage(){
     const [valuePassword, setValuePassword] = React.useState('')
@@ -19,7 +20,8 @@ export function ResetPasswordPage(){
         navigate('/login');
     }
 
-    function handleSaveNewPassword(){
+    function handleSaveNewPassword(e){
+        e.preventDefault();
 		saveNewPassword(valuePassword, valueCode)
 		.then(checkReponse)
 		.then((data) => {
@@ -36,7 +38,7 @@ export function ResetPasswordPage(){
         <>
             <AppHeader />
             <div className={LoginStyle.wrap}>
-                <div className={LoginStyle.form_area}>
+                <form className={LoginStyle.form_area} onSubmit={handleSaveNewPassword}>
                     <p className="text text_type_main-medium">Восстановление пароля</p>
                     <div className="mt-6">
                         <PasswordInput
@@ -61,7 +63,7 @@ export function ResetPasswordPage(){
                             />
                     </div>
                     <div className="mt-6">
-                        <Button htmlType="button" type="primary" size="medium" onClick={handleSaveNewPassword}>Сохранить</Button>
+                        <input className={ProfileStyle.buttonActive} type="submit" value="Сохранить" />
                     </div>
                     <div className="mt-20">
                         <span className="text text_type_main-default text_color_inactive">
@@ -69,7 +71,7 @@ export function ResetPasswordPage(){
                         </span>
                         <a className="ml-2" onClick={handleLogin} >Войти</a>
                     </div>
-                </div>
+                </form>
             </div>
         </>
     );

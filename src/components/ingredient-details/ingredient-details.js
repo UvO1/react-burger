@@ -1,5 +1,7 @@
 import IngredientDetailsStyles from "./ingredient-details.module.css";
 import { useSelector } from "react-redux";
+import messagePropTypes from "../../utils/prop-types";
+
 function IngredientDetails() {
 	const ingredient = useSelector((store) => store.card.ingredient);
 	return (
@@ -49,7 +51,7 @@ export function IngredientDetailsParam({ingredient}) {
 			<p
 				className={`${IngredientDetailsStyles.title} text text_type_main-medium mt-4`}
 			>
-				{ingredient.title}
+				{ingredient.name}
 			</p>
 			<div className={`${IngredientDetailsStyles.info} mt-8`}>
 				<div className={IngredientDetailsStyles.item}>
@@ -74,5 +76,9 @@ export function IngredientDetailsParam({ingredient}) {
 		</div>
 	);
 }
+
+IngredientDetailsParam.propTypes = {
+	ingredient: messagePropTypes.isRequired,
+};
 
 export default IngredientDetails;

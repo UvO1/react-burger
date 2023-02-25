@@ -7,6 +7,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import {checkReponse, resetPassword} from "../utils/burger-api"
 import { useNavigate } from "react-router-dom";
+import ProfileStyle from "./profile.module.css";
 
 export function ForgotPasswordPage() {
 	const navigate = useNavigate();
@@ -14,7 +15,8 @@ export function ForgotPasswordPage() {
 	const onChangeEmail = (e) => {
 		setValueEmail(e.target.value);
 	};
-	function handleReset(){
+	function handleReset(e){
+        e.preventDefault();
 		resetPassword(valueEmail)
 		.then(checkReponse)
 		.then((data) => {
@@ -35,7 +37,7 @@ export function ForgotPasswordPage() {
 		<>
 			<AppHeader />
 			<div className={LoginStyle.wrap}>
-				<div className={LoginStyle.form_area}>
+				<form className={LoginStyle.form_area} onSubmit={handleReset}>
 					<p className="text text_type_main-medium">Восстановление пароля</p>
 
 					<EmailInput
@@ -48,9 +50,7 @@ export function ForgotPasswordPage() {
 					/>
 
 					<div className="mt-6">
-						<Button htmlType="button" type="primary" size="medium" onClick={handleReset}>
-							Восстановить
-						</Button>
+						<input className={ProfileStyle.buttonActive} type="submit" value="Восстановить" />
 					</div>
 					<div className="mt-20">
 						<span className="text text_type_main-default text_color_inactive">
@@ -60,7 +60,7 @@ export function ForgotPasswordPage() {
 							Войти
 						</a>
 					</div>
-				</div>
+				</form>
 			</div>
 		</>
 	);

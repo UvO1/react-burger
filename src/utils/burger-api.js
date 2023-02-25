@@ -71,27 +71,43 @@ export async function refreshToken() {
 export async function fetchWithRefresh(url, options) {
 	let tempRefresh = null;
 	let tempAccess = null;
+	let isRefresh = false;
 	const result = await fetch(url, options)
-		.then(checkReponse)
+		.then((checkReponse) => {
+			if(checkReponse.status === 403){
+				isRefresh = true;
+			}
+			return checkReponse;
+		})
 		.then((res) => {
-			return res;
+			return res.json();
 		})
 		.catch((e) => {
 			return null;
 		});
-	if (!result || !result.success) {
-		//if (result.message === "jwt expired") {
+	if(isRefresh){
 			await refreshToken()
 				.then(checkReponse)
 				.then((newToken) => {
 					tempRefresh = newToken.refreshToken;
 					tempAccess = newToken.accessToken;
+					if('authorization' in options.headers){
+						options.headers.authorization = tempAccess;
+					}
 					return newToken;
 				})
 				.catch((e) => {
 					return null;
 				});
-		//}
+			result = await fetch(url, options)
+				.then(checkReponse)
+				.then((res) => {
+					return res;
+				})
+				.catch((e) => {
+					return null;
+				});
+			isRefresh = false;
 	} else if('refreshToken' in result && 'accessToken' in result) {
 		tempRefresh = result.refreshToken;
 		tempAccess = result.accessToken;
@@ -141,7 +157,7 @@ export function saveUser(token, email, password, name) {
 	if(password === ""){
 		postReset = { email: email, name: name };
 	}
-	return fetch(`${NORMA_API}/auth/user`, {
+	return fetchWithRefresh(`${NORMA_API}/auth/user`, {
 		method: "PATCH",
 		headers: {
 			"Content-Type": "application/json",

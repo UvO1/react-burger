@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import AppHeader from "../components/app-header/app-header.js";
 import {EmailInput, PasswordInput, Input, Button} from "@ya.praktikum/react-developer-burger-ui-components";
 import ProfileStyle from "./profile.module.css";
@@ -16,31 +16,41 @@ export function ProfilePage(){
     const navigate = useNavigate();
     const [valueName, setValueName] = React.useState('')
     const inputRefName = React.useRef(null)
+    const [isEdit, setIsEdit] = useState(false);
 
     const [valuePassword, setValuePassword] = React.useState('')
     const onChangePassword = e => {
       setValuePassword(e.target.value)
+      setIsEdit(true);
     }
 
     const [valueEmail, setValueEmail] = React.useState('')
     const onChangeEmail = e => {
-        setValueEmail(e.target.value)
+        setValueEmail(e.target.value);
+        setIsEdit(true);
     }
-
+    const onChangeName = e => {
+        setValueName(e.target.value);
+        setIsEdit(true);
+    }
     function handleMenuToProfile(){
         dispatch({
             type: CHANGE_MENU,
-            isActiveMenu: "profile"
+            isActiveMenu: "profile",
         });
     }
 
     function handleMenuToStory(){
         dispatch({
             type: CHANGE_MENU,
-            isActiveMenu: "storyOrders"
+            isActiveMenu: "orders",
         });
     }
     useEffect(() => {
+        dispatch({
+            type: CHANGE_MENU,
+            isActiveMenu: "profile",
+        });
         dispatch({
             type: GET_USER_REQUEST,
         });
@@ -53,6 +63,8 @@ export function ProfilePage(){
                         name: data.user.name,
                         email: data.user.email,
                     },
+                    accessToken: getCookie("accessToken"),
+                    refreshToken: localStorage.getItem("refreshToken"),
                 });
                 setValueEmail(data.user.email);
                 setValueName(data.user.name);
@@ -71,6 +83,7 @@ export function ProfilePage(){
         setValueEmail(userInfo.user.email);
         setValueName(userInfo.user.name);
         setValuePassword(userInfo.user.password);
+        
     }, []);
 
     function handleExit(){
@@ -101,42 +114,51 @@ export function ProfilePage(){
             });
     }
     function handleCancelSave(){
-        setValueEmail(userInfo.user.email);
-        setValueName(userInfo.user.name);
-        setValuePassword(userInfo.user.password);
-    }
-    function handleSaveUser(){
-        let newPassword = valuePassword;
-        if(valuePassword === ""){
-            newPassword = userInfo.user.password;
+        if(isEdit){
+            setValueEmail(userInfo.user.email);
+            setValueName(userInfo.user.name);
+            setValuePassword(userInfo.user.password);
+            setIsEdit(false);
         }
-        dispatch({
-            type: SAVE_USER_REQUEST,
-        });
-        saveUser(userInfo.accessToken, valueEmail, valuePassword, valueName)
-        .then(checkReponse)
-        .then((data) => {
-            if(data.success){
-                dispatch({
-                    type: SAVE_USER_SUCCESS,
-                    user: {
-                        email: data.user.email,
-                        name: data.user.name,
-                        password: newPassword,
-                    },
-                });
+    }
+    function handleSaveUser(e){
+        e.preventDefault();
+        let newPassword = valuePassword;
+        if(isEdit){
+            if(valuePassword === ""){
+                newPassword = userInfo.user.password;
             }
-            else{
+            dispatch({
+                type: SAVE_USER_REQUEST,
+            });
+            saveUser(getCookie("accessToken"), valueEmail, valuePassword, valueName)
+            .then(checkReponse)
+            .then((data) => {
+                if(data.success){
+                    dispatch({
+                        type: SAVE_USER_SUCCESS,
+                        user: {
+                            email: data.user.email,
+                            name: data.user.name,
+                            password: newPassword,
+                        },
+                        accessToken: getCookie("accessToken"),
+                        refreshToken: localStorage.getItem("refreshToken"),
+                    });
+                }
+                else{
+                    dispatch({
+                        type: SAVE_USER_FAILED,
+                    });
+                }
+            })
+            .catch((e) => {
                 dispatch({
                     type: SAVE_USER_FAILED,
                 });
-            }
-        })
-        .catch((e) => {
-            dispatch({
-                type: SAVE_USER_FAILED,
             });
-        });
+            setIsEdit(false);
+        }
     }
 
     return(
@@ -148,7 +170,7 @@ export function ProfilePage(){
                         <p className={`text text_type_main-medium ${(isActiveMenu !== "profile") && ("text_color_inactive")}`} >Профиль</p>
                     </div>
                     <div className={ProfileStyle.element} onClick={handleMenuToStory}>
-                        <p className={`text text_type_main-medium ${(isActiveMenu !== "storyOrders") && ("text_color_inactive")}`}>История заказов</p>
+                        <p className={`text text_type_main-medium ${(isActiveMenu !== "orders") && ("text_color_inactive")}`}>История заказов</p>
                     </div>
                     <div className={ProfileStyle.element}>
                         <p className="text text_type_main-medium text_color_inactive" onClick={handleExit}>Выход</p>
@@ -157,11 +179,11 @@ export function ProfilePage(){
                     В этом разделе вы можете изменить свои персональные данные
                     </p>
                 </div>
-                <div className={`ml-15 ${ProfileStyle.form}`}>
+                <form className={`ml-15 ${ProfileStyle.form}`}  onSubmit={handleSaveUser}>
                     <Input
                             type={'text'}
                             placeholder={'Имя'}
-                            onChange={e => setValueName(e.target.value)}
+                            onChange={onChangeName}
                             value={valueName}
                             name={'name'}
                             error={false}
@@ -188,14 +210,15 @@ export function ProfilePage(){
                         />
 
                     <div className={`mt-6 ${ProfileStyle.button_area}`}>
-                        <p className={`text text_type_main-default mr-7 ${ProfileStyle.cancel}`} onClick={handleCancelSave}>
+                        <p className={`text text_type_main-default mr-7 ${!isEdit ? `text_color_inactive ${ProfileStyle.cancel_inactive}` : `${ProfileStyle.cancel}`}`} onClick={handleCancelSave}>
                         Отмена
                         </p>
-                        <Button htmlType="button" size="medium" extraClass={ProfileStyle.button_save} onClick = {handleSaveUser}>
+                        {/*<Button htmlType="button" size="medium" className={ !isEdit ? ProfileStyle.buttonDiactive : ProfileStyle.buttonActive} extraClass={ProfileStyle.button_save} onClick = {handleSaveUser}>
                         Сохранить
-                        </Button>
+                        </Button>/*/}
+						<input className={!isEdit ? ProfileStyle.buttonDiactive : ProfileStyle.buttonActive} type="submit" value="Cохранить" />
                     </div>
-                </div>
+                </form>
             </div>
         </>
     );
