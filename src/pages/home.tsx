@@ -1,8 +1,8 @@
 import React from "react";
 import AppStyles from "../components/app/app.module.css";
-import AppHeader from "../components/app-header/app-header.js";
-import BurgerIngredients from "../components/burger-ingredients/burger-ingredients.js";
-import BurgerConstructor from "../components/burger-constructor/burger-constructor.js";
+import AppHeader from "../components/app-header/app-header";
+import BurgerIngredients from "../components/burger-ingredients/burger-ingredients";
+import BurgerConstructor from "../components/burger-constructor/burger-constructor";
 import { useDispatch, useSelector } from "react-redux";
 import { getIngredientsAction } from "../services/actions";
 import { DndProvider } from "react-dnd";
@@ -11,10 +11,11 @@ import { CHANGE_MENU } from "../services/actions/profile";
 
 export function HomePage(){
     const dispatch = useDispatch();
-	const hasError = useSelector(store => store.ingredients.hasError);
+	const hasError: boolean = useSelector((store: any) => store.ingredients.hasError);
 
+    
 	React.useEffect(() => {
-		dispatch(getIngredientsAction());
+		dispatch<any>(getIngredientsAction());
 		dispatch({
             type: CHANGE_MENU,
             isActiveMenu: "constructor",

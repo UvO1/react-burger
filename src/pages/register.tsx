@@ -1,33 +1,31 @@
 import React from "react";
-import AppHeader from "../components/app-header/app-header.js";
+import AppHeader from "../components/app-header/app-header";
 import LoginStyle from "./login.module.css";
 import { useNavigate} from "react-router-dom";
 import {
 	EmailInput,
 	PasswordInput,
-	Button,
 	Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { createUserAction } from "../services/actions/authorization.js";
-import { useDispatch, useSelector } from "react-redux";
-import { createUser } from "../utils/burger-api.js";
+import { useDispatch} from "react-redux";
+import { createUser } from "../utils/burger-api";
 import { CREATE_USER_FAILED, CREATE_USER_REQUEST, CREATE_USER_SUCCESS } from "../services/actions/authorization.js";
-import { setCookie } from "../utils/burger-api.js";
-import { checkReponse } from "../utils/burger-api.js";
+import { setCookie } from "../utils/burger-api";
+import { checkReponse } from "../utils/burger-api";
 import ProfileStyle from "./profile.module.css";
 
 export function RegisterPage() {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
-	const [valueName, setValueName] = React.useState("");
-	const inputRefName = React.useRef(null);
+	const [valueName, setValueName] = React.useState<string>("");
+	const inputRefName = React.useRef<HTMLInputElement>(null);
 
-	const [valueEmail, setValueEmail] = React.useState("");
-	const onChangeEmail = (e) => {
+	const [valueEmail, setValueEmail] = React.useState<string>("");
+	const onChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setValueEmail(e.target.value);
 	};
-	const [valuePassword, setValuePassword] = React.useState("");
-	const onChangePassword = (e) => {
+	const [valuePassword, setValuePassword] = React.useState<string>("");
+	const onChangePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setValuePassword(e.target.value);
 	};
 
@@ -35,14 +33,14 @@ export function RegisterPage() {
 		navigate('/login');
 	}
 
-	function handleRegister(e){
+	function handleRegister(e: React.FormEvent){
 		e.preventDefault();
 		dispatch({
             type: CREATE_USER_REQUEST,
         });
         createUser(valueEmail, valuePassword, valueName)
         .then(checkReponse)
-        .then((data) => {
+        .then((data: any) => {
             if(data.success){
                 dispatch({
                     type: CREATE_USER_SUCCESS,
@@ -64,7 +62,7 @@ export function RegisterPage() {
                 });
             }
         })
-        .catch((e) => {
+        .catch((e: React.FormEvent) => {
             dispatch({
                 type: CREATE_USER_FAILED,
             });
@@ -92,7 +90,6 @@ export function RegisterPage() {
 					/>
 
 					<EmailInput
-						сlass="mt-6"
 						placeholder={"Email"}
 						onChange={onChangeEmail}
 						value={valueEmail}

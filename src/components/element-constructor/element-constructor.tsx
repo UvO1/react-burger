@@ -1,20 +1,24 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useDrag, useDrop } from "react-dnd";
+import { useDrag, useDrop, XYCoord } from "react-dnd";
 import { DECREASE_INGREDIENT } from "../../services/actions/ingredients";
 import { DELETE_INGREDIENT } from "../../services/actions/burger";
 import ElementConstructorStyle from "./element-constructor.module.css";
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 import { DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { REPLACE_ITEMS } from "../../services/actions/burger";
-import messagePropTypes from "../../utils/prop-types";
-import PropTypes from "prop-types";
+import { IIngredient, IIngredientUuid } from "../app/app";
+import { FC } from "react";
 
-const ElementConstructor = ({tempE, index}) => {
-	const tempElement = tempE;
+type TElementConstructor = {
+	tempElement: IIngredientUuid;
+	index: number;
+}
+
+const ElementConstructor: FC<TElementConstructor> = ({tempElement, index}) => {
 	const dispatch = useDispatch();
-	const ref = React.useRef(null);
-	const listIngredients = useSelector((store) => store.burger.listIngredients);
+	const ref = React.useRef<HTMLInputElement>(null);
+	const listIngredients: Array<IIngredient> = useSelector((store: any) => store.burger.listIngredients);
 	
   const [{ opacity }, drag] = useDrag({
 		type: "burger",
@@ -33,21 +37,24 @@ const ElementConstructor = ({tempE, index}) => {
 				handlerId: monitor.getHandlerId(),
 			};
 		},
-		hover(item, monitor) {
+		hover(item:any, monitor) {
 			if (!ref.current) {
 				return;
 			}
-			const dragIndex = item.index;
-			const hoverIndex = index;
+			const dragIndex: number = item.index;
+			const hoverIndex: number = index;
 
 			if (dragIndex === hoverIndex) {
 				return;
 			}
-			const hoverBoundingRect = ref.current?.getBoundingClientRect();
-			const hoverMiddleY =
+			const hoverBoundingRect: DOMRect = ref.current?.getBoundingClientRect();
+			const hoverMiddleY: number =
 				(hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
-			const clientOffset = monitor.getClientOffset();
-			const hoverClientY = clientOffset.y - hoverBoundingRect.top;
+			const clientOffset: XYCoord | null = monitor.getClientOffset();
+			let hoverClientY: number = 0;
+			if(clientOffset){
+				hoverClientY= clientOffset.y - hoverBoundingRect.top;
+			}
 
 			if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
 				return;
@@ -67,7 +74,7 @@ const ElementConstructor = ({tempE, index}) => {
 	});
 
   
-	function DeleteElement(key, id) {
+	function DeleteElement(key: string, id: string) {
 		dispatch({
 			type: DELETE_INGREDIENT,
 			uuid: key,
@@ -89,7 +96,7 @@ const ElementConstructor = ({tempE, index}) => {
 			style={{ opacity }}
 			data-handler-id={handlerId}
 		>
-			<DragIcon type="primary" className="pr-2" />
+			<DragIcon type="primary"/>
 			<div className={`ml-2 ${ElementConstructorStyle.ingredient_block}`}>
 				<ConstructorElement
 					text={tempElement.name}
@@ -101,10 +108,5 @@ const ElementConstructor = ({tempE, index}) => {
 		</div>
 	);
 }
-
-ElementConstructor.propTypes = {
-	index: PropTypes.number.isRequired,
-	tempE: messagePropTypes.isRequired,
-};
 
 export default ElementConstructor;

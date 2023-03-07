@@ -1,16 +1,34 @@
-import React from "react";
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import {HomePage} from "../../pages/home.js";
-import LoginPage from "../../pages/login.js";
-import RegisterPage from "../../pages/register.js";
-import ForgotPasswordPage from "../../pages/forgot-password.js";
-import ResetPasswordPage from "../../pages/reset-password.js";
-import ProfilePage from "../../pages/profile.js";
-import { NotFound } from "../../pages/not-found.js";
-import { ProtectedRouteElementAuth, ProtectedRouteElementNoAuth, ProtectedRouteElementResertPassword } from "../protected-route/protected-route.js";
-import { IngredientPage } from "../../pages/ingredient.js";
-import IngredientDetails from "../ingredient-details/ingredient-details.js";
+import {HomePage} from "../../pages/home";
+import LoginPage from "../../pages/login";
+import RegisterPage from "../../pages/register";
+import ForgotPasswordPage from "../../pages/forgot-password";
+import ResetPasswordPage from "../../pages/reset-password";
+import ProfilePage from "../../pages/profile";
+import { NotFound } from "../../pages/not-found";
+import { ProtectedRouteElementAuth, ProtectedRouteElementNoAuth, ProtectedRouteElementResertPassword } from "../protected-route/protected-route";
+import { IngredientPage } from "../../pages/ingredient";
 import { Outlet } from 'react-router-dom';
+
+export interface IIngredient{
+	_id: string;
+	name: string;
+	type: string;
+	proteins: number;
+	fat: number;
+	carbohydrates: number;
+	calories: number;
+	price: number;
+	image: string;
+	image_mobile: string;
+	image_large: string;
+	__v: number;
+	count: number;
+}
+
+export interface IIngredientUuid extends IIngredient{
+	uuid: string;
+}
 
 function App() {
 	return (

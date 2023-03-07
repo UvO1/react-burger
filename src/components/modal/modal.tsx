@@ -1,28 +1,34 @@
-import React, { useState } from "react";
+import React from "react";
 import ReactDOM from "react-dom";
 import ModalOverlay from "../modal-overlay/modal-overlay";
 import ModalStyles from "./modal.module.css";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import PropTypes from "prop-types";
+import {ReactNode, FC} from 'react';
 
-const modalRoot = document.getElementById("react-modals");
+const modalRoot: HTMLElement | null = document.getElementById("react-modals");
+interface IModal{
+	title: string;
+	onClosed: () => void;
+	children: ReactNode;
+};
 
-function Modal(props) {
-	const [isOpen, setOpen] = React.useState(true);
-	const modalRef = React.useRef();
+const Modal: FC<IModal> = ({onClosed, title, children}) => {
+	const modalRef = React.useRef<HTMLInputElement>(null);
 
 	function handleCloseModal() {
-		return props.onClosed();
+		return onClosed();
 	}
 
-	const handleCloseModalKey = (event) => {
+	const handleCloseModalKey: React.KeyboardEventHandler<HTMLDivElement> | undefined = (event: React.KeyboardEvent) => {
 		if (event.key === "Escape") {
-			return props.onClosed();
+			return onClosed();
 		}
 	};
 
 	React.useEffect(() => {
-		modalRef.current.focus();
+		if(modalRef.current){
+			modalRef.current.focus();
+		}
 	});
 
 	return ReactDOM.createPortal(
@@ -30,22 +36,16 @@ function Modal(props) {
 			<div className={ModalStyles.wrap}>
 				<div className={`${ModalStyles.modal} pb-15`}>
 					<div className={`${ModalStyles.head} mt-10 ml-10 mr-10`}>
-						<p className="text text_type_main-large">{props.title}</p>
+						<p className="text text_type_main-large">{title}</p>
 						<CloseIcon type="primary" onClick={handleCloseModal} />
 					</div>
-					{props.children}
+					{children}
 				</div>
 			</div>
 			<ModalOverlay onClick={handleCloseModal} />
 		</div>,
-		modalRoot
+		modalRoot!
 	);
 }
-
-Modal.propTypes = {
-	title: PropTypes.string.isRequired,
-	onClosed: PropTypes.func.isRequired,
-	children: PropTypes.object.isRequired,
-};
 
 export default Modal;

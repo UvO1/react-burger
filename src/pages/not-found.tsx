@@ -1,5 +1,5 @@
 import React from "react";
-import AppHeader from "../components/app-header/app-header.js";
+import AppHeader from "../components/app-header/app-header";
 
 
 export function NotFound(){

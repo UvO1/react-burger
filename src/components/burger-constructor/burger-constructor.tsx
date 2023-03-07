@@ -2,7 +2,7 @@ import React from "react";
 import BurgerConstructorStyle from "./burger-constructor.module.css";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
-import Modal from "../modal/modal.js";
+import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
 import BunConstructor from "../bun-constructor/bun-constructor";
 import { useDispatch, useSelector } from "react-redux";
@@ -17,13 +17,21 @@ import {
 import { useDrop } from "react-dnd";
 import { ADD_BUN, addIngredient } from "../../services/actions/burger";
 import ElementConstructor from "../element-constructor/element-constructor";
+import { IBurgerBun } from "../bun-constructor/bun-constructor";
+import { IOrderDetails } from "../order-details/order-details";
+import { ReactNode } from "react";
+import { IIngredientUuid} from "../app/app";
+interface IBurger{
+	buns: IBurgerBun;
+	listIngredients: Array<IIngredientUuid>;
+}
 
 function BurgerConstructor() {
-	const dispatch = useDispatch();
-	const burger = useSelector((store) => store.burger);
-	const order = useSelector((store) => store.order);
-	const burgerPrice = React.useMemo(() => {
-		let totalPrice = 0;
+	const dispatch= useDispatch();
+	const burger: IBurger = useSelector((store: any) => store.burger);
+	const order: IOrderDetails = useSelector((store: any) => store.order);
+	const burgerPrice: number = React.useMemo(() => {
+		let totalPrice: number = 0;
 		if (burger.listIngredients.length > 0) {
 			totalPrice = burger.listIngredients.reduce((price, element) => {
 				price += element.price;
@@ -37,7 +45,7 @@ function BurgerConstructor() {
 	}, [burger]);
 
 	function infoOrder() {
-		let fetchList = [];
+		let fetchList: Array<string> = [];
 		burger.listIngredients.map((element) => {
 			if (element.type !== "bun") {
 				fetchList.push(element._id);
@@ -45,7 +53,7 @@ function BurgerConstructor() {
 		});
 		fetchList.push(burger.buns._id);
 		fetchList.push(burger.buns._id); //the same bun in one burger
-		dispatch(getOrderAction(fetchList));
+		dispatch<any>(getOrderAction(fetchList));
 	}
 
 	function handleCloseModal() {
@@ -54,7 +62,7 @@ function BurgerConstructor() {
 		});
 	}
 
-	const modal = (
+	const modal: ReactNode = (
 		<Modal title="" onClosed={handleCloseModal}>
 			<OrderDetails />
 		</Modal>
@@ -65,7 +73,7 @@ function BurgerConstructor() {
 		collect: (monitor) => ({
 			isHover: monitor.isOver(),
 		}),
-		drop(itemId) {
+		drop(itemId: any) {
 			if (itemId.type !== "bun") {
 				dispatch(addIngredient(itemId));
 			} else {
@@ -98,11 +106,11 @@ function BurgerConstructor() {
 				</div>
 				{burger.listIngredients.length > 0 && (
 					<div className={BurgerConstructorStyle.scroll_area}>
-						{burger.listIngredients.map((tempElement, index) => {
+						{burger.listIngredients.map((tempElement: IIngredientUuid, index: number) => {
 							if (tempElement.type != "bun") {
 								return (
 									<ElementConstructor
-										tempE={tempElement}
+										tempElement={tempElement}
 										index={index}
 										key={tempElement.uuid}
 									></ElementConstructor>
@@ -125,8 +133,9 @@ function BurgerConstructor() {
 
 			<div className={`${BurgerConstructorStyle.order} mt-10 pr-6`}>
 				<p className="text text_type_digits-medium mr-2">{burgerPrice}</p>
-				<div className={BurgerConstructorStyle.icon}>
-					<CurrencyIcon type="primary" className="ml-10" />
+				<div className={`${BurgerConstructorStyle.icon} mr-10`}>
+					{/*<CurrencyIcon type="primary" className="ml-10 mr-20" />*/}
+					<CurrencyIcon type="primary" />
 				</div>
 				{burger.buns && (
 				<Button

@@ -1,12 +1,10 @@
-import React, { useEffect } from "react";
-import AppHeader from "../components/app-header/app-header.js";
+import React from "react";
+import AppHeader from "../components/app-header/app-header";
 import LoginStyle from "./login.module.css";
-import {EmailInput, PasswordInput, Button} from "@ya.praktikum/react-developer-burger-ui-components";
+import {EmailInput, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
 import { useNavigate } from "react-router-dom";
-import { useCallback } from "react";
-import { useDispatch, useSelector } from "react-redux";
-//import { loginUserAction } from "../services/actions/authorization.js";
-import { loginUser } from "../utils/burger-api.js";
+import { useDispatch} from "react-redux";
+import { loginUser } from "../utils/burger-api";
 import { LOGIN_USER_SUCCESS } from "../services/actions/authorization.js";
 import ProfileStyle from "./profile.module.css";
 
@@ -14,12 +12,12 @@ export function LoginPage(){
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    const [valueEmail, setValueEmail] = React.useState('')
-    const onChangeEmail = e => {
+    const [valueEmail, setValueEmail] = React.useState<string>('')
+    const onChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
         setValueEmail(e.target.value)
     }
-    const [valuePassword, setValuePassword] = React.useState('')
-    const onChangePassword = e => {
+    const [valuePassword, setValuePassword] = React.useState<string>('')
+    const onChangePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
       setValuePassword(e.target.value)
     }
     function handleRegister(){
@@ -28,10 +26,10 @@ export function LoginPage(){
     function handleForgot(){
         navigate('/forgot-password');
     }
-    function handleLogin(e) {
+    function handleLogin(e: React.FormEvent) {
         e.preventDefault();
         loginUser(valueEmail, valuePassword)
-        .then((data) => {
+        .then((data: any) => {
             if(data.success){
                 dispatch({
                     type: LOGIN_USER_SUCCESS,
@@ -56,7 +54,7 @@ export function LoginPage(){
             <div className={LoginStyle.wrap}>
                 <form className={LoginStyle.form_area} onSubmit={handleLogin}>
                     <p className="text text_type_main-medium">Вход</p>
-                        <EmailInput  сlass="mt-6"
+                        <EmailInput  
                         onChange={onChangeEmail}
                         value={valueEmail}
                         name={'email'}

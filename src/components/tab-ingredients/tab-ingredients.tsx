@@ -3,18 +3,21 @@ import TabIngredientsStyle from "./tab-ingredients.module.css";
 import { useSelector } from "react-redux";
 
 function TabIngredients() {
-	const activeTab = useSelector((store) => store.tabs.activeTab);
+	const activeTab: "one" | "two" | "three" = useSelector((store: any) => store.tabs.activeTab);
+	function handleOnClick(){
+		return null;
+	}
 	return (
 		<div
 			className={`${TabIngredientsStyle.tabs} mt-5 mb-8`}
 		>
-			<Tab className={TabIngredientsStyle.tab} value="one" active={activeTab === "one"}>
+			<Tab value="one" active={activeTab === "one"} onClick={handleOnClick}>
 				Булки
 			</Tab>
-			<Tab value="two" active={activeTab === "two"}>
+			<Tab value="two" active={activeTab === "two"} onClick={handleOnClick}>
 				Соусы
 			</Tab>
-			<Tab value="three" active={activeTab === "three"}>
+			<Tab value="three" active={activeTab === "three"} onClick={handleOnClick}>
 				Начинки
 			</Tab>
 		</div>

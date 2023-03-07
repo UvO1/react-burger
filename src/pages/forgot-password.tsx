@@ -1,9 +1,8 @@
 import React from "react";
-import AppHeader from "../components/app-header/app-header.js";
+import AppHeader from "../components/app-header/app-header";
 import LoginStyle from "./login.module.css";
 import {
-	EmailInput,
-	Button,
+	EmailInput
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import {checkReponse, resetPassword} from "../utils/burger-api"
 import { useNavigate } from "react-router-dom";
@@ -11,21 +10,22 @@ import ProfileStyle from "./profile.module.css";
 
 export function ForgotPasswordPage() {
 	const navigate = useNavigate();
-	const [valueEmail, setValueEmail] = React.useState("");
-	const onChangeEmail = (e) => {
+	const [valueEmail, setValueEmail] = React.useState<string>("");
+	const onChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setValueEmail(e.target.value);
 	};
-	function handleReset(e){
+	function handleReset(e: React.FormEvent){
         e.preventDefault();
 		resetPassword(valueEmail)
 		.then(checkReponse)
-		.then((data) => {
+		.then((data: any) => {
 			if(data.success){
-				localStorage.setItem("resertPassword", true);
+				localStorage.setItem("resetPassword", "");
 				navigate('/reset-password');
 			}
 		})
-		.catch((e) =>{
+		.catch(() =>{
+			return null;
 		});
 	}
 

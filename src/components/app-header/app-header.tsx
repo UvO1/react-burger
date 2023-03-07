@@ -1,18 +1,21 @@
 import AppHeaderStyles from "./app-header.module.css";
-import MenuItem from "../menu-item/menu-item.js";
+import MenuItem from "../menu-item/menu-item";
 import { Logo } from "@ya.praktikum/react-developer-burger-ui-components";
 import { BurgerIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { ListIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { ProfileIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { CHANGE_MENU } from "../../services/actions/profile.js";
+import { CHANGE_MENU } from "../../services/actions/profile";
 
 
 function AppHeader() {
+	interface IActiveMenu{
+		isActiveMenu: string;
+	}
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
-	const activeMenu = useSelector(store => store.profile);
+	const activeMenu:IActiveMenu = useSelector((store: any) => store.profile);
 	function handleToProfile(){
 		dispatch({
             type: CHANGE_MENU,

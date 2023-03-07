@@ -1,11 +1,19 @@
 const NORMA_API = "https://norma.nomoreparties.space/api";
 
-export function getIngredients() {
+  type TPostArg = {
+	email: string;
+	password?: string; 
+	name?: string;
+	token?: string;
+};
+
+export function getIngredients(): Promise<Response>  {
 	return fetch(`${NORMA_API}/ingredients`);
 }
 
-export function getOrder(tempList) {
-	let tempOrder = { ingredients: tempList };
+
+export function getOrder(tempList: Array<string>): Promise<Response> {
+	let tempOrder:{ingredients: Array<string>} = { ingredients: tempList };
 	return fetch(`${NORMA_API}/orders`, {
 		method: "POST",
 		headers: {
@@ -15,7 +23,7 @@ export function getOrder(tempList) {
 	});
 }
 
-export const checkReponse = (res) => {
+export function checkReponse <T>(res: Response): Promise<T> {
 	return res.ok
 		? res.json()
 		: res.json().then((err) => {
@@ -23,7 +31,7 @@ export const checkReponse = (res) => {
 		  });
 };
 
-export async function resetPassword(email) {
+export async function resetPassword(email: string): Promise<Response>  {
 	let postReset = { email: email };
 	return await fetch(`${NORMA_API}/password-reset`, {
 		method: "POST",
@@ -34,7 +42,7 @@ export async function resetPassword(email) {
 	});
 }
 
-export async function saveNewPassword(password, token) {
+export async function saveNewPassword(password: string, token: string): Promise<Response>  {
 	let postReset = { password: password, token: token };
 	return await fetch(`${NORMA_API}/password-reset/reset`, {
 		method: "POST",
@@ -45,7 +53,7 @@ export async function saveNewPassword(password, token) {
 	});
 }
 
-export async function createUser(email, password, name) {
+export async function createUser(email: string, password: string, name: string): Promise<Response>  {
 	let postReset = { email: email, password: password, name: name };
 	return await fetch(`${NORMA_API}/auth/register`, {
 		method: "POST",
@@ -55,8 +63,8 @@ export async function createUser(email, password, name) {
 		body: JSON.stringify(postReset),
 	});
 }
-
-export async function refreshToken() {
+  
+export async function refreshToken(): Promise<Response> {
 	return await fetch(`${NORMA_API}/auth/token`, {
 		method: "POST",
 		headers: {
@@ -68,11 +76,11 @@ export async function refreshToken() {
 	});
 }
 
-export async function fetchWithRefresh(url, options) {
-	let tempRefresh = null;
-	let tempAccess = null;
-	let isRefresh = false;
-	const result = await fetch(url, options)
+export async function fetchWithRefresh (url: string, options: RequestInit): Promise<Response> {
+	let tempRefresh: string = "";
+	let tempAccess: string = "";
+	let isRefresh: boolean = false;
+	let result = await fetch(url, options)
 		.then((checkReponse) => {
 			if(checkReponse.status === 403){
 				isRefresh = true;
@@ -88,11 +96,13 @@ export async function fetchWithRefresh(url, options) {
 	if(isRefresh){
 			await refreshToken()
 				.then(checkReponse)
-				.then((newToken) => {
+				.then((newToken: any) => {
 					tempRefresh = newToken.refreshToken;
 					tempAccess = newToken.accessToken;
-					if('authorization' in options.headers){
-						options.headers.authorization = tempAccess;
+					if(options.headers){
+						if('authorization' in options.headers){
+							options.headers.authorization = tempAccess;
+						}
 					}
 					return newToken;
 				})
@@ -115,12 +125,12 @@ export async function fetchWithRefresh(url, options) {
 
 	if(tempRefresh !== null && tempAccess !== null){
 		localStorage.setItem("refreshToken", tempRefresh);
-		setCookie("accessToken", tempAccess);
+		setCookie("accessToken", tempAccess, {});
 	}
 	return result;
 }
 
-export async function loginUser(email, password) {
+export async function loginUser(email: string, password: string): Promise<Response>  {
 	let postReset = { email: email, password: password };
 	return await fetchWithRefresh(`${NORMA_API}/auth/login`, {
 		method: "POST",
@@ -131,7 +141,7 @@ export async function loginUser(email, password) {
 	});
 }
 
-export function logoutUser(token) {
+export function logoutUser(token: string | null): Promise<Response>  {
 	let postReset = { token: token };
 	return fetch(`${NORMA_API}/auth/logout`, {
 		method: "POST",
@@ -142,7 +152,7 @@ export function logoutUser(token) {
 	});
 }
 
-export function getUser(token) {
+export function getUser(token: string): Promise<Response>  {
 	return fetchWithRefresh(`${NORMA_API}/auth/user`, {
 		method: "GET",
 		headers: {
@@ -152,8 +162,10 @@ export function getUser(token) {
 	});
 }
 
-export function saveUser(token, email, password, name) {
-	let postReset = { email: email, password: password, name: name };
+
+
+export function saveUser(token: string, email: string, password: string, name: string): Promise<Response>  {
+	let postReset: TPostArg = { email: email, password: password, name: name };
 	if(password === ""){
 		postReset = { email: email, name: name };
 	}
@@ -168,7 +180,7 @@ export function saveUser(token, email, password, name) {
 }
 
 
-export function setCookie(name, value, props) {
+export function setCookie(name: string, value: string | null, props: any): null {
 	props = props || {};
 	let exp = props.expires;
 	if (typeof exp == "number" && exp) {
@@ -179,7 +191,10 @@ export function setCookie(name, value, props) {
 	if (exp && exp.toUTCString) {
 		props.expires = exp.toUTCString();
 	}
-	value = encodeURIComponent(value);
+	if(value){			
+		value = encodeURIComponent(value);
+	}
+	else value = "";
 	let updatedCookie = name + "=" + value;
 	for (const propName in props) {
 		updatedCookie += "; " + propName;
@@ -189,9 +204,11 @@ export function setCookie(name, value, props) {
 		}
 	}
 	document.cookie = updatedCookie;
+	return null;
 }
 
-export function getCookie(name) {
+export function getCookie(name: string) {
+
 	const matches = document.cookie.match(
 		new RegExp(
 			"(?:^|; )" +
@@ -202,6 +219,7 @@ export function getCookie(name) {
 	return matches ? decodeURIComponent(matches[1]) : undefined;
 }
 
-export function deleteCookie(name) {
+export function deleteCookie(name: string): null {
 	setCookie(name, null, { expires: -1 });
+	return null;
 }

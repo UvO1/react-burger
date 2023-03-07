@@ -1,8 +1,14 @@
 import MenuItemStyles from "./menu-item.module.css";
-import PropTypes from "prop-types";
-function MenuItem(props) {
+import {ReactNode} from 'react';
 
-	let textcolor = "text_color_inactive";
+type TMenuItem = {
+	active: boolean;
+	menutext: string;
+	icon: ReactNode;
+};
+
+function MenuItem(props: TMenuItem) {
+	let textcolor: string = "text_color_inactive";
 	if (props.active) textcolor = "";
 
 	return (
@@ -17,10 +23,5 @@ function MenuItem(props) {
 	);
 }
 
-MenuItem.propTypes = {
-	active: PropTypes.bool.isRequired,
-	menutext: PropTypes.string.isRequired,
-	icon: PropTypes.object.isRequired,
-};
 
 export default MenuItem;

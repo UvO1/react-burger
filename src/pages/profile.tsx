@@ -1,35 +1,41 @@
 import React, { useCallback, useEffect, useState } from "react";
-import AppHeader from "../components/app-header/app-header.js";
+import AppHeader from "../components/app-header/app-header";
 import {EmailInput, PasswordInput, Input, Button} from "@ya.praktikum/react-developer-burger-ui-components";
 import ProfileStyle from "./profile.module.css";
 import { useSelector, useDispatch } from "react-redux";
 import { CHANGE_MENU} from "../services/actions/profile.js";
 import { useNavigate } from "react-router-dom";
-import { deleteCookie, getCookie } from "../utils/burger-api.js";
-import { logoutUser, checkReponse, saveUser, getUser } from "../utils/burger-api.js";
+import { deleteCookie, getCookie } from "../utils/burger-api";
+import { logoutUser, checkReponse, saveUser, getUser } from "../utils/burger-api";
 import { LOGOUT_USER_SUCCESS, LOGOUT_USER_FAILED, LOGOUT_USER_REQUEST, SAVE_USER_SUCCESS, SAVE_USER_FAILED, SAVE_USER_REQUEST, GET_USER_SUCCESS, GET_USER_FAILED, GET_USER_REQUEST } from "../services/actions/authorization.js";
 
+interface IAutorizationUser{
+    email: string;
+    name: string;
+    password: string;
+}
+
 export function ProfilePage(){
-    const isActiveMenu = useSelector((store) => store.profile.isActiveMenu);
-    const userInfo = useSelector((store) => store.authorization);
+    const isActiveMenu: "orders" | "profile" = useSelector((store: any) => store.profile.isActiveMenu);
+    const userInfo: IAutorizationUser = useSelector((store: any) => store.authorization.user);
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const [valueName, setValueName] = React.useState('')
-    const inputRefName = React.useRef(null)
-    const [isEdit, setIsEdit] = useState(false);
+    const [valueName, setValueName] = React.useState<string>('')
+    const inputRefName = React.useRef<HTMLInputElement>(null)
+    const [isEdit, setIsEdit] = useState<boolean>(false);
 
-    const [valuePassword, setValuePassword] = React.useState('')
-    const onChangePassword = e => {
+    const [valuePassword, setValuePassword] = React.useState<string>('')
+    const onChangePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
       setValuePassword(e.target.value)
       setIsEdit(true);
     }
 
     const [valueEmail, setValueEmail] = React.useState('')
-    const onChangeEmail = e => {
+    const onChangeEmail = (e: React.ChangeEvent<HTMLInputElement>)=> {
         setValueEmail(e.target.value);
         setIsEdit(true);
     }
-    const onChangeName = e => {
+    const onChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
         setValueName(e.target.value);
         setIsEdit(true);
     }
@@ -54,35 +60,39 @@ export function ProfilePage(){
         dispatch({
             type: GET_USER_REQUEST,
         });
-        getUser(getCookie("accessToken"))
-        .then((data) => {
-            if(data.success){
-                dispatch({
-                    type: GET_USER_SUCCESS,
-                    user: {
-                        name: data.user.name,
-                        email: data.user.email,
-                    },
-                    accessToken: getCookie("accessToken"),
-                    refreshToken: localStorage.getItem("refreshToken"),
+            const tempAccessToken: string | undefined = getCookie("accessToken");
+            if(tempAccessToken){
+                getUser(tempAccessToken)
+                .then((data: any) => {
+                    if(data.success){
+                        dispatch({
+                            type: GET_USER_SUCCESS,
+                            user: {
+                                name: data.user.name,
+                                email: data.user.email,
+                            },
+                            accessToken: getCookie("accessToken"),
+                            refreshToken: localStorage.getItem("refreshToken"),
+                        });
+                        setValueEmail(data.user.email);
+                        setValueName(data.user.name);
+                    }
+                    else{
+                        dispatch({
+                            type: GET_USER_FAILED,
+                        });
+                    }
+                })
+                .catch(() => {
+                    dispatch({
+                        type: GET_USER_FAILED,
+                    });
                 });
-                setValueEmail(data.user.email);
-                setValueName(data.user.name);
             }
-            else{
-                dispatch({
-                    type: GET_USER_FAILED,
-                });
-            }
-        })
-        .catch((e) => {
-            dispatch({
-                type: GET_USER_FAILED,
-            });
-        });
-        setValueEmail(userInfo.user.email);
-        setValueName(userInfo.user.name);
-        setValuePassword(userInfo.user.password);
+            
+        setValueEmail(userInfo.email);
+        setValueName(userInfo.name);
+        setValuePassword(userInfo.password);
         
     }, []);
 
@@ -90,73 +100,80 @@ export function ProfilePage(){
             dispatch({
                 type: LOGOUT_USER_REQUEST,
             });
-            logoutUser(localStorage.getItem("refreshToken"))
-            .then(checkReponse)
-            .then((data) => {
-                if(data.success){
-                    dispatch({
-                        type: LOGOUT_USER_SUCCESS
-                    });
-                    localStorage.removeItem("refreshToken");
-                    deleteCookie("accessToken");
-                    navigate('/login', {replace: true});
-                }
-                else{
+            const tempRefresh: string | null = localStorage.getItem("refreshToken");
+                logoutUser(tempRefresh)
+                .then(checkReponse)
+                .then((data: any) => {
+                    if(data.success){
+                        dispatch({
+                            type: LOGOUT_USER_SUCCESS
+                        });
+                        localStorage.removeItem("refreshToken");
+                        deleteCookie("accessToken");
+                        navigate('/login', {replace: true});
+                    }
+                    else{
+                        dispatch({
+                            type: LOGOUT_USER_FAILED,
+                        });
+                    }
+                })
+                .catch(() => {
                     dispatch({
                         type: LOGOUT_USER_FAILED,
                     });
-                }
-            })
-            .catch((e) => {
-                dispatch({
-                    type: LOGOUT_USER_FAILED,
                 });
-            });
+            
+            
     }
     function handleCancelSave(){
         if(isEdit){
-            setValueEmail(userInfo.user.email);
-            setValueName(userInfo.user.name);
-            setValuePassword(userInfo.user.password);
+            setValueEmail(userInfo.email);
+            setValueName(userInfo.name);
+            setValuePassword(userInfo.password);
             setIsEdit(false);
         }
     }
-    function handleSaveUser(e){
+    function handleSaveUser(e: React.FormEvent){
         e.preventDefault();
-        let newPassword = valuePassword;
+        let newPassword: string = valuePassword;
         if(isEdit){
             if(valuePassword === ""){
-                newPassword = userInfo.user.password;
+                newPassword = userInfo.password;
             }
             dispatch({
                 type: SAVE_USER_REQUEST,
             });
-            saveUser(getCookie("accessToken"), valueEmail, valuePassword, valueName)
-            .then(checkReponse)
-            .then((data) => {
-                if(data.success){
-                    dispatch({
-                        type: SAVE_USER_SUCCESS,
-                        user: {
-                            email: data.user.email,
-                            name: data.user.name,
-                            password: newPassword,
-                        },
-                        accessToken: getCookie("accessToken"),
-                        refreshToken: localStorage.getItem("refreshToken"),
-                    });
-                }
-                else{
+            const tempAccessToken: string | undefined = getCookie("accessToken");
+            if(tempAccessToken){
+                saveUser(tempAccessToken, valueEmail, valuePassword, valueName)
+                .then(checkReponse)
+                .then((data: any) => {
+                    if(data.success){
+                        dispatch({
+                            type: SAVE_USER_SUCCESS,
+                            user: {
+                                email: data.user.email,
+                                name: data.user.name,
+                                password: newPassword,
+                            },
+                            accessToken: getCookie("accessToken"),
+                            refreshToken: localStorage.getItem("refreshToken"),
+                        });
+                    }
+                    else{
+                        dispatch({
+                            type: SAVE_USER_FAILED,
+                        });
+                    }
+                })
+                .catch(() => {
                     dispatch({
                         type: SAVE_USER_FAILED,
                     });
-                }
-            })
-            .catch((e) => {
-                dispatch({
-                    type: SAVE_USER_FAILED,
                 });
-            });
+            }
+            
             setIsEdit(false);
         }
     }
@@ -193,7 +210,7 @@ export function ProfilePage(){
                             icon={'EditIcon'}
                         />
 
-                        <EmailInput  сlass="mt-6"
+                        <EmailInput
                         placeholder={'Логин'}
                         onChange={onChangeEmail}
                         value={valueEmail}

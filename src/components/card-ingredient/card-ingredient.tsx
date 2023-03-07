@@ -2,18 +2,24 @@ import CardIngredientStyle from "./card-ingredient.module.css";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Counter } from "@ya.praktikum/react-developer-burger-ui-components";
 import IngredientDetails from "../ingredient-details/ingredient-details";
-import Modal from "../modal/modal.js";
-import messagePropTypes from "../../utils/prop-types";
+import Modal from "../modal/modal";
 import { useDispatch, useSelector } from "react-redux";
 import { useDrag } from "react-dnd";
 import { OPEN_MODAL, CLOSE_MODAL } from "../../services/actions/modal";
 import { VIEW_INGREDIENT_DETAILS, HIDE_INGREDIENT_DETAILS } from "../../services/actions/card";
+import {ReactNode} from 'react';
+import { IIngredient } from "../app/app";
 
-function CardIngredient(props) {
+interface ICardIngredient{
+	data: IIngredient;
+	ingredient: IIngredient;
+}
+
+function CardIngredient(props: ICardIngredient) {
 	const dispatch = useDispatch();
-	const isOpenModal = useSelector((store) => store.modal.isOpen);
-	const ingredientOpen = useSelector((store) => store.card.ingredient);
-	const modal = (
+	const isOpenModal: boolean = useSelector((store: any) => store.modal.isOpen);
+	const ingredientOpen: IIngredient = useSelector((store: any) => store.card.ingredient);
+	const modal: ReactNode = (
 		<Modal title="Детали ингредиента" onClosed={handleCloseModal}>
 			<IngredientDetails />
 		</Modal>
@@ -82,9 +88,5 @@ function CardIngredient(props) {
 		</>
 	);
 }
-
-CardIngredient.propTypes = {
-	ingredient: messagePropTypes.isRequired,
-};
 
 export default CardIngredient;

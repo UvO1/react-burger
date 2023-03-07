@@ -2,8 +2,16 @@ import OrderDetailsStyles from "./order-details.module.css";
 import doneImg from "../../images/done.svg";
 import { useSelector } from "react-redux";
 
+export interface IOrderDetails{
+	name: string;
+	number: number;
+	success: boolean;
+	isLoading: boolean;
+	hasError: boolean;
+}
+
 function OrderDetails() {
-	const order = useSelector((store) => store.order);
+	const order: IOrderDetails = useSelector((store: any) => store.order);
 
 	return (
 		<div className={OrderDetailsStyles.wrap}>

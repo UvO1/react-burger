@@ -116,26 +116,29 @@ export function logoutUserAction(token){
         dispatch({
             type: LOGOUT_USER_REQUEST,
         });
-        logoutUser(token)
-        .then(checkReponse)
-        .then((data) => {
-            if(data.success){
-                dispatch({
-                    type: LOGOUT_USER_SUCCESS
-                });
-                localStorage.removeItem("refreshToken");
-                deleteCookie("accessToken");
-            }
-            else{
+        if(token){
+            logoutUser(token)
+            .then(checkReponse)
+            .then((data) => {
+                if(data.success){
+                    dispatch({
+                        type: LOGOUT_USER_SUCCESS
+                    });
+                    localStorage.removeItem("refreshToken");
+                    deleteCookie("accessToken");
+                }
+                else{
+                    dispatch({
+                        type: LOGOUT_USER_FAILED,
+                    });
+                }
+            })
+            .catch((e) => {
                 dispatch({
                     type: LOGOUT_USER_FAILED,
                 });
-            }
-        })
-        .catch((e) => {
-            dispatch({
-                type: LOGOUT_USER_FAILED,
             });
-        });
+        }
+        
     };
 }

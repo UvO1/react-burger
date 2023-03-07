@@ -1,36 +1,36 @@
 import React from "react";
-import AppHeader from "../components/app-header/app-header.js";
+import AppHeader from "../components/app-header/app-header";
 import LoginStyle from "./login.module.css";
-import {PasswordInput, Button, Input} from "@ya.praktikum/react-developer-burger-ui-components";
-import { saveNewPassword, checkReponse, createUser
- } from "../utils/burger-api.js";
+import {PasswordInput, Input} from "@ya.praktikum/react-developer-burger-ui-components";
+import { saveNewPassword, checkReponse
+ } from "../utils/burger-api";
  import { useNavigate } from "react-router-dom";
  import ProfileStyle from "./profile.module.css";
 
 export function ResetPasswordPage(){
-    const [valuePassword, setValuePassword] = React.useState('')
-    const onChangePassword = e => {
+    const [valuePassword, setValuePassword] = React.useState<string>('')
+    const onChangePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
         setValuePassword(e.target.value)
     }
-    const [valueCode, setValueCode] = React.useState('')
-    const inputRefCode = React.useRef(null)
+    const [valueCode, setValueCode] = React.useState<string>('');
+    const inputRefCode = React.useRef<HTMLInputElement>(null);
     const navigate = useNavigate();
 
     function handleLogin(){
         navigate('/login');
     }
 
-    function handleSaveNewPassword(e){
+    function handleSaveNewPassword(e: React.FormEvent){
         e.preventDefault();
 		saveNewPassword(valuePassword, valueCode)
 		.then(checkReponse)
-		.then((data) => {
+		.then((data: any) => {
 			if(data.success){
-                localStorage.removeItem("resertPassword");
+                localStorage.removeItem("resetPassword");
 				navigate('/');
 			}
 		})
-		.catch((e) =>{
+		.catch(() =>{
 		});
 	}
 
