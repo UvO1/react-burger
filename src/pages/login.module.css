@@ -1,0 +1,21 @@
+.wrap{
+    width: 100%;
+    height: calc(100vh - 88px);
+    display: flex;
+    justify-content: center;
+}
+
+.form_area{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 480px;
+    height: auto;
+}
+
+a{
+    color: #4C4CFF;
+    text-decoration: none;
+    cursor: pointer;
+}

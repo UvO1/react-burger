@@ -28,3 +28,14 @@ export function getIngredientsAction() {
 			});
 	};
 }
+
+export async function getIngredientsFunc() {
+	return await getIngredients()
+			.then(checkReponse)
+			.then((data) => {
+				return data;
+			})
+			.catch((e) => {
+				return null;
+			});
+}

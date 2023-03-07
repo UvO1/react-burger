@@ -27,6 +27,7 @@ function CardIngredient(props) {
 	});
 
 	function handleOpenModal() {
+		window.history.replaceState(null, "", "/ingredients/" + props.ingredient._id);
 		dispatch({
 			type: OPEN_MODAL,
 		});
@@ -37,6 +38,7 @@ function CardIngredient(props) {
 	}
 
 	function handleCloseModal() {
+		window.history.replaceState(null, "", "/");
 		dispatch({
 			type: CLOSE_MODAL,
 		});

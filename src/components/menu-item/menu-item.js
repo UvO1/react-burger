@@ -1,7 +1,7 @@
 import MenuItemStyles from "./menu-item.module.css";
 import PropTypes from "prop-types";
-
 function MenuItem(props) {
+
 	let textcolor = "text_color_inactive";
 	if (props.active) textcolor = "";
 
