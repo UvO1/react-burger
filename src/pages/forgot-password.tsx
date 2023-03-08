@@ -20,7 +20,7 @@ export function ForgotPasswordPage() {
 		.then(checkReponse)
 		.then((data: any) => {
 			if(data.success){
-				localStorage.setItem("resetPassword", "");
+				localStorage.setItem("resertPassword", "");
 				navigate('/reset-password');
 			}
 		})

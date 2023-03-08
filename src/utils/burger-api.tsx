@@ -123,9 +123,9 @@ export async function fetchWithRefresh (url: string, options: RequestInit): Prom
 		tempAccess = result.accessToken;
 	}
 
-	if(tempRefresh !== null && tempAccess !== null){
+	if(tempRefresh !== null && tempAccess !== null && tempRefresh !== "" && tempAccess !== ""){
 		localStorage.setItem("refreshToken", tempRefresh);
-		setCookie("accessToken", tempAccess, {});
+		setCookie("accessToken", tempAccess, {expires: 1200});
 	}
 	return result;
 }

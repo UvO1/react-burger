@@ -26,7 +26,7 @@ export function ResetPasswordPage(){
 		.then(checkReponse)
 		.then((data: any) => {
 			if(data.success){
-                localStorage.removeItem("resetPassword");
+                localStorage.removeItem("resertPassword");
 				navigate('/');
 			}
 		})

@@ -60,6 +60,7 @@ export function ProfilePage(){
         dispatch({
             type: GET_USER_REQUEST,
         });
+
             const tempAccessToken: string | undefined = getCookie("accessToken");
             if(tempAccessToken){
                 getUser(tempAccessToken)
@@ -100,6 +101,7 @@ export function ProfilePage(){
             dispatch({
                 type: LOGOUT_USER_REQUEST,
             });
+            
             const tempRefresh: string | null = localStorage.getItem("refreshToken");
                 logoutUser(tempRefresh)
                 .then(checkReponse)
