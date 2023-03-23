@@ -1,5 +1,5 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "../../services/hooks";
 import { useDrag, useDrop, XYCoord } from "react-dnd";
 import { DECREASE_INGREDIENT } from "../../services/actions/ingredients";
 import { DELETE_INGREDIENT } from "../../services/actions/burger";
@@ -7,7 +7,7 @@ import ElementConstructorStyle from "./element-constructor.module.css";
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 import { DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { REPLACE_ITEMS } from "../../services/actions/burger";
-import { IIngredient, IIngredientUuid } from "../app/app";
+import { IIngredientUuid } from "../app/app";
 import { FC } from "react";
 
 type TElementConstructor = {
@@ -18,7 +18,7 @@ type TElementConstructor = {
 const ElementConstructor: FC<TElementConstructor> = ({tempElement, index}) => {
 	const dispatch = useDispatch();
 	const ref = React.useRef<HTMLInputElement>(null);
-	const listIngredients: Array<IIngredient> = useSelector((store: any) => store.burger.listIngredients);
+	const listIngredients: Array<IIngredientUuid> = useSelector((store) => store.burger.listIngredients);
 	
   const [{ opacity }, drag] = useDrag({
 		type: "burger",
@@ -62,7 +62,7 @@ const ElementConstructor: FC<TElementConstructor> = ({tempElement, index}) => {
 			if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
 				return;
 			}
-
+			console.log(listIngredients);
 			dispatch({
 				type: REPLACE_ITEMS,
 				dragIndex: dragIndex,

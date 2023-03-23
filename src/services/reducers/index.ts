@@ -7,6 +7,7 @@ import { burgerReducer } from "./burger";
 import { changeTab } from "./tabs";
 import { profileMenuReducer } from "./profile";
 import { authorizationReducer } from "./authorization";
+import { wsReducer } from "./ws";
 
 export const rootReducer = combineReducers({
 	ingredients: getIngredientsReducer,
@@ -16,5 +17,6 @@ export const rootReducer = combineReducers({
 	burger: burgerReducer,
 	tabs: changeTab,
 	profile: profileMenuReducer,
-	authorization: authorizationReducer
+	authorization: authorizationReducer,
+	ws: wsReducer
 });

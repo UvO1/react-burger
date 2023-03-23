@@ -5,7 +5,7 @@ import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
 import BunConstructor from "../bun-constructor/bun-constructor";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "../../services/hooks";
 import {
 	getOrderAction,
 	HIDE_ORDER_DETAILS,
@@ -17,19 +17,18 @@ import {
 import { useDrop } from "react-dnd";
 import { ADD_BUN, addIngredient } from "../../services/actions/burger";
 import ElementConstructor from "../element-constructor/element-constructor";
-import { IBurgerBun } from "../bun-constructor/bun-constructor";
-import { IOrderDetails } from "../order-details/order-details";
+import { TViewOrderDetails } from "../../services/reducers/order";
 import { ReactNode } from "react";
-import { IIngredientUuid} from "../app/app";
+import { IIngredient, IIngredientUuid} from "../app/app";
 interface IBurger{
-	buns: IBurgerBun;
+	buns: IIngredient | null;
 	listIngredients: Array<IIngredientUuid>;
 }
 
 function BurgerConstructor() {
 	const dispatch= useDispatch();
-	const burger: IBurger = useSelector((store: any) => store.burger);
-	const order: IOrderDetails = useSelector((store: any) => store.order);
+	const burger: IBurger = useSelector((store) => store.burger);
+	const order: TViewOrderDetails = useSelector((store) => store.order);
 	const burgerPrice: number = React.useMemo(() => {
 		let totalPrice: number = 0;
 		if (burger.listIngredients.length > 0) {
@@ -51,9 +50,12 @@ function BurgerConstructor() {
 				fetchList.push(element._id);
 			}
 		});
-		fetchList.push(burger.buns._id);
-		fetchList.push(burger.buns._id); //the same bun in one burger
-		dispatch<any>(getOrderAction(fetchList));
+		if(burger.buns){
+			fetchList.push(burger.buns._id);
+			fetchList.push(burger.buns._id); //the same bun in one burger
+			dispatch<any>(getOrderAction(fetchList));
+		}
+		
 	}
 
 	function handleCloseModal() {

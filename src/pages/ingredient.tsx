@@ -6,7 +6,7 @@ import { IngredientDetailsParam }  from "../components/ingredient-details/ingred
 import { useParams } from 'react-router-dom';
 import IngredientStyle from "./ingredient.module.css";
 
-type TIngredientDetailsParam = {
+export type TIngredientDetailsParam = {
 	ingredient: {};
 };
 

@@ -3,9 +3,9 @@ import AppHeader from "../components/app-header/app-header";
 import LoginStyle from "./login.module.css";
 import {EmailInput, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
 import { useNavigate } from "react-router-dom";
-import { useDispatch} from "react-redux";
+import { useDispatch } from "../services/hooks";
 import { loginUser } from "../utils/burger-api";
-import { LOGIN_USER_SUCCESS } from "../services/actions/authorization.js";
+import { LOGIN_USER_SUCCESS } from "../services/actions/authorization";
 import ProfileStyle from "./profile.module.css";
 
 export function LoginPage(){

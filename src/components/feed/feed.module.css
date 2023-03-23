@@ -1,0 +1,38 @@
+.area {
+	position: relative;
+	width: calc(50% - 30px);
+	float: left;
+}
+
+.scroll_area {
+	height: calc(100vh - 200px);
+	overflow-y: scroll;
+}
+
+.statistics_area {
+	position: relative;
+	width: calc(50% - 30px);
+    padding-top: 100px;
+	float: right;
+}
+.status{
+    display: flex;
+    flex-direction: row;
+}
+.status_area{
+    display: flex;
+    flex-direction: column;
+    width: calc(50% - 18px);
+}
+.ready{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    height: 170px;
+}
+.in_work{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    height: 170px;
+}

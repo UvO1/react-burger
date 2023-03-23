@@ -1,30 +1,30 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import AppHeader from "../components/app-header/app-header";
-import {EmailInput, PasswordInput, Input, Button} from "@ya.praktikum/react-developer-burger-ui-components";
+import {EmailInput, PasswordInput, Input} from "@ya.praktikum/react-developer-burger-ui-components";
 import ProfileStyle from "./profile.module.css";
-import { useSelector, useDispatch } from "react-redux";
-import { CHANGE_MENU} from "../services/actions/profile.js";
+import { useSelector, useDispatch } from "../services/hooks";
+import { CHANGE_MENU} from "../services/actions/profile";
 import { useNavigate } from "react-router-dom";
 import { deleteCookie, getCookie } from "../utils/burger-api";
 import { logoutUser, checkReponse, saveUser, getUser } from "../utils/burger-api";
-import { LOGOUT_USER_SUCCESS, LOGOUT_USER_FAILED, LOGOUT_USER_REQUEST, SAVE_USER_SUCCESS, SAVE_USER_FAILED, SAVE_USER_REQUEST, GET_USER_SUCCESS, GET_USER_FAILED, GET_USER_REQUEST } from "../services/actions/authorization.js";
+import { LOGOUT_USER_SUCCESS, LOGOUT_USER_FAILED, LOGOUT_USER_REQUEST, SAVE_USER_SUCCESS, SAVE_USER_FAILED, SAVE_USER_REQUEST, GET_USER_SUCCESS, GET_USER_FAILED, GET_USER_REQUEST } from "../services/actions/authorization";
 
-interface IAutorizationUser{
+export interface IAutorizationUser{
     email: string;
     name: string;
     password: string;
 }
 
 export function ProfilePage(){
-    const isActiveMenu: "orders" | "profile" = useSelector((store: any) => store.profile.isActiveMenu);
-    const userInfo: IAutorizationUser = useSelector((store: any) => store.authorization.user);
+    const isActiveMenu: 'orders' | 'profile' | 'constructor' = useSelector((store) => store.profile.isActiveMenu);
+    const userInfo: IAutorizationUser = useSelector((store) => store.authorization.user);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [valueName, setValueName] = React.useState<string>('')
     const inputRefName = React.useRef<HTMLInputElement>(null)
     const [isEdit, setIsEdit] = useState<boolean>(false);
 
-    const [valuePassword, setValuePassword] = React.useState<string>('')
+    const [valuePassword, setValuePassword] = React.useState<string>('');
     const onChangePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
       setValuePassword(e.target.value)
       setIsEdit(true);
@@ -47,10 +47,7 @@ export function ProfilePage(){
     }
 
     function handleMenuToStory(){
-        dispatch({
-            type: CHANGE_MENU,
-            isActiveMenu: "orders",
-        });
+        navigate('/profile/orders', {replace: true});
     }
     useEffect(() => {
         dispatch({
@@ -61,8 +58,9 @@ export function ProfilePage(){
             type: GET_USER_REQUEST,
         });
 
-            const tempAccessToken: string | undefined = getCookie("accessToken");
-            if(tempAccessToken){
+            const tempAccessToken: string | undefined  = getCookie("accessToken");
+            //if((tempAccessToken) && (tempAccessToken !== '')){
+               // console.log(tempAccessToken);
                 getUser(tempAccessToken)
                 .then((data: any) => {
                     if(data.success){
@@ -71,6 +69,7 @@ export function ProfilePage(){
                             user: {
                                 name: data.user.name,
                                 email: data.user.email,
+                                password: '',
                             },
                             accessToken: getCookie("accessToken"),
                             refreshToken: localStorage.getItem("refreshToken"),
@@ -89,8 +88,12 @@ export function ProfilePage(){
                         type: GET_USER_FAILED,
                     });
                 });
-            }
-            
+            /*}
+            else {
+                if(localStorage.getItem("refreshToken")){
+
+                }
+            }*/
         setValueEmail(userInfo.email);
         setValueName(userInfo.name);
         setValuePassword(userInfo.password);
@@ -124,9 +127,7 @@ export function ProfilePage(){
                     dispatch({
                         type: LOGOUT_USER_FAILED,
                     });
-                });
-            
-            
+                });      
     }
     function handleCancelSave(){
         if(isEdit){

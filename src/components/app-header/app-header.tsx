@@ -5,7 +5,7 @@ import { BurgerIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { ListIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { ProfileIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "../../services/hooks";
 import { CHANGE_MENU } from "../../services/actions/profile";
 
 
@@ -15,7 +15,7 @@ function AppHeader() {
 	}
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
-	const activeMenu:IActiveMenu = useSelector((store: any) => store.profile);
+	const activeMenu:IActiveMenu = useSelector((store) => store.profile);
 	function handleToProfile(){
 		dispatch({
             type: CHANGE_MENU,
@@ -28,6 +28,7 @@ function AppHeader() {
             type: CHANGE_MENU,
             isActiveMenu: "orders",
         });
+		navigate('/feed');
 	}
 	function handleToConstructor(){
 		dispatch({

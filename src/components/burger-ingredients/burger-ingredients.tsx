@@ -2,13 +2,13 @@ import React from "react";
 import BurgerIngredientsStyle from "./burger-ingredients.module.css";
 import CardIngredient from "../card-ingredient/card-ingredient";
 import TabIngredients from "../tab-ingredients/tab-ingredients";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "../../services/hooks";
 import { CHANGE_TAB } from "../../services/actions/tabs";
 import { IIngredient } from "../app/app";
 
 function BurgerIngredients() {
 	const dispatch = useDispatch();
-	const ingredients: Array<IIngredient> = useSelector((store: any) => store.ingredients.ingredients);
+	const ingredients: Array<IIngredient> = useSelector((store) => store.ingredients.ingredients);
 
 	const datas_bun: Array<IIngredient> = React.useMemo(
 		() => ingredients.filter((ingredient: IIngredient) => ingredient.type === "bun"),

@@ -2,7 +2,7 @@ import { Navigate} from 'react-router-dom';
 
 export function ProtectedRouteElementAuth({ element }: any) {
     const refreshToken: string | null = localStorage.getItem("refreshToken");
-    return refreshToken !== null ? element : <Navigate to="/login" replace />;
+    return ((refreshToken !== null) || (refreshToken !== '')) ? element : <Navigate to="/login" replace />;
 }
 
 export function ProtectedRouteElementNoAuth({element}: any) {

@@ -1,10 +1,15 @@
 import { CHANGE_TAB, RESET_TAB } from "../actions/tabs";
+import { TTabs } from "../actions/tabs";
 
-const initialState = {
+type TChangeTabState = {
+	activeTab: "one" | "two" | "three";
+};
+
+const initialState: TChangeTabState = {
 	activeTab: "one",
 };
 
-export const changeTab = (state = initialState, action) => {
+export const changeTab = (state = initialState, action: TTabs): TChangeTabState => {
 	switch (action.type) {
 		case CHANGE_TAB: {
 			return {

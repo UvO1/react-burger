@@ -1,9 +1,14 @@
 import { OPEN_MODAL, CLOSE_MODAL } from "../actions/modal";
+import { TModal } from "../actions/modal";
 
-const initialState = {
+type TViewModal = {
+	isOpen: boolean;
+};
+
+const initialState: TViewModal = {
 	isOpen: false,
 };
-export const viewModal = (state = initialState, action) => {
+export const viewModal = (state = initialState, action: TModal): TViewModal => {
 	switch (action.type) {
 		case OPEN_MODAL: {
 			return {

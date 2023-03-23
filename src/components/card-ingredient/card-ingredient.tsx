@@ -3,7 +3,7 @@ import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components
 import { Counter } from "@ya.praktikum/react-developer-burger-ui-components";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import Modal from "../modal/modal";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "../../services/hooks";
 import { useDrag } from "react-dnd";
 import { OPEN_MODAL, CLOSE_MODAL } from "../../services/actions/modal";
 import { VIEW_INGREDIENT_DETAILS, HIDE_INGREDIENT_DETAILS } from "../../services/actions/card";
@@ -17,8 +17,8 @@ interface ICardIngredient{
 
 function CardIngredient(props: ICardIngredient) {
 	const dispatch = useDispatch();
-	const isOpenModal: boolean = useSelector((store: any) => store.modal.isOpen);
-	const ingredientOpen: IIngredient = useSelector((store: any) => store.card.ingredient);
+	const isOpenModal: boolean = useSelector((store) => store.modal.isOpen);
+	const ingredientOpen: IIngredient | null = useSelector((store) => store.card.ingredient);
 	const modal: ReactNode = (
 		<Modal title="Детали ингредиента" onClosed={handleCloseModal}>
 			<IngredientDetails />
@@ -55,7 +55,7 @@ function CardIngredient(props: ICardIngredient) {
 
 	return (
 		<>
-			{isOpenModal && props.ingredient._id === ingredientOpen._id && modal}
+			{isOpenModal  && (ingredientOpen) && props.ingredient._id === ingredientOpen._id && modal}
 			<div
 				className={`${CardIngredientStyle.cardwrap} mb-8`}
 				onClick={handleOpenModal}

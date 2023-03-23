@@ -1,12 +1,13 @@
 import IngredientDetailsStyles from "./ingredient-details.module.css";
-import { useSelector } from "react-redux";
+import { useSelector } from "../../services/hooks";
 import { IIngredient } from "../app/app";
 import { FC } from "react";
 import React from "react";
 
 function IngredientDetails() {
-	const ingredient: IIngredient = useSelector((store: any) => store.card.ingredient);
+	const ingredient: IIngredient | null = useSelector((store) => store.card.ingredient);
 	return (
+		(ingredient && 
 		<div className={IngredientDetailsStyles.wrap}>
 			<img
 				src={ingredient.image}
@@ -38,7 +39,7 @@ function IngredientDetails() {
 					</p>
 				</div>
 			</div>
-		</div>
+		</div>)	
 	);
 }
 type TIngredientDetailsParam = {

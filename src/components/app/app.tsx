@@ -9,6 +9,10 @@ import { NotFound } from "../../pages/not-found";
 import { ProtectedRouteElementAuth, ProtectedRouteElementNoAuth, ProtectedRouteElementResertPassword } from "../protected-route/protected-route";
 import { IngredientPage } from "../../pages/ingredient";
 import { Outlet } from 'react-router-dom';
+import ProfileOrdersPage from '../../pages/profile-orders';
+import FeedPage from '../../pages/feed';
+import { FeedId } from '../../pages/feed-id';
+import { ProfileOrderId } from '../../pages/profile-order-id';
 
 export interface IIngredient{
 	_id: string;
@@ -43,6 +47,14 @@ function App() {
 				<Route path="/forgot-password" element={<ProtectedRouteElementNoAuth element={<ForgotPasswordPage/>} />} />
 				<Route path="/reset-password" element={<ProtectedRouteElementResertPassword element={<ResetPasswordPage/>} />} />
 				<Route path="/profile" element={<ProtectedRouteElementAuth element={<ProfilePage/>} />} />
+				<Route path="/profile/orders/" element={<ProtectedRouteElementAuth element={<ProfileOrdersPage/>} />} />
+				<Route path="/profile/orders/" element={<ProtectedRouteElementAuth element={<div><Outlet /></div>} />} >
+					<Route path=":id" element = {<ProtectedRouteElementAuth element={<ProfileOrderId />} />}/>
+				</Route>
+				<Route path="/feed/" element={<FeedPage/> }/>
+				<Route path="/feed/" element={<div><Outlet /></div>}>
+					<Route path=":id" element={<FeedId />} />
+				</Route>
 				<Route path="*" element={<NotFound/>}/>
 			</Routes>
 		</BrowserRouter>

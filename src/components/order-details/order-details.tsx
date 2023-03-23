@@ -1,17 +1,11 @@
 import OrderDetailsStyles from "./order-details.module.css";
 import doneImg from "../../images/done.svg";
-import { useSelector } from "react-redux";
+import { useSelector } from "../../services/hooks";
+import { TViewOrderDetails } from "../../services/reducers/order";
 
-export interface IOrderDetails{
-	name: string;
-	number: number;
-	success: boolean;
-	isLoading: boolean;
-	hasError: boolean;
-}
 
 function OrderDetails() {
-	const order: IOrderDetails = useSelector((store: any) => store.order);
+	const order: TViewOrderDetails = useSelector((store) => store.order);
 
 	return (
 		<div className={OrderDetailsStyles.wrap}>

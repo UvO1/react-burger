@@ -14,10 +14,12 @@ export function getIngredients(): Promise<Response>  {
 
 export function getOrder(tempList: Array<string>): Promise<Response> {
 	let tempOrder:{ingredients: Array<string>} = { ingredients: tempList };
+	const token: string = getCookie("accessToken") || "";
 	return fetch(`${NORMA_API}/orders`, {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
+			authorization: token,
 		},
 		body: JSON.stringify(tempOrder),
 	});
@@ -82,7 +84,7 @@ export async function fetchWithRefresh (url: string, options: RequestInit): Prom
 	let isRefresh: boolean = false;
 	let result = await fetch(url, options)
 		.then((checkReponse) => {
-			if(checkReponse.status === 403){
+			if((checkReponse.status === 401)||(checkReponse.status === 403)){
 				isRefresh = true;
 			}
 			return checkReponse;
@@ -90,7 +92,7 @@ export async function fetchWithRefresh (url: string, options: RequestInit): Prom
 		.then((res) => {
 			return res.json();
 		})
-		.catch((e) => {
+		.catch(() => {
 			return null;
 		});
 	if(isRefresh){
@@ -152,12 +154,12 @@ export function logoutUser(token: string | null): Promise<Response>  {
 	});
 }
 
-export function getUser(token: string): Promise<Response>  {
+export function getUser(token: string | undefined): Promise<Response>  {
 	return fetchWithRefresh(`${NORMA_API}/auth/user`, {
 		method: "GET",
 		headers: {
 			"Content-Type": "application/json",
-			authorization: token,
+			authorization: token || '',
 		},
 	});
 }

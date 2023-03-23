@@ -5,22 +5,32 @@ import {
 	GET_ORDER_SUCCESS,
 	GET_ORDER_FAILED,
 } from "../actions/order";
+import { TOrder } from "../actions/order";
 
-const initialState = {
+export type TViewOrderDetails = {
+	name: string,
+	number: number | null,
+	success: boolean,
+	isLoading: boolean,
+	hasError: boolean,
+};
+
+
+const initialState: TViewOrderDetails = {
 	name: "",
 	number: null,
 	success: false,
 	isLoading: false,
 	hasError: false,
 };
-export const viewOrderDetails = (state = initialState, action) => {
+export const viewOrderDetails = (state = initialState, action: TOrder): TViewOrderDetails => {
 	switch (action.type) {
 		case VIEW_ORDER_DETAILS: {
 			return {
 				...state,
-				name: action.order.name,
-				number: action.order.number,
-				success: action.order.success,
+				name: action.name,
+				number: action.number,
+				success: action.success,
 			};
 		}
 		case HIDE_ORDER_DETAILS: {

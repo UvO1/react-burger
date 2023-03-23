@@ -5,14 +5,23 @@ import {
 	DELETE_INGREDIENT,
 	REPLACE_ITEMS,
 } from "../actions/burger";
+import { TBurger } from "../actions/burger";
+import { IIngredientUuid, IIngredient } from "../../components/app/app";
 
-
-const initialState = {
-	buns: null,
-	listIngredients: [],
+type TBurgerState = {
+	buns: IIngredient | null;
+	listIngredients: Array<IIngredientUuid>;
+	payload: IIngredient | null;
 };
 
-export const burgerReducer = (state = initialState, action) => {
+const initialState: TBurgerState = {
+	buns: null,
+	listIngredients: [],
+	payload: null,
+};
+
+
+export const burgerReducer = (state = initialState, action: TBurger): TBurgerState => {
 	switch (action.type) {
 		case ADD_BUN: {
 			return {
@@ -21,10 +30,11 @@ export const burgerReducer = (state = initialState, action) => {
 			};
 		}
 		case ADD_INGREDIENT: {
-			return {
-				...state,
-				listIngredients: [...state.listIngredients, action.payload],
-			};
+				return {
+					...state,
+					listIngredients: [...state.listIngredients, action.payload],
+				};
+			
 		}
 		case DELETE_INGREDIENT: {
 			return {
@@ -42,11 +52,11 @@ export const burgerReducer = (state = initialState, action) => {
 			};
 		}
 		case REPLACE_ITEMS: {
-			let item = [];
+			let item: Array<IIngredientUuid> = [];
 			for (let key in action.listIngredients) {
 				item[key] = action.listIngredients[key];
 			}
-			const item2 = item.splice(action.dragIndex, 1)[0];
+			const item2: IIngredientUuid = item.splice(action.dragIndex, 1)[0];
 			item.splice(action.hoverIndex, 0, item2);
 			return {
 				...state,

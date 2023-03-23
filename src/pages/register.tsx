@@ -7,9 +7,9 @@ import {
 	PasswordInput,
 	Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useDispatch} from "react-redux";
+import { useDispatch } from "../services/hooks";
 import { createUser } from "../utils/burger-api";
-import { CREATE_USER_FAILED, CREATE_USER_REQUEST, CREATE_USER_SUCCESS } from "../services/actions/authorization.js";
+import { CREATE_USER_FAILED, CREATE_USER_REQUEST, CREATE_USER_SUCCESS } from "../services/actions/authorization";
 import { setCookie } from "../utils/burger-api";
 import { checkReponse } from "../utils/burger-api";
 import ProfileStyle from "./profile.module.css";

@@ -18,8 +18,28 @@ import {
 	GET_USER_SUCCESS,
 	GET_USER_REQUEST,
 } from "../actions/authorization";
+import { TAuthorization } from "../actions/authorization";
+import { IAutorizationUser } from "../../pages/profile";
+type TAuthorizationState = {
+	accessToken?: string,
+	refreshToken?: string,
+	user: IAutorizationUser,
+	isAuthorized?: boolean,
+	isLoadingCreate?: boolean,
+	hasErrorCreate?: boolean,
+	isLoadingLogin: boolean,
+	hasErrorLogin: boolean,
+	isLoadingToken: boolean,
+	hasErrorToken: boolean,
+	isLoadingSave?: boolean,
+	hasErrorSave?: boolean,
+	isLoadingGetUser?: boolean,
+	hasErrorGetUser?: boolean,
+	isLoadingLogout?: boolean,
+	hasErrorLogout?: boolean,
+};
 
-const initialState = {
+const initialState: TAuthorizationState = {
 	accessToken: "",
 	refreshToken: "",
 	user: {
@@ -42,8 +62,7 @@ const initialState = {
 	hasErrorLogout: false,
 };
 
-//export const authorizationReducer = (state = initialState, action) => {
-export const authorizationReducer = (state = initialState, action) => {
+export const authorizationReducer = (state = initialState, action: TAuthorization): TAuthorizationState => {
 	switch (action.type) {
 		case CREATE_USER_REQUEST: {
 			return {
@@ -173,6 +192,7 @@ export const authorizationReducer = (state = initialState, action) => {
 					...state.user,
 					name: action.user.name,
 					email: action.user.email,
+					password: '',
 				},
 				isAuthorized: true,
 				isLoadingGetUser: false,

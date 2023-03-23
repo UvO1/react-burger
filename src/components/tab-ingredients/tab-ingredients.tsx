@@ -1,9 +1,9 @@
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import TabIngredientsStyle from "./tab-ingredients.module.css";
-import { useSelector } from "react-redux";
+import { useSelector } from "../../services/hooks";
 
 function TabIngredients() {
-	const activeTab: "one" | "two" | "three" = useSelector((store: any) => store.tabs.activeTab);
+	const activeTab: "one" | "two" | "three" = useSelector((store) => store.tabs.activeTab);
 	function handleOnClick(){
 		return null;
 	}

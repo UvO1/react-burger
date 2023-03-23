@@ -8,6 +8,9 @@ import { compose, createStore } from 'redux';
 import { Provider } from 'react-redux';
 import {rootReducer} from './services/reducers/index';
 import thunk from 'redux-thunk';
+import { wsMiddleware } from './utils/middleware';
+import { wsActions } from './services/actions/ws';
+
 declare global {
   interface Window {
     __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
@@ -19,8 +22,10 @@ const root: Root = ReactDOM.createRoot(
 );
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-const enhancer = composeEnhancers(applyMiddleware(thunk));
+const enhancer = composeEnhancers(applyMiddleware(thunk, wsMiddleware("wss://norma.nomoreparties.space/orders/all", wsActions)));
 const store = createStore(rootReducer, enhancer);
+export type RootState = ReturnType<typeof store.getState>;
+
 root.render(
   <React.StrictMode>
     <Provider store={store}>

@@ -9,13 +9,22 @@ import {
 	DECREASE_BUNS,
 	CLEAR_COUNTERS,
 } from "../actions/ingredients";
+import { TIngredients } from "../actions/ingredients";
+import { IIngredient } from "../../components/app/app";
 
-const initialState = {
+type TIngredientsState = {
+	isLoading: boolean,
+	hasError: boolean,
+	ingredients: Array<IIngredient>,
+	id?: string;
+}
+
+const initialState: TIngredientsState = {
 	isLoading: false,
 	hasError: false,
 	ingredients: [],
 };
-export const getIngredientsReducer = (state = initialState, action) => {
+export const getIngredientsReducer = (state = initialState, action: TIngredients): TIngredientsState => {
 	switch (action.type) {
 		case GET_INGREDIENTS_REQUEST: {
 			return {
