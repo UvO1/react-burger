@@ -30,6 +30,12 @@ function PreviewOrder(props: IPreviewOrder){
             }
         });
     }
+    const time = props.data.createdAt.substring(11,19).toString();
+    const day = props.data.createdAt.substring(8,10).toString();
+    const month = props.data.createdAt.substring(5,7).toString();
+    const year = props.data.createdAt.substring(0,4).toString();
+
+    let orderData = day + '.'+month + '.' + year + ', ' + time;
 
     const modal: ReactNode = (
 		<Modal title="" onClosed={handleCloseModal}>
@@ -71,7 +77,7 @@ function PreviewOrder(props: IPreviewOrder){
             <div className={`${PreviewOrderStyle.order_info}`}>
                 <p className={`text text_type_digits-default`}>#{props.data.number}</p>
                 <p className={`text text_type_main-default text_color_inactive`}>
-{props.data.createdAt}
+{orderData}
 </p>
             </div>
             <p className="text text_type_main-medium mt-6">{props.data.name}</p>

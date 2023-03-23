@@ -62,7 +62,7 @@ const ElementConstructor: FC<TElementConstructor> = ({tempElement, index}) => {
 			if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
 				return;
 			}
-			console.log(listIngredients);
+			
 			dispatch({
 				type: REPLACE_ITEMS,
 				dragIndex: dragIndex,

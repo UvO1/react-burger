@@ -59,8 +59,6 @@ export function ProfilePage(){
         });
 
             const tempAccessToken: string | undefined  = getCookie("accessToken");
-            //if((tempAccessToken) && (tempAccessToken !== '')){
-               // console.log(tempAccessToken);
                 getUser(tempAccessToken)
                 .then((data: any) => {
                     if(data.success){
@@ -88,12 +86,6 @@ export function ProfilePage(){
                         type: GET_USER_FAILED,
                     });
                 });
-            /*}
-            else {
-                if(localStorage.getItem("refreshToken")){
-
-                }
-            }*/
         setValueEmail(userInfo.email);
         setValueName(userInfo.name);
         setValuePassword(userInfo.password);

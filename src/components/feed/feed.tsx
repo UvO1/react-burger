@@ -5,7 +5,7 @@ import { getIngredientsAction } from "../../services/actions";
 import { useDispatch, useSelector } from "../../services/hooks";
 import { CHANGE_MENU } from "../../services/actions/profile";
 import React from "react";
-import { WS_CONNECTION_START } from "../../services/actions/ws";
+import { WS_CONNECTION_START, WS_CONNECTION_CLOSED } from "../../services/actions/ws";
 
 export interface IOrderWs{
     ingredients: Array<string>,
@@ -36,6 +36,11 @@ function Feed(){
         dispatch({
             type: WS_CONNECTION_START,
         });
+        return() => {
+            dispatch({
+                type: WS_CONNECTION_CLOSED,
+            });
+        };
 	}, [dispatch]);
 
     return(

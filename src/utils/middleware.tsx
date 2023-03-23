@@ -15,11 +15,17 @@ export const wsMiddleware = (wsUrl: string, wsActions: any): Middleware => {
             if(type === WS_CONNECTION_START){
                 socket = new WebSocket(wsUrl);
             }
+            if(socket && (type === WS_CONNECTION_CLOSED)){
+                socket.close(1000, 'page closed');
+            }
             if(type === WS_CONNECTION_START_USER){
                 let tempAccess = getCookie("accessToken");
                 let newUrl: string = '';
                 if (tempAccess) newUrl = tempAccess.substring(7); 
                 socketUser = new WebSocket('wss://norma.nomoreparties.space/orders'+'?token='+newUrl);
+            }
+            if(socketUser && (type === WS_CONNECTION_CLOSED)){
+                socketUser.close(1000, 'page closed');
             }
             if (socket){
                 socket.onopen = event => {

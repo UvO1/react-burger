@@ -48,6 +48,7 @@ export const wsReducer = (state = initialState, action:IwsAction): TwsReducer =>
                 wsConnected: false,
             };
         }
+        
         case WS_GET_MESSAGE:{
 
             return{

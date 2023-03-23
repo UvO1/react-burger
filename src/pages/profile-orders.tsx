@@ -38,6 +38,12 @@ function ProfileOrdersPage(){
         dispatch({
             type: WS_CONNECTION_START_USER,
         });
+        return() => {
+            dispatch({
+                type: WS_CONNECTION_CLOSED,
+            });
+        };
+
 	}, [dispatch]);
 
     function handleMenuToProfile(){

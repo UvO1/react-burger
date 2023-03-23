@@ -6,6 +6,7 @@ interface IIngredientRow{
     image: string,
     name: string,
     price: number,
+    count: number,
 }
 
 function IngredientRow(props: IIngredientRow){
@@ -15,7 +16,7 @@ function IngredientRow(props: IIngredientRow){
             <p className="text text_type_main-default ml-4">{props.name}</p>
         </div>
         <div className={IngredientRowStyle.price}>
-            <span className="text text_type_digits-default mr-2">1 X {props.price}</span>
+            <span className="text text_type_digits-default mr-2">{props.count} X {props.price}</span>
             <CurrencyIcon type="primary" />
         </div>
     </div>);

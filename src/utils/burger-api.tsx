@@ -12,9 +12,25 @@ export function getIngredients(): Promise<Response>  {
 }
 
 
-export function getOrder(tempList: Array<string>): Promise<Response> {
+export async function getOrder(tempList: Array<string>): Promise<Response> {
 	let tempOrder:{ingredients: Array<string>} = { ingredients: tempList };
-	const token: string = getCookie("accessToken") || "";
+	let token: string = getCookie("accessToken") || "";
+	let tempRefresh: string = "";
+	if(((token  === "")|| !token)&&(localStorage.getItem("refreshToken") && (localStorage.getItem("refreshToken")!=""))){
+		await refreshToken()
+				.then(checkReponse)
+				.then((newToken: any) => {
+					tempRefresh = newToken.refreshToken;
+					token = newToken.accessToken;
+					localStorage.setItem("refreshToken", tempRefresh);
+					setCookie("accessToken", newToken.accessToken, {expires: 1200});
+					return newToken;
+				})
+				.catch(() => {
+					return null;
+				});
+	}
+	
 	return fetch(`${NORMA_API}/orders`, {
 		method: "POST",
 		headers: {
@@ -182,7 +198,13 @@ export function saveUser(token: string, email: string, password: string, name: s
 }
 
 
-export function setCookie(name: string, value: string | null, props: any): null {
+type TSetCookieProps = {
+	path?: string,
+	expires?: Date | number | string,
+	[propName: string]: any
+}
+
+export function setCookie(name: string, value: string | null, props: TSetCookieProps): null {
 	props = props || {};
 	let exp = props.expires;
 	if (typeof exp == "number" && exp) {
@@ -190,7 +212,7 @@ export function setCookie(name: string, value: string | null, props: any): null 
 		d.setTime(d.getTime() + exp * 1200);
 		exp = props.expires = d;
 	}
-	if (exp && exp.toUTCString) {
+	if (exp && exp instanceof Date && exp.toUTCString) {
 		props.expires = exp.toUTCString();
 	}
 	if(value){			
