@@ -8,7 +8,7 @@ function OrderDetails() {
 	const order: TViewOrderDetails = useSelector((store) => store.order);
 
 	return (
-		<div className={OrderDetailsStyles.wrap}>
+		<div className={OrderDetailsStyles.wrap} data-testid="ismodal">
 			<p className="text text_type_digits-large mt-10">{order.number}</p>
 			<p className="text text_type_main-medium mt-8">идентификатор заказа</p>
 			{order.success && (

@@ -99,6 +99,7 @@ function BurgerConstructor() {
 			<div
 				className={BurgerConstructorStyle.drop_target}
 				ref={dropTarget}
+				data-testid={"droparea"}
 			>
 				<div className={`${BurgerConstructorStyle.fix_element} ml-8`}>
 					{burger.buns && <BunConstructor type="top" />}
@@ -140,15 +141,18 @@ function BurgerConstructor() {
 					<CurrencyIcon type="primary" />
 				</div>
 				{burger.buns && (
+					<div data-testid={"getorder"}>
 				<Button
 					htmlType="button"
 					type="primary"
 					size="large"
 					extraClass="ml-10"
 					onClick={() => infoOrder()}
+					
 				>
 					Оформить заказ
 				</Button>
+				</div>
 				)}
 				{!burger.buns && (
 				<Button htmlType="button" className={BurgerConstructorStyle.buttonDiactive}

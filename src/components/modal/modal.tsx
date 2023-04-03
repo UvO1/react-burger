@@ -37,7 +37,9 @@ const Modal: FC<IModal> = ({onClosed, title, children}) => {
 				<div className={`${ModalStyles.modal} pb-15`}>
 					<div className={`${ModalStyles.head} mt-10 ml-10 mr-10`}>
 						<p className="text text_type_main-large">{title}</p>
-						<CloseIcon type="primary" onClick={handleCloseModal} />
+						<div data-testid="closemodal">
+							<CloseIcon type="primary" onClick={handleCloseModal}  />
+						</div>
 					</div>
 					{children}
 				</div>

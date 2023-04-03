@@ -1,5 +1,5 @@
 import AppHeader from "../components/app-header/app-header";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import ProfileStyle from "./profile.module.css";
 import { useSelector, useDispatch } from "../services/hooks";
 import { useNavigate } from "react-router-dom";

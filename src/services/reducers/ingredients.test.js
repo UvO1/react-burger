@@ -1,5 +1,6 @@
 import {getIngredientsReducer} from "./ingredients";
-import * as types from "../actions/ingredients";
+import * as types from "../actions/index";
+import * as types_ingr from "../actions/ingredients"
 
 describe('todos reducer', () =>{
     it('should return the initial state', () =>{
@@ -27,9 +28,7 @@ describe('todos reducer', () =>{
         )
     })
     it('should handle GET_INGREDIENTS_SUCCESS', () => {
-        expect(getIngredientsReducer({
-            ingredients: []
-        },{
+        expect(getIngredientsReducer([],{
             type: types.GET_INGREDIENTS_SUCCESS,
             ingredients: [{
                 _id: "id",
@@ -62,15 +61,14 @@ describe('todos reducer', () =>{
                     image_large: "src_image_large",
                     __v: 6,
                     count: 7,
-                }]
+                }],
+                isLoading: false,
+				hasError: false,
             }
         )
     })
     it('should handle GET_INGREDIENTS_FAILED', () => {
-        expect(getIngredientsReducer({
-            hasError: true,
-			isLoading: false,
-        },{
+        expect(getIngredientsReducer([],{
             type: types.GET_INGREDIENTS_FAILED
         })).toEqual(
             {
@@ -129,7 +127,7 @@ describe('todos reducer', () =>{
                 }
             ],
         },{
-            type: types.INCREASE_INGREDIENT,
+            type: types_ingr.INCREASE_INGREDIENT,
             id: 'id_need_to_increase'
         })).toEqual(
             {
@@ -231,7 +229,7 @@ describe('todos reducer', () =>{
                 }
             ],
         },{
-            type: types.DECREASE_INGREDIENT,
+            type: types_ingr.DECREASE_INGREDIENT,
             id: 'id_need_to_decrease'
         })).toEqual(
             {
@@ -333,7 +331,7 @@ describe('todos reducer', () =>{
                 }
             ]
         },{
-            type: types.DECREASE_BUNS,
+            type: types_ingr.DECREASE_BUNS,
             id: 'id_maybe_need_to_decrease'
         })).toEqual(
             {
@@ -435,7 +433,7 @@ describe('todos reducer', () =>{
                 }
             ],
         },{
-            type: types.CLEAR_COUNTERS,
+            type: types_ingr.CLEAR_COUNTERS,
             id: 'id_maybe_need_to_decrease'
         })).toEqual(
             {

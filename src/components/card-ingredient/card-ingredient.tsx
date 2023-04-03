@@ -62,6 +62,7 @@ function CardIngredient(props: ICardIngredient) {
 				draggable
 				ref={dragRef}
 				style={{ opacity }}
+				data-testid={"card"}
 			>
 				<Counter
 					count={props.ingredient.count}
@@ -80,7 +81,7 @@ function CardIngredient(props: ICardIngredient) {
 					<CurrencyIcon type="primary" />
 				</div>
 				<p
-					className={`${CardIngredientStyle.name} text text_type_main-default`}
+					className={`${CardIngredientStyle.name} text text_type_main-default`} data-testid={"cardname"}
 				>
 					{props.ingredient.name}
 				</p>

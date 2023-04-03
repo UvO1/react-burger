@@ -8,7 +8,7 @@ function IngredientDetails() {
 	const ingredient: IIngredient | null = useSelector((store) => store.card.ingredient);
 	return (
 		(ingredient && 
-		<div className={IngredientDetailsStyles.wrap}>
+		<div className={IngredientDetailsStyles.wrap} data-testid="ismodal">
 			<img
 				src={ingredient.image}
 				className={IngredientDetailsStyles.ingredient_image}
@@ -16,6 +16,7 @@ function IngredientDetails() {
 			/>
 			<p
 				className={`${IngredientDetailsStyles.title} text text_type_main-medium mt-4`}
+				data-testid={"namemodal"}
 			>
 				{ingredient.name}
 			</p>
