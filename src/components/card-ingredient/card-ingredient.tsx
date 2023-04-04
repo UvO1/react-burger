@@ -33,7 +33,7 @@ function CardIngredient(props: ICardIngredient) {
 	});
 
 	function handleOpenModal() {
-		window.history.replaceState(null, "", "/ingredients/" + props.ingredient._id);
+		window.history.replaceState(null, "", "/#/ingredients/" + props.ingredient._id);
 		dispatch({
 			type: OPEN_MODAL,
 		});

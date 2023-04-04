@@ -36,7 +36,7 @@ export interface IIngredientUuid extends IIngredient{
 
 function App() {
 	return (
-		<BrowserRouter>
+		<HashRouter>
 			<Routes>
 				<Route path="/" element={<ProtectedRouteElementAuth element={<HomePage/>} />} />
 				<Route path="/ingredients/" element={<div><Outlet /></div>}>
@@ -57,7 +57,7 @@ function App() {
 				</Route>
 				<Route path="*" element={<NotFound/>}/>
 			</Routes>
-		</BrowserRouter>
+		</HashRouter>
 		
 	);
 }
