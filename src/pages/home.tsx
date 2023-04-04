@@ -12,10 +12,9 @@ import { CHANGE_MENU } from "../services/actions/profile";
 export function HomePage(){
     const dispatch = useDispatch();
 	const hasError: boolean = useSelector((store) => store.ingredients.hasError);
-
     
 	React.useEffect(() => {
-		dispatch<any>(getIngredientsAction());
+        dispatch<any>(getIngredientsAction());
 		dispatch({
             type: CHANGE_MENU,
             isActiveMenu: "constructor",
