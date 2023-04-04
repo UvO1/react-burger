@@ -14,7 +14,6 @@ export function HomePage(){
 	const hasError: boolean = useSelector((store) => store.ingredients.hasError);
     
 	React.useEffect(() => {
-        dispatch<any>(getIngredientsAction());
 		dispatch({
             type: CHANGE_MENU,
             isActiveMenu: "constructor",
@@ -23,7 +22,6 @@ export function HomePage(){
 
     return(
         <>
-            <AppHeader />
             {!hasError && (
                 <main className={AppStyles.wrap}>
                     <div className={AppStyles.container}>

@@ -45,12 +45,14 @@ export function LoginPage(){
 
             }
 
+        })
+        .catch(() => {
+            return null;
         });
     };
     
     return(
         <>
-            <AppHeader />
             <div className={LoginStyle.wrap}>
                 <form className={LoginStyle.form_area} onSubmit={handleLogin}>
                     <p className="text text_type_main-medium">Вход</p>

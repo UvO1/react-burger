@@ -13,6 +13,9 @@ import ProfileOrdersPage from '../../pages/profile-orders';
 import FeedPage from '../../pages/feed';
 import { FeedId } from '../../pages/feed-id';
 import { ProfileOrderId } from '../../pages/profile-order-id';
+import AppHeader from '../app-header/app-header';
+import { useDispatch } from '../../services/hooks';
+import { getIngredientsAction } from '../../services/actions';
 
 export interface IIngredient{
 	_id: string;
@@ -35,8 +38,11 @@ export interface IIngredientUuid extends IIngredient{
 }
 
 function App() {
+	const dispatch = useDispatch();
+	dispatch<any>(getIngredientsAction());
 	return (
 		<HashRouter>
+			<AppHeader />
 			<Routes>
 				<Route path="/" element={<ProtectedRouteElementAuth element={<HomePage/>} />} />
 				<Route path="/ingredients/" element={<div><Outlet /></div>}>

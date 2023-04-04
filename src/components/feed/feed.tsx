@@ -28,7 +28,6 @@ function Feed(){
     const dispatch = useDispatch();
     const messages: IMessages = useSelector(store => store.ws.messages)
     React.useEffect(() => {
-		dispatch<any>(getIngredientsAction());
         dispatch({
             type: CHANGE_MENU,
             isActiveMenu: "orders",

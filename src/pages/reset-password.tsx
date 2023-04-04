@@ -36,7 +36,6 @@ export function ResetPasswordPage(){
 
     return(
         <>
-            <AppHeader />
             <div className={LoginStyle.wrap}>
                 <form className={LoginStyle.form_area} onSubmit={handleSaveNewPassword}>
                     <p className="text text_type_main-medium">Восстановление пароля</p>

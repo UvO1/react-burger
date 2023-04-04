@@ -5,6 +5,8 @@ import {getIngredientsFunc } from "../services/actions";
 import { IngredientDetailsParam }  from "../components/ingredient-details/ingredient-details";
 import { useParams } from 'react-router-dom';
 import IngredientStyle from "./ingredient.module.css";
+import { IIngredient } from "../components/app/app";
+import { useSelector } from "../services/hooks";
 
 export type TIngredientDetailsParam = {
 	ingredient: {};
@@ -16,17 +18,20 @@ export function IngredientPage(){
     };
     const [ingredient, setIngredient] = useState<any>(tempIngr);
     const {id} = useParams<string>();
+    const ingredients: Array<IIngredient> = useSelector((store) => store.ingredients.ingredients);
+    console.log(ingredients);
 
     React.useEffect(() => {
-		getIngredientsFunc().then((ret: any) => {
-            for(let i = 0; i < ret.data.length; i++){
-                if(ret.data[i]._id === id){
-                    setIngredient(ret.data[i]);
+        if(ingredients){
+            for(let i = 0; i < ingredients.length; i++){
+                if(ingredients[i]._id === id){
+                    setIngredient(ingredients[i]);
                     break;
                 } 
             }
-        });
-	}, []);
+        }
+
+	}, [ingredients]);
 
     return(
         <>

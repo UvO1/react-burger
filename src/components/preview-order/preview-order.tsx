@@ -45,10 +45,10 @@ function PreviewOrder(props: IPreviewOrder){
 
     function handleOpenModal() {
         if(props.from === 'feed'){
-		    window.history.replaceState(null, "", "/#/feed/" + props.data._id);
+		    window.history.replaceState(null, "", "/react-burger/#/feed/" + props.data._id);
         }
         else if(props.from === 'profile'){
-		    window.history.replaceState(null, "", "/#/profile/orders/" + props.data._id);
+		    window.history.replaceState(null, "", "/react-burger/#/profile/orders/" + props.data._id);
         }
         setOpenedId(props.data._id);
 		    dispatch({
@@ -58,10 +58,10 @@ function PreviewOrder(props: IPreviewOrder){
 
 	function handleCloseModal() {
         if(props.from === 'feed'){
-		    window.history.replaceState(null, "", "/#/feed");
+		    window.history.replaceState(null, "", "/react-burger/#/feed");
         }
         else if(props.from === 'profile'){
-            window.history.replaceState(null, "", "/#/profile/orders");
+            window.history.replaceState(null, "", "/react-burger/#/profile/orders");
         }
         setOpenedId('');
 		dispatch({

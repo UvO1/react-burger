@@ -4,7 +4,6 @@ import Feed from "../components/feed/feed";
 function FeedPage(){
     return(
         <>
-            <AppHeader />
             <Feed/>
         </>
     );

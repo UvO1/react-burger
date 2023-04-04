@@ -19,11 +19,6 @@ function OrderInfo(props: IOrderInfo){
     let tempStatus = '';
     let priceOfOrder: number = 0;
     const ingredients: Array<IIngredient> = useSelector((store) => store.ingredients.ingredients);
-    React.useEffect(() => {
-        if(props.price === 0 ){
-            dispatch<any>(getIngredientsAction());
-        }
-    }, []);
 
     if(props.data.status === 'done'){
         tempStatus = 'Выполнен';

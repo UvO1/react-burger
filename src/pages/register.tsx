@@ -71,7 +71,6 @@ export function RegisterPage() {
 
 	return (
 		<>
-			<AppHeader />
 			<div className={LoginStyle.wrap}>
 				<form className={LoginStyle.form_area} onSubmit={handleRegister}>
 					<p className="text text_type_main-medium">Регистрация</p>

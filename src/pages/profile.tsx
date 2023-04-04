@@ -175,7 +175,6 @@ export function ProfilePage(){
 
     return(
         <>
-        <AppHeader />
             <div className={`ml-5 mt-30 ${ProfileStyle.wrap}`}>
                 <div className={ProfileStyle.menu}>
                     <div className={ProfileStyle.element} onClick={handleMenuToProfile}>

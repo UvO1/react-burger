@@ -35,7 +35,6 @@ export function ForgotPasswordPage() {
 
 	return (
 		<>
-			<AppHeader />
 			<div className={LoginStyle.wrap}>
 				<form className={LoginStyle.form_area} onSubmit={handleReset}>
 					<p className="text text_type_main-medium">Восстановление пароля</p>
