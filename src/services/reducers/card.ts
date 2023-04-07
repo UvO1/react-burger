@@ -1,4 +1,4 @@
-import { IIngredient } from "../../components/app/app";
+import { IIngredient } from "../../components/types";
 import {
 	VIEW_INGREDIENT_DETAILS,
 	HIDE_INGREDIENT_DETAILS,

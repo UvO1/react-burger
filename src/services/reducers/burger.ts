@@ -6,7 +6,7 @@ import {
 	REPLACE_ITEMS,
 } from "../actions/burger";
 import { TBurger } from "../actions/burger";
-import { IIngredientUuid, IIngredient } from "../../components/app/app";
+import { IIngredient, IIngredientUuid } from "../../components/types";
 
 type TBurgerState = {
 	buns: IIngredient | null;

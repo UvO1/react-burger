@@ -7,7 +7,6 @@ import { ProfileIcon } from "@ya.praktikum/react-developer-burger-ui-components"
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "../../services/hooks";
 import { CHANGE_MENU } from "../../services/actions/profile";
-import { wsConnectionClosed, WS_CONNECTION_CLOSED } from "../../services/actions/ws";
 
 function AppHeader() {
 	interface IActiveMenu{

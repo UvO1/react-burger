@@ -1,17 +1,13 @@
 import { useParams } from "react-router-dom";
 import OrderInfo from "../components/order-info/order-info";
 import { useDispatch, useSelector } from "../services/hooks";
-import { IMessages, IOrderWs } from "../components/feed/feed";
+import { IMessages, IOrderWs } from "../components/types";
 import React from "react";
 import { WS_CONNECTION_START } from "../services/actions/ws";
 import ProfileStyle from "./profile.module.css";
-import { TIngredientDetailsParam } from "./ingredient";
 
 export function FeedId(){
     const {id} = useParams<string>();
-    const tempIngr: TIngredientDetailsParam= {
-        ingredient: {}
-    };
     const dispatch = useDispatch();
     let tempOrder: IOrderWs = {
         ingredients:[],

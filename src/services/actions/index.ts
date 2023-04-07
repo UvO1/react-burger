@@ -1,6 +1,6 @@
 import { getIngredients } from "../../utils/burger-api";
 import { checkReponse } from "../../utils/burger-api";
-import { IIngredient } from "../../components/app/app";
+import { IIngredient } from "../../components/types";
 import { TAuthorization } from "./authorization";
 import { TBurger } from "./burger";
 import { TIngredientDetails } from "./card";

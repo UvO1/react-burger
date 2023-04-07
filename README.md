@@ -1,5 +1,5 @@
 Проект размещен на сервере https://starproject.nomoredomains.work/
-и на https://uvo1.github.io/
+и на https://uvo1.github.io/react-burger/#/
 
 
 # Getting Started with Create React App

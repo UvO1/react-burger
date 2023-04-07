@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
-import AppHeader from "../components/app-header/app-header";
 import {EmailInput, PasswordInput, Input} from "@ya.praktikum/react-developer-burger-ui-components";
 import ProfileStyle from "./profile.module.css";
 import { useSelector, useDispatch } from "../services/hooks";
 import { CHANGE_MENU} from "../services/actions/profile";
 import { useNavigate } from "react-router-dom";
-import { deleteCookie, getCookie } from "../utils/burger-api";
-import { logoutUser, checkReponse, saveUser, getUser } from "../utils/burger-api";
-import { LOGOUT_USER_SUCCESS, LOGOUT_USER_FAILED, LOGOUT_USER_REQUEST, SAVE_USER_SUCCESS, SAVE_USER_FAILED, SAVE_USER_REQUEST, GET_USER_SUCCESS, GET_USER_FAILED, GET_USER_REQUEST } from "../services/actions/authorization";
+import { getCookie } from "../utils/burger-api";
+import { saveUserAction, getUserAction } from "../services/actions/authorization";
+import { logoutUserAction } from "../services/actions/authorization";
 
 export interface IAutorizationUser{
     email: string;
@@ -18,6 +17,7 @@ export interface IAutorizationUser{
 export function ProfilePage(){
     const isActiveMenu: 'orders' | 'profile' | 'constructor' = useSelector((store) => store.profile.isActiveMenu);
     const userInfo: IAutorizationUser = useSelector((store) => store.authorization.user);
+    const statusAuthorize = useSelector((store) => store.authorization.isAuthorized);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [valueName, setValueName] = React.useState<string>('')
@@ -49,78 +49,32 @@ export function ProfilePage(){
     function handleMenuToStory(){
         navigate('/profile/orders', {replace: true});
     }
+    useEffect(()=>{
+        if(statusAuthorize === false) navigate('/login', {replace: true});
+        else if(statusAuthorize === true) {
+            setValueEmail(userInfo.email);
+            setValueName(userInfo.name);
+            setValuePassword(userInfo.password);
+        }
+    }, [statusAuthorize]);
+
     useEffect(() => {
         dispatch({
             type: CHANGE_MENU,
             isActiveMenu: "profile",
         });
-        dispatch({
-            type: GET_USER_REQUEST,
-        });
-
-            const tempAccessToken: string | undefined  = getCookie("accessToken");
-                getUser(tempAccessToken)
-                .then((data: any) => {
-                    if(data.success){
-                        dispatch({
-                            type: GET_USER_SUCCESS,
-                            user: {
-                                name: data.user.name,
-                                email: data.user.email,
-                                password: '',
-                            },
-                            accessToken: getCookie("accessToken"),
-                            refreshToken: localStorage.getItem("refreshToken"),
-                        });
-                        setValueEmail(data.user.email);
-                        setValueName(data.user.name);
-                    }
-                    else{
-                        dispatch({
-                            type: GET_USER_FAILED,
-                        });
-                    }
-                })
-                .catch(() => {
-                    dispatch({
-                        type: GET_USER_FAILED,
-                    });
-                });
+       const tempAccessToken: string | undefined  = getCookie("accessToken");
+        dispatch<any>(getUserAction(tempAccessToken));    
         setValueEmail(userInfo.email);
         setValueName(userInfo.name);
         setValuePassword(userInfo.password);
-        
     }, []);
 
     function handleExit(){
-            dispatch({
-                type: LOGOUT_USER_REQUEST,
-            });
-            
-            const tempRefresh: string | null = localStorage.getItem("refreshToken");
-                logoutUser(tempRefresh)
-                .then(checkReponse)
-                .then((data: any) => {
-                    if(data.success){
-                        dispatch({
-                            type: LOGOUT_USER_SUCCESS
-                        });
-                        localStorage.removeItem("refreshToken");
-                        deleteCookie("accessToken");
-                        navigate('/login', {replace: true});
-                    }
-                    else{
-                        dispatch({
-                            type: LOGOUT_USER_FAILED,
-                        });
-                    }
-                })
-                .catch(() => {
-                    dispatch({
-                        type: LOGOUT_USER_FAILED,
-                    });
-                });      
+        const tempRefresh: string | null = localStorage.getItem("refreshToken");
+        dispatch<any>(logoutUserAction(tempRefresh)); 
     }
+
     function handleCancelSave(){
         if(isEdit){
             setValueEmail(userInfo.email);
@@ -136,39 +90,8 @@ export function ProfilePage(){
             if(valuePassword === ""){
                 newPassword = userInfo.password;
             }
-            dispatch({
-                type: SAVE_USER_REQUEST,
-            });
             const tempAccessToken: string | undefined = getCookie("accessToken");
-            if(tempAccessToken){
-                saveUser(tempAccessToken, valueEmail, valuePassword, valueName)
-                .then(checkReponse)
-                .then((data: any) => {
-                    if(data.success){
-                        dispatch({
-                            type: SAVE_USER_SUCCESS,
-                            user: {
-                                email: data.user.email,
-                                name: data.user.name,
-                                password: newPassword,
-                            },
-                            accessToken: getCookie("accessToken"),
-                            refreshToken: localStorage.getItem("refreshToken"),
-                        });
-                    }
-                    else{
-                        dispatch({
-                            type: SAVE_USER_FAILED,
-                        });
-                    }
-                })
-                .catch(() => {
-                    dispatch({
-                        type: SAVE_USER_FAILED,
-                    });
-                });
-            }
-            
+            dispatch<any>(saveUserAction(tempAccessToken, valueEmail, valuePassword, valueName, newPassword));
             setIsEdit(false);
         }
     }
@@ -214,7 +137,7 @@ export function ProfilePage(){
 
                         <PasswordInput
                         onChange={onChangePassword}
-                        value={valuePassword}
+                        value={!valuePassword ? "" : valuePassword}
                         name={'password'}
                         extraClass="mt-6"
                         icon="EditIcon"

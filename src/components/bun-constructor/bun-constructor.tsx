@@ -1,6 +1,6 @@
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useSelector } from "../../services/hooks";
-import { IIngredient } from "../app/app";
+import { IIngredient } from "../types";
 
 type TBunConstructor = {
 	type: "top" | "bottom";

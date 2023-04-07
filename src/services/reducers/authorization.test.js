@@ -1,32 +1,35 @@
 import {authorizationReducer} from "./authorization";
 import * as types from "../actions/authorization";
+import initialState from "./authorization";
 
 describe('todos reducer', () =>{
     it('should return the initial state', () =>{
-        expect(authorizationReducer(undefined, {})).toEqual(
-            {
-                accessToken: "",
-                refreshToken: "",
-                user: {
-                    email: "",
-                    name: "",
-                    password: "",
-                },
-                isAuthorized: false,
-                isLoadingCreate: false,
-                hasErrorCreate: false,
-                isLoadingLogin: false,
-                hasErrorLogin: false,
-                isLoadingToken: false,
-                hasErrorToken: false,
-                isLoadingSave: false,
-                hasErrorSave: false,
-                isLoadingGetUser: false,
-                hasErrorGetUser: false,
-                isLoadingLogout: false,
-                hasErrorLogout: false,
-            }
-        )
+        expect(authorizationReducer(undefined, {})).toEqual({
+            accessToken: "",
+            refreshToken: "",
+            user: {
+                email: "",
+                name: "",                
+                password: "",
+            },
+            isAuthorized: undefined,
+            isLoadingCreate: false,
+            hasErrorCreate: false,
+            isLoadingLogin: false,
+            hasErrorLogin: false,
+            isLoadingToken: false,
+            hasErrorToken: false,
+            isLoadingSave: false,
+            hasErrorSave: false,
+            isLoadingGetUser: false,
+            hasErrorGetUser: false,
+            isLoadingLogout: false,
+            hasErrorLogout: false,
+            isLoadingPassword: false,
+            hasErrorPassword: false,
+            isLoadingSavePassword: false,
+            hasErrorSavePassword: false,
+        });
     })
     it('should handle CREATE_USER_REQUEST', () => {
         expect(authorizationReducer([],{
@@ -268,6 +271,66 @@ describe('todos reducer', () =>{
             {
 				isLoadingGetUser: false,
 				hasErrorGetUser: true,
+            }
+        )
+    })
+    it('should handle RESET_PASSWORD_REQUEST', () => {
+        expect(authorizationReducer([],{
+            type: types.RESET_PASSWORD_REQUEST
+        })).toEqual(
+            {
+                isLoadingPassword: true,
+            }
+        )
+    })
+    it('should handle RESET_PASSWORD_SUCCESS', () => {
+        expect(authorizationReducer( [],
+            {
+            type: types.RESET_PASSWORD_SUCCESS
+        })).toEqual(
+            {
+				isLoadingPassword: false,
+				hasErrorPassword: false,
+            }
+        )
+    })
+    it('should handle RESET_PASSWORD_FAILED', () => {
+        expect(authorizationReducer([],{
+            type: types.RESET_PASSWORD_FAILED
+        })).toEqual(
+            {
+				isLoadingPassword: false,
+				hasErrorPassword: true,
+            }
+        )
+    })
+    it('should handle SAVE_NEW_PASSWORD_REQUEST', () => {
+        expect(authorizationReducer([],{
+            type: types.SAVE_NEW_PASSWORD_REQUEST
+        })).toEqual(
+            {
+                isLoadingSavePassword: true,
+            }
+        )
+    })
+    it('should handle SAVE_NEW_PASSWORD_SUCCESS', () => {
+        expect(authorizationReducer( [],
+            {
+            type: types.SAVE_NEW_PASSWORD_SUCCESS
+        })).toEqual(
+            {
+				isLoadingSavePassword: false,
+				hasErrorSavePassword: false,
+            }
+        )
+    })
+    it('should handle SAVE_NEW_PASSWORD_FAILED', () => {
+        expect(authorizationReducer([],{
+            type: types.SAVE_NEW_PASSWORD_FAILED
+        })).toEqual(
+            {
+				isLoadingSavePassword: false,
+				hasErrorSavePassword: true,
             }
         )
     })

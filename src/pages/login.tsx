@@ -1,17 +1,15 @@
-import React from "react";
-import AppHeader from "../components/app-header/app-header";
+import React, { useEffect } from "react";
 import LoginStyle from "./login.module.css";
 import {EmailInput, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "../services/hooks";
-import { loginUser } from "../utils/burger-api";
-import { LOGIN_USER_SUCCESS } from "../services/actions/authorization";
+import { useDispatch, useSelector } from "../services/hooks";
 import ProfileStyle from "./profile.module.css";
+import { loginUserAction } from "../services/actions/authorization";
 
 export function LoginPage(){
     const navigate = useNavigate();
     const dispatch = useDispatch();
-
+    const tempUser = useSelector((store) => store.authorization.isAuthorized);
     const [valueEmail, setValueEmail] = React.useState<string>('')
     const onChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
         setValueEmail(e.target.value)
@@ -26,29 +24,14 @@ export function LoginPage(){
     function handleForgot(){
         navigate('/forgot-password');
     }
+    useEffect(()=>{
+        if(tempUser) navigate('/');
+        
+    },[tempUser]);
+
     function handleLogin(e: React.FormEvent) {
         e.preventDefault();
-        loginUser(valueEmail, valuePassword)
-        .then((data: any) => {
-            if(data.success){
-                dispatch({
-                    type: LOGIN_USER_SUCCESS,
-                    accessToken: data.accessToken,
-                    refreshToken: data.refreshToken,
-                    user: {
-                        name: data.user.name,
-                        email: data.user.email,
-                        password: valuePassword,
-                    }
-                });
-                navigate('/');
-
-            }
-
-        })
-        .catch(() => {
-            return null;
-        });
+        dispatch<any>(loginUserAction(valueEmail, valuePassword));       
     };
     
     return(
@@ -62,6 +45,7 @@ export function LoginPage(){
                         name={'email'}
                         isIcon={false}
                         extraClass="mt-6"
+                        id="isemail"
                         />
 
                         <PasswordInput
@@ -72,7 +56,7 @@ export function LoginPage(){
                         />
 
                     <div className="mt-6">
-                        <input className={ProfileStyle.buttonActive} type="submit" value="Войти" />
+                        <input className={ProfileStyle.buttonActive} type="submit" value="Войти" data-testid="islogin" />
                     </div>
                     <div className="mt-20">
                         <span className="text text_type_main-default text_color_inactive">

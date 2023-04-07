@@ -19,7 +19,8 @@ import { ADD_BUN, addIngredient } from "../../services/actions/burger";
 import ElementConstructor from "../element-constructor/element-constructor";
 import { TViewOrderDetails } from "../../services/reducers/order";
 import { ReactNode } from "react";
-import { IIngredient, IIngredientUuid} from "../app/app";
+import { IIngredient, IIngredientUuid } from "../types";
+import { useNavigate } from "react-router-dom";
 interface IBurger{
 	buns: IIngredient | null;
 	listIngredients: Array<IIngredientUuid>;
@@ -27,8 +28,11 @@ interface IBurger{
 
 function BurgerConstructor() {
 	const dispatch= useDispatch();
+	const navigate = useNavigate();
 	const burger: IBurger = useSelector((store) => store.burger);
 	const order: TViewOrderDetails = useSelector((store) => store.order);
+	const statusAuthorize = useSelector((store) => store.authorization.isAuthorized);
+    
 	const burgerPrice: number = React.useMemo(() => {
 		let totalPrice: number = 0;
 		if (burger.listIngredients.length > 0) {
@@ -44,17 +48,20 @@ function BurgerConstructor() {
 	}, [burger]);
 
 	function infoOrder() {
-		let fetchList: Array<string> = [];
-		burger.listIngredients.map((element) => {
-			if (element.type !== "bun") {
-				fetchList.push(element._id);
+		if(statusAuthorize){
+			let fetchList: Array<string> = [];
+			burger.listIngredients.map((element) => {
+				if (element.type !== "bun") {
+					fetchList.push(element._id);
+				}
+			});
+			if(burger.buns){
+				fetchList.push(burger.buns._id);
+				fetchList.push(burger.buns._id); //the same bun in one burger
+				dispatch<any>(getOrderAction(fetchList));
 			}
-		});
-		if(burger.buns){
-			fetchList.push(burger.buns._id);
-			fetchList.push(burger.buns._id); //the same bun in one burger
-			dispatch<any>(getOrderAction(fetchList));
 		}
+		else navigate('/login', {replace: true});
 		
 	}
 

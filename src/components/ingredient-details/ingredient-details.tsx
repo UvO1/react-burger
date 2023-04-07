@@ -1,8 +1,7 @@
 import IngredientDetailsStyles from "./ingredient-details.module.css";
 import { useSelector } from "../../services/hooks";
-import { IIngredient } from "../app/app";
+import { IIngredient } from "../types";
 import { FC } from "react";
-import React from "react";
 
 function IngredientDetails() {
 	const ingredient: IIngredient | null = useSelector((store) => store.card.ingredient);

@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import OrderInfo from "../components/order-info/order-info";
 import { useDispatch, useSelector } from "../services/hooks";
-import { IMessages, IOrderWs } from "../components/feed/feed";
+import { IMessages, IOrderWs } from "../components/types";
 import ProfileStyle from "./profile.module.css";
 import { TIngredientDetailsParam } from "./ingredient";
 import React from "react";

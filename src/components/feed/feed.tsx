@@ -1,28 +1,11 @@
 import BurgerIngredientsStyle from "../burger-ingredients/burger-ingredients.module.css";
 import PreviewOrder from "../preview-order/preview-order";
 import FeedStyle from "./feed.module.css";
-import { getIngredientsAction } from "../../services/actions";
 import { useDispatch, useSelector } from "../../services/hooks";
 import { CHANGE_MENU } from "../../services/actions/profile";
 import React from "react";
 import { WS_CONNECTION_START, WS_CONNECTION_CLOSED } from "../../services/actions/ws";
-
-export interface IOrderWs{
-    ingredients: Array<string>,
-    _id: string,
-    status: string,
-    name: string;
-    number: number,
-    createdAt: string,
-    updatedAt: string,
-}
-
-export interface IMessages{
-    success: boolean,
-    orders: Array<IOrderWs>,
-    total: number,
-    totalToday: number,
-}
+import { IOrderWs, IMessages } from "../types";
 
 function Feed(){
     const dispatch = useDispatch();

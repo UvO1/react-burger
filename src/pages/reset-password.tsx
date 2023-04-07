@@ -1,11 +1,9 @@
 import React from "react";
-import AppHeader from "../components/app-header/app-header";
 import LoginStyle from "./login.module.css";
 import {PasswordInput, Input} from "@ya.praktikum/react-developer-burger-ui-components";
-import { saveNewPassword, checkReponse
- } from "../utils/burger-api";
  import { useNavigate } from "react-router-dom";
  import ProfileStyle from "./profile.module.css";
+import { savePasswordAction } from "../services/actions/authorization";
 
 export function ResetPasswordPage(){
     const [valuePassword, setValuePassword] = React.useState<string>('')
@@ -22,16 +20,7 @@ export function ResetPasswordPage(){
 
     function handleSaveNewPassword(e: React.FormEvent){
         e.preventDefault();
-		saveNewPassword(valuePassword, valueCode)
-		.then(checkReponse)
-		.then((data: any) => {
-			if(data.success){
-                localStorage.removeItem("resertPassword");
-				navigate('/');
-			}
-		})
-		.catch(() =>{
-		});
+		savePasswordAction(valuePassword, valueCode);
 	}
 
     return(

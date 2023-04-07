@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
-import { IIngredient, IIngredientUuid } from "../../components/app/app";
+import { IIngredient, IIngredientUuid } from "../../components/types";
 export const ADD_BUN: "ADD_BUN" = "ADD_BUN";
 export const ADD_INGREDIENT: "ADD_INGREDIENT" = "ADD_INGREDIENT";
 export const CLEAR_BURGER: "CLEAR_BURGER" = "CLEAR_BURGER";

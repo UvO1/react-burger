@@ -7,7 +7,7 @@ import ElementConstructorStyle from "./element-constructor.module.css";
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 import { DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { REPLACE_ITEMS } from "../../services/actions/burger";
-import { IIngredientUuid } from "../app/app";
+import { IIngredient, IIngredientUuid } from "../types";
 import { FC } from "react";
 
 type TElementConstructor = {

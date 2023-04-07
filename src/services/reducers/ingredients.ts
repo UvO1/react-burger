@@ -10,7 +10,7 @@ import {
 	CLEAR_COUNTERS,
 } from "../actions/ingredients";
 import { TIngredients } from "../actions/ingredients";
-import { IIngredient } from "../../components/app/app";
+import { IIngredient } from "../../components/types";
 
 type TIngredientsState = {
 	isLoading: boolean,

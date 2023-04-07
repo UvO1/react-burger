@@ -1,11 +1,10 @@
 
 import { useState } from "react";
 import React from "react";
-import {getIngredientsFunc } from "../services/actions";
 import { IngredientDetailsParam }  from "../components/ingredient-details/ingredient-details";
 import { useParams } from 'react-router-dom';
 import IngredientStyle from "./ingredient.module.css";
-import { IIngredient } from "../components/app/app";
+import { IIngredient } from "../components/types";
 import { useSelector } from "../services/hooks";
 
 export type TIngredientDetailsParam = {

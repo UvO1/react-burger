@@ -4,7 +4,7 @@ import CardIngredient from "../card-ingredient/card-ingredient";
 import TabIngredients from "../tab-ingredients/tab-ingredients";
 import { useDispatch, useSelector } from "../../services/hooks";
 import { CHANGE_TAB } from "../../services/actions/tabs";
-import { IIngredient } from "../app/app";
+import { IIngredient } from "../types";
 
 function BurgerIngredients() {
 	const dispatch = useDispatch();

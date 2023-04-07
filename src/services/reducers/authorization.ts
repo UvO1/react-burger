@@ -17,6 +17,12 @@ import {
 	GET_USER_FAILED,
 	GET_USER_SUCCESS,
 	GET_USER_REQUEST,
+	RESET_PASSWORD_REQUEST,
+	RESET_PASSWORD_SUCCESS,
+	RESET_PASSWORD_FAILED,
+	SAVE_NEW_PASSWORD_REQUEST,
+	SAVE_NEW_PASSWORD_SUCCESS,
+	SAVE_NEW_PASSWORD_FAILED
 } from "../actions/authorization";
 import { TAuthorization } from "../actions/authorization";
 import { IAutorizationUser } from "../../pages/profile";
@@ -37,9 +43,13 @@ type TAuthorizationState = {
 	hasErrorGetUser?: boolean,
 	isLoadingLogout?: boolean,
 	hasErrorLogout?: boolean,
+	isLoadingPassword?:boolean,
+	hasErrorPassword?:boolean,
+	isLoadingSavePassword?:boolean,
+	hasErrorSavePassword?:boolean,
 };
 
-const initialState: TAuthorizationState = {
+export const initialState: TAuthorizationState = {
 	accessToken: "",
 	refreshToken: "",
 	user: {
@@ -47,7 +57,7 @@ const initialState: TAuthorizationState = {
 		name: "",
 		password: "",
 	},
-	isAuthorized: false,
+	isAuthorized: undefined,
 	isLoadingCreate: false,
 	hasErrorCreate: false,
 	isLoadingLogin: false,
@@ -60,6 +70,10 @@ const initialState: TAuthorizationState = {
 	hasErrorGetUser: false,
 	isLoadingLogout: false,
 	hasErrorLogout: false,
+	isLoadingPassword: false,
+	hasErrorPassword: false,
+	isLoadingSavePassword: false,
+	hasErrorSavePassword: false,
 };
 
 export const authorizationReducer = (state = initialState, action: TAuthorization): TAuthorizationState => {
@@ -148,7 +162,7 @@ export const authorizationReducer = (state = initialState, action: TAuthorizatio
 				accessToken: initialState.accessToken,
 				refreshToken: initialState.refreshToken,
 				user: initialState.user,
-				isAuthorized: initialState.isAuthorized,
+				isAuthorized: false,
 			};
 		}
 		case LOGOUT_USER_FAILED: {
@@ -204,6 +218,46 @@ export const authorizationReducer = (state = initialState, action: TAuthorizatio
 				...state,
 				isLoadingGetUser: false,
 				hasErrorGetUser: true,
+			};
+		}
+		case RESET_PASSWORD_REQUEST: {
+			return {
+				...state,
+				isLoadingPassword: true,
+			};
+		}
+		case RESET_PASSWORD_SUCCESS: {
+			return {
+				...state,
+				isLoadingPassword: false,
+				hasErrorPassword: false,
+			};
+		}
+		case RESET_PASSWORD_FAILED: {
+			return {
+				...state,
+				isLoadingPassword: false,
+				hasErrorPassword: true,
+			};
+		}
+		case SAVE_NEW_PASSWORD_REQUEST: {
+			return {
+				...state,
+				isLoadingSavePassword: true,
+			};
+		}
+		case SAVE_NEW_PASSWORD_SUCCESS: {
+			return {
+				...state,
+				isLoadingSavePassword: false,
+				hasErrorSavePassword: false,
+			};
+		}
+		case SAVE_NEW_PASSWORD_FAILED: {
+			return {
+				...state,
+				isLoadingSavePassword: false,
+				hasErrorSavePassword: true,
 			};
 		}
 		default: {

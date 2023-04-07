@@ -17,26 +17,6 @@ import AppHeader from '../app-header/app-header';
 import { useDispatch } from '../../services/hooks';
 import { getIngredientsAction } from '../../services/actions';
 
-export interface IIngredient{
-	_id: string;
-	name: string;
-	type: string;
-	proteins: number;
-	fat: number;
-	carbohydrates: number;
-	calories: number;
-	price: number;
-	image: string;
-	image_mobile: string;
-	image_large: string;
-	__v: number;
-	count: number;
-}
-
-export interface IIngredientUuid extends IIngredient{
-	uuid: string;
-}
-
 function App() {
 	const dispatch = useDispatch();
 	dispatch<any>(getIngredientsAction());
@@ -44,7 +24,7 @@ function App() {
 		<HashRouter>
 			<AppHeader />
 			<Routes>
-				<Route path="/" element={<ProtectedRouteElementAuth element={<HomePage/>} />} />
+				<Route path="/" element={<HomePage/>} />
 				<Route path="/ingredients/" element={<div><Outlet /></div>}>
 					<Route path=":id" element={<IngredientPage />} />
 				</Route>

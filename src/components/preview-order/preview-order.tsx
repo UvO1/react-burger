@@ -1,13 +1,13 @@
 import PreviewOrderStyle from "./preview-order.module.css";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import OrderIngredient from "../order-ingredient/order-ingredient";
-import { IIngredient } from "../app/app";
+import { IIngredient } from "../types";
 import {ReactNode} from 'react';
 import Modal from "../modal/modal";
 import OrderInfo from "../order-info/order-info";
 import { useDispatch, useSelector } from "../../services/hooks";
 import { OPEN_MODAL, CLOSE_MODAL } from "../../services/actions/modal";
-import { IOrderWs } from "../feed/feed";
+import { IOrderWs } from "../types";
 import { useState } from "react";
 
 interface IPreviewOrder{

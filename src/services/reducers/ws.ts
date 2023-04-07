@@ -5,7 +5,7 @@ import {
     WS_GET_MESSAGE,
 WS_GET_MESSAGE_USER} from "../actions/ws"
   import { IwsAction } from "../actions/ws";
-import { IMessages } from "../../components/feed/feed";
+import { IMessages } from "../../components/types";
     type TwsReducer = {
         wsConnected: boolean,
         messages: IMessages,

@@ -1,4 +1,4 @@
-import { IMessages } from "../../components/feed/feed";
+import { IMessages } from "../../components/types";
 
 export const WS_CONNECTION_START: 'WS_CONNECTION_START' = 'WS_CONNECTION_START';
 export const WS_CONNECTION_START_USER: 'WS_CONNECTION_START_USER' = 'WS_CONNECTION_START_USER';

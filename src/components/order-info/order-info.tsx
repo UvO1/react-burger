@@ -1,13 +1,10 @@
 import OrderInfoStyles from "./order-info.module.css";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import IngredientRow from "../ingredient-row/ingredient-row";
-import { IOrderWs } from "../feed/feed";
-import { IIngredient } from "../app/app";
+import { IOrderWs } from "../types";
+import { IIngredient } from "../types";
 import { useSelector } from "../../services/hooks";
 import React from "react";
-import { useDispatch } from "../../services/hooks";
-import { getIngredientsAction } from "../../services/actions";
-import { useState } from "react";
 
 interface IOrderInfo{
     data: IOrderWs,
@@ -15,7 +12,6 @@ interface IOrderInfo{
 }
 
 function OrderInfo(props: IOrderInfo){
-    const dispatch = useDispatch();
     let tempStatus = '';
     let priceOfOrder: number = 0;
     const ingredients: Array<IIngredient> = useSelector((store) => store.ingredients.ingredients);

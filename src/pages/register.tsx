@@ -1,5 +1,4 @@
 import React from "react";
-import AppHeader from "../components/app-header/app-header";
 import LoginStyle from "./login.module.css";
 import { useNavigate} from "react-router-dom";
 import {
@@ -8,18 +7,17 @@ import {
 	Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDispatch } from "../services/hooks";
-import { createUser } from "../utils/burger-api";
-import { CREATE_USER_FAILED, CREATE_USER_REQUEST, CREATE_USER_SUCCESS } from "../services/actions/authorization";
-import { setCookie } from "../utils/burger-api";
-import { checkReponse } from "../utils/burger-api";
+import { createUserAction} from "../services/actions/authorization";
 import ProfileStyle from "./profile.module.css";
+import { useSelector } from "../services/hooks";
 
 export function RegisterPage() {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const [valueName, setValueName] = React.useState<string>("");
 	const inputRefName = React.useRef<HTMLInputElement>(null);
-
+	const tempUser = useSelector((store) => store.authorization.isAuthorized);
+    
 	const [valueEmail, setValueEmail] = React.useState<string>("");
 	const onChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setValueEmail(e.target.value);
@@ -29,44 +27,17 @@ export function RegisterPage() {
 		setValuePassword(e.target.value);
 	};
 
+	React.useEffect(()=>{
+		if(tempUser) navigate('/');
+	},[tempUser]);
+
 	function handleEnter(){
 		navigate('/login');
 	}
 
 	function handleRegister(e: React.FormEvent){
 		e.preventDefault();
-		dispatch({
-            type: CREATE_USER_REQUEST,
-        });
-        createUser(valueEmail, valuePassword, valueName)
-        .then(checkReponse)
-        .then((data: any) => {
-            if(data.success){
-                dispatch({
-                    type: CREATE_USER_SUCCESS,
-                    accessToken: data.accessToken,
-                    refreshToken: data.refreshToken,
-                    user: {
-                        name: data.user.name,
-                        email: data.user.email,
-                        password: valuePassword,
-                    }
-                });
-                setCookie("accessToken", data.accessToken, {expires: 1200});
-                localStorage.setItem("refreshToken", data.refreshToken);
-				navigate('/');
-            }
-            else{
-                dispatch({
-                    type: CREATE_USER_FAILED,
-                });
-            }
-        })
-        .catch((e: React.FormEvent) => {
-            dispatch({
-                type: CREATE_USER_FAILED,
-            });
-        });
+		dispatch<any>(createUserAction(valueEmail, valuePassword, valueName));
 	}
 
 	return (
@@ -104,10 +75,6 @@ export function RegisterPage() {
 						extraClass="mt-6"
 					/>
 					<div className="mt-6">
-						{/*<Button htmlType="button" type="primary" size="medium" onClick={handleRegister}>
-							Зарегистрироваться
-	</Button>*/}
-
 						<input className={ProfileStyle.buttonActive} type="submit" value="Зарегистрироваться" />
 					</div>
 					<div className="mt-20">

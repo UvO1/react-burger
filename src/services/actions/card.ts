@@ -1,4 +1,4 @@
-import { IIngredient, IIngredientUuid } from "../../components/app/app";
+import { IIngredient, IIngredientUuid } from "../../components/types";
 
 
 export const VIEW_INGREDIENT_DETAILS: 'VIEW_INGREDIENT_DETAILS' = 'VIEW_INGREDIENT_DETAILS';

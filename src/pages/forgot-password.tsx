@@ -1,12 +1,12 @@
 import React from "react";
-import AppHeader from "../components/app-header/app-header";
 import LoginStyle from "./login.module.css";
 import {
 	EmailInput
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import {checkReponse, resetPassword} from "../utils/burger-api"
+import {checkReponse} from "../utils/burger-api"
 import { useNavigate } from "react-router-dom";
 import ProfileStyle from "./profile.module.css";
+import { resetPasswordAction } from "../services/actions/authorization";
 
 export function ForgotPasswordPage() {
 	const navigate = useNavigate();
@@ -16,17 +16,8 @@ export function ForgotPasswordPage() {
 	};
 	function handleReset(e: React.FormEvent){
         e.preventDefault();
-		resetPassword(valueEmail)
-		.then(checkReponse)
-		.then((data: any) => {
-			if(data.success){
-				localStorage.setItem("resertPassword", "");
-				navigate('/reset-password');
-			}
-		})
-		.catch(() =>{
-			return null;
-		});
+		resetPasswordAction(valueEmail)
+		navigate('/reset-password');
 	}
 
 	function handleLogin(){

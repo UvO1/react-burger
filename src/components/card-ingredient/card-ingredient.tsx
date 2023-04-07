@@ -8,7 +8,7 @@ import { useDrag } from "react-dnd";
 import { OPEN_MODAL, CLOSE_MODAL } from "../../services/actions/modal";
 import { VIEW_INGREDIENT_DETAILS, HIDE_INGREDIENT_DETAILS } from "../../services/actions/card";
 import {ReactNode} from 'react';
-import { IIngredient } from "../app/app";
+import { IIngredient } from "../types";
 
 interface ICardIngredient{
 	data: IIngredient;
