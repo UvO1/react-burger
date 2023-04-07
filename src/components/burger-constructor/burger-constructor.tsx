@@ -48,7 +48,7 @@ function BurgerConstructor() {
 	}, [burger]);
 
 	function infoOrder() {
-		if(statusAuthorize){
+		if(statusAuthorize || localStorage.getItem("refreshToken")){
 			let fetchList: Array<string> = [];
 			burger.listIngredients.map((element) => {
 				if (element.type !== "bun") {
