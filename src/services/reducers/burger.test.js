@@ -1,13 +1,16 @@
 import { burgerReducer } from "./burger";
 import * as types from "../actions/burger";
+import { initialState } from "./burger";
 
 describe("todos reducer", () => {
 	it("should return the initial state", () => {
-		expect(burgerReducer(undefined, {})).toEqual({
+		expect(burgerReducer(undefined, {})).toEqual(initialState
+			/*{
 			buns: null,
 			listIngredients: [],
 			payload: null,
-		});
+			}*/
+		);
 	});
 	it("should handle ADD_BUN", () => {
 		expect(

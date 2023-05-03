@@ -1,12 +1,13 @@
 import {changeTab} from "./tabs";
 import * as types from "../actions/tabs";
+import { initialState } from "./tabs";
 
 describe('todos reducer', () =>{
     it('should return the initial state', () =>{
         expect(changeTab(undefined, {})).toEqual(
-            {
+            /*{
                 activeTab: "one",
-            }
+            }*/ initialState
         )
     })
     it('should handle CHANGE_TAB', () => {

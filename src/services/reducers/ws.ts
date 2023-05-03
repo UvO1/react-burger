@@ -12,7 +12,7 @@ import { IMessages } from "../../components/types";
         messagesUser: IMessages,
     }
 
-    const initialState:TwsReducer = {
+    export const initialState:TwsReducer = {
         wsConnected: false,
         messages: {
             success: false,

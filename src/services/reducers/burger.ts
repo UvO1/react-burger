@@ -14,7 +14,7 @@ type TBurgerState = {
 	payload: IIngredient | null;
 };
 
-const initialState: TBurgerState = {
+export const initialState: TBurgerState = {
 	buns: null,
 	listIngredients: [],
 	payload: null,

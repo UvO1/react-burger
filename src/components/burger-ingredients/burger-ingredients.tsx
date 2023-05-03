@@ -94,7 +94,7 @@ function BurgerIngredients() {
 					className={`${BurgerIngredientsStyle.ingredient_wrap} pr-4`}
 				>
 					<p className="text text_type_main-medium mt-2 mb-6">Соусы</p>
-					<div className="pl-4 ">
+					<div className="pl-4 " id="sauce">
 						{" "}
 						{datas_sauce.map((tempIngr) => {
 							return (
@@ -113,7 +113,7 @@ function BurgerIngredients() {
 					className={`${BurgerIngredientsStyle.ingredient_wrap} pr-4`}
 				>
 					<p className="text text_type_main-medium mt-2 mb-6">Начинки</p>
-					<div className="pl-4 ">
+					<div className="pl-4 " id="main">
 						{" "}
 						{datas_main.map((tempIngr) => {
 							return (

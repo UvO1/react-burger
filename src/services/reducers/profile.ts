@@ -5,7 +5,7 @@ type TProfileMenu = {
     isActiveMenu: 'profile' | 'orders' | 'constructor';
 }
 
-const initialState: TProfileMenu = {
+export const initialState: TProfileMenu = {
     isActiveMenu: 'profile',
 };
 

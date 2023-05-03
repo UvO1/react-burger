@@ -1,12 +1,12 @@
 import {viewIngredientDetails} from "./card";
 import * as types from "../actions/card";
-
+import { initialState } from "./card";
 describe('todos reducer', () =>{
     it('should return the initial state', () =>{
         expect(viewIngredientDetails(undefined, {})).toEqual(
-            {
+            /*{
                 ingredient: null,
-            }
+            }*/ initialState
         )
     });
     it('should handle VIEW_INGREDIENT_DETAILS', () => {

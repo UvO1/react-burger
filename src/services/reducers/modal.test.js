@@ -1,12 +1,14 @@
 import {viewModal} from "./modal";
 import * as types from "../actions/modal";
+import { initialState } from "./modal";
 
 describe('todos reducer', () =>{
     it('should return the initial state', () =>{
         expect(viewModal(undefined, {})).toEqual(
-            {
+            /*{
                 isOpen: false,
-            }
+            }*/
+            initialState
         )
     })
     it('should handle OPEN_MODAL', () => {

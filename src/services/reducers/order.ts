@@ -16,7 +16,7 @@ export type TViewOrderDetails = {
 };
 
 
-const initialState: TViewOrderDetails = {
+export const initialState: TViewOrderDetails = {
 	name: "",
 	number: null,
 	success: false,

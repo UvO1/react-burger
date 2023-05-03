@@ -5,7 +5,7 @@ type TViewModal = {
 	isOpen: boolean;
 };
 
-const initialState: TViewModal = {
+export const initialState: TViewModal = {
 	isOpen: false,
 };
 export const viewModal = (state = initialState, action: TModal): TViewModal => {

@@ -10,7 +10,8 @@ import {rootReducer} from './services/reducers/index';
 import thunk from 'redux-thunk';
 import { wsMiddleware } from './utils/middleware';
 import { wsActions } from './services/actions/ws';
-
+import { HashRouter, Routes } from 'react-router-dom';
+import AppHeader from './components/app-header/app-header';
 declare global {
   interface Window {
     __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;

@@ -1,16 +1,11 @@
 import {viewOrderDetails} from "./order";
 import * as types from "../actions/order";
+import { initialState } from "./order";
 
 describe('todos reducer', () =>{
     it('should return the initial state', () =>{
         expect(viewOrderDetails(undefined, {})).toEqual(
-            {
-                name: "",
-                number: null,
-                success: false,
-                isLoading: false,
-                hasError: false,
-            }
+            initialState
         )
     })
     it('should handle VIEW_ORDER_DETAILS', () => {

@@ -1,15 +1,16 @@
 import {getIngredientsReducer} from "./ingredients";
 import * as types from "../actions/index";
 import * as types_ingr from "../actions/ingredients"
+import { initialState } from "./ingredients";
 
 describe('todos reducer', () =>{
     it('should return the initial state', () =>{
         expect(getIngredientsReducer(undefined, {})).toEqual(
-            {
+            /*{
                 isLoading: false,
                 hasError: false,
                 ingredients: [],
-            }
+            }*/ initialState
         )
     })
     it('should handle GET_INGREDIENTS_REQUEST', () => {

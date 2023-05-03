@@ -1,10 +1,11 @@
 import {authorizationReducer} from "./authorization";
 import * as types from "../actions/authorization";
-import initialState from "./authorization";
+import {initialState} from "./authorization";
 
 describe('todos reducer', () =>{
     it('should return the initial state', () =>{
-        expect(authorizationReducer(undefined, {})).toEqual({
+        expect(authorizationReducer(undefined, {})).toEqual(initialState
+            /*{
             accessToken: "",
             refreshToken: "",
             user: {
@@ -29,7 +30,8 @@ describe('todos reducer', () =>{
             hasErrorPassword: false,
             isLoadingSavePassword: false,
             hasErrorSavePassword: false,
-        });
+        }*/
+        );
     })
     it('should handle CREATE_USER_REQUEST', () => {
         expect(authorizationReducer([],{

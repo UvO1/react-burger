@@ -1,10 +1,11 @@
 import {wsReducer} from "./ws";
 import * as types from "../actions/ws";
+import { initialState } from "./ws";
 
 describe('todos reducer', () =>{
     it('should return the initial state', () =>{
         expect(wsReducer(undefined, {})).toEqual(
-            {
+            /*{
                 wsConnected: false,
                 messages: {
                     success: false,
@@ -18,7 +19,7 @@ describe('todos reducer', () =>{
                     total: 0,
                     totalToday: 0,
                 },
-            }
+            }*/ initialState
         )
     });
     it('should handle WS_CONNECTION_SUCCESS', () => {

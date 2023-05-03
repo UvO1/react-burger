@@ -5,7 +5,7 @@ type TChangeTabState = {
 	activeTab: "one" | "two" | "three";
 };
 
-const initialState: TChangeTabState = {
+export const initialState: TChangeTabState = {
 	activeTab: "one",
 };
 

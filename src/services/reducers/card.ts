@@ -9,7 +9,7 @@ type TViewIngredientDetails = {
 	ingredient: IIngredient | null;
 };
 
-const initialState: TViewIngredientDetails = {
+export const initialState: TViewIngredientDetails = {
 	ingredient: null,
 };
 export const viewIngredientDetails = (state = initialState, action: TIngredientDetails): TViewIngredientDetails => {

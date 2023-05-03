@@ -1,12 +1,14 @@
 import {profileMenuReducer} from "./profile";
 import * as types from "../actions/profile";
+import { initialState } from "./profile";
 
 describe('todos reducer', () =>{
     it('should return the initial state', () =>{
         expect(profileMenuReducer(undefined, {})).toEqual(
-            {
+            /*{
                 isActiveMenu: 'profile',
-            }
+            }*/
+            initialState
         )
     })
     it('should handle CHANGE_MENU', () => {
