@@ -1,6 +1,6 @@
 .wrap{
     display: flex;
-    width: 100%;
+    width: calc(100% - 30px);
     flex-direction: row;
 }
 .menu{
@@ -67,4 +67,17 @@
 }
 .cancel_inactive{
     cursor: default;
+}
+.scroll_area{
+    height: calc(100vh - 300px);
+	overflow-y: scroll;
+    width: calc(100vw - 420px);
+}
+.id_wrap{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+.id_area{
+    width: 720px;
 }

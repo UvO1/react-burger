@@ -1,0 +1,24 @@
+.wrap{
+    display: flex;
+    flex-direction: column;
+}
+
+.order_number{
+    text-align: center;
+}
+
+.scroll_area {
+	height: 200px;
+	overflow-y: scroll;
+}
+
+.info_price{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+}
+
+.price{
+    display: flex;
+}

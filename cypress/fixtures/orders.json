@@ -1,0 +1,63 @@
+{
+    "success": true,
+    "name": "Space флюоресцентный бургер",
+    "order": {
+        "ingredients": [
+            {
+                "_id": "60d3b41abdacab0026a733cd",
+                "name": "Соус фирменный Space Sauce",
+                "type": "sauce",
+                "proteins": 50,
+                "fat": 22,
+                "carbohydrates": 11,
+                "calories": 14,
+                "price": 80,
+                "image": "https://code.s3.yandex.net/react/code/sauce-04.png",
+                "image_mobile": "https://code.s3.yandex.net/react/code/sauce-04-mobile.png",
+                "image_large": "https://code.s3.yandex.net/react/code/sauce-04-large.png",
+                "__v": 0
+            },
+            {
+                "_id": "60d3b41abdacab0026a733c7",
+                "name": "Флюоресцентная булка R2-D3",
+                "type": "bun",
+                "proteins": 44,
+                "fat": 26,
+                "carbohydrates": 85,
+                "calories": 643,
+                "price": 988,
+                "image": "https://code.s3.yandex.net/react/code/bun-01.png",
+                "image_mobile": "https://code.s3.yandex.net/react/code/bun-01-mobile.png",
+                "image_large": "https://code.s3.yandex.net/react/code/bun-01-large.png",
+                "__v": 0
+            },
+            {
+                "_id": "60d3b41abdacab0026a733c7",
+                "name": "Флюоресцентная булка R2-D3",
+                "type": "bun",
+                "proteins": 44,
+                "fat": 26,
+                "carbohydrates": 85,
+                "calories": 643,
+                "price": 988,
+                "image": "https://code.s3.yandex.net/react/code/bun-01.png",
+                "image_mobile": "https://code.s3.yandex.net/react/code/bun-01-mobile.png",
+                "image_large": "https://code.s3.yandex.net/react/code/bun-01-large.png",
+                "__v": 0
+            }
+        ],
+        "_id": "642f605c0905fd001b627e57",
+        "owner": {
+            "name": "ouv1121",
+            "email": "ouv11@ouv11.ru",
+            "createdAt": "2023-02-22T18:31:11.758Z",
+            "updatedAt": "2023-04-05T22:53:04.005Z"
+        },
+        "status": "done",
+        "name": "Space флюоресцентный бургер",
+        "createdAt": "2023-04-07T00:14:20.625Z",
+        "updatedAt": "2023-04-07T00:14:21.075Z",
+        "number": 48119,
+        "price": 2056
+    }
+}
